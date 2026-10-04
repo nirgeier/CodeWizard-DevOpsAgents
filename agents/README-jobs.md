@@ -97,6 +97,43 @@ Output ends with a JSON summary:
   node Jobs/agents/seed_sources.mjs --dry-run # show what would be inserted
   ```
 
+## The company roster
+
+`agents/scripts/candidates_israel.txt` is the master list of Israeli employers
+that hire DevOps / SRE / platform engineers, grouped by sector. Everything else
+about companies is derived from it, so a new employer is added there once:
+
+```
+Name | domain | optional,ats,slugs
+```
+
+Three scripts read it. None of them invents a row - each one only writes what a
+public API confirmed:
+
+```bash
+# 1. which of them publish to a public ATS (Greenhouse/Lever/Ashby/
+#    SmartRecruiters/Workable) -> rewrites config/ats-companies.json
+python3 agents/scripts/discover_ats_companies.py
+
+# 2. which of them run careers on Comeet (uid + token read from their own
+#    careers page, then checked against the positions API)
+python3 agents/scripts/discover_comeet_companies.py
+
+# 3. the full directory, with the ATS binding attached where one exists
+python3 agents/scripts/build_company_directory.py --seed-data
+```
+
+`config/israel-companies.json` is the output of step 3 and the broad answer to
+"who hires DevOps in Israel": it keeps the employers that have **no** public ATS
+(Elbit, Rafael, IAI, the banks, the integrators), which `ats-companies.json`
+can never list because the scanner cannot read their boards. Those are still
+covered at scan time by the LinkedIn and Drushim sources.
+
+`--seed-data` additionally mirrors the directory into `data/companies.json`, the
+local-mode file the webapp's Companies page reads. It only fills in companies
+the pipeline has not met yet - rows the scanner already owns keep their own,
+richer numbers.
+
 ## Relevance scoring
 
 Each posting gets a `score` in `[0, 0.99]` from DevOps **role** terms (title
