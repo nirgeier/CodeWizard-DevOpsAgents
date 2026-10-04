@@ -205,3 +205,40 @@ export interface ListJobsArgs {
   minScore?: number | null;
   limit?: number | null;
 }
+<<<<<<< HEAD
+=======
+
+// ---------------------------------------------------------------------------
+// Paged list API
+// ---------------------------------------------------------------------------
+
+/** What every list view asks the data layer for. Mirrors lib/query.ts. */
+export interface PageQuery {
+  q?: string | null;
+  page?: number | null;
+  pageSize?: number | null;
+  sort?: string | null;
+  dir?: "asc" | "desc" | null;
+  filters?: Record<string, string>;
+}
+
+/**
+ * One page of rows plus the counts the UI needs to render pagination.
+ *
+ * `total` is the size of the *filtered* set, not of the table - that is what
+ * makes "showing 26-50 of 312" truthful while a filter is applied.
+ */
+export interface Paged<T> {
+  items: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+/** Distinct values for a column, used to populate filter dropdowns. */
+export interface FacetOption {
+  value: string;
+  count: number;
+}
+>>>>>>> origin/main

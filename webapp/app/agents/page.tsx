@@ -262,36 +262,27 @@ export default function AgentsPage() {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* WhatsApp Scanner Section */}
-      <div className="page-header" style="margin-top: 32px;">
-        <h2 className="page-title">📱 WhatsApp Job Scanner</h2>
-        <p className="page-sub">
-          סרוק קבוצות WhatsApp למשרות DevOps באמצעות Baileys (QR pairing)
-        </p>
-      </div>
-      <div className="source-card" style="border-left: 4px solid #25d366;">
+            <div className="source-card wa-border">
         <div className="source-header">
           <div className="source-info">
-            <h3 className="source-name">WhatsApp Groups Scanner</h3>
+            <h3 className="source-name">WhatsApp</h3>
             <div className="source-meta">
-              <span className="badge badge-green">WhatsApp</span>
-              <span className="source-domain">baileys v6.7+</span>
+              <span className="badge badge-wa">WhatsApp</span>
+              <span className="source-domain">סריקת קבוצות</span>
             </div>
           </div>
         </div>
         <div className="source-details">
-          <p style="color: var(--muted); margin: 12px 0;">
-            התחבר לחשבון WhatsApp אישי, בחר קבוצות רלוונטיות, וסרוק הודעות למשרות DevOps.
-            ההודעות נשמרות מקומית ומחולצות אוטומטית למשרות.
+          <p className="page-sub" style={{ margin: 0 }}>
+            קבוצות WhatsApp נסרקות בלשונית ייעודית: חיבור חשבון, ניטור קבוצות וחילוץ
+            משרות DevOps לאותו טבלה.
           </p>
         </div>
         <div className="source-actions">
-          <a href="http://localhost:8789" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-            פתח WhatsApp Scanner
-          </a>
-          <button className="btn btn-secondary" onClick={() => window.open('http://localhost:8789', '_blank')}>
-            פתח בחלון חדש
-          </button>
+          <Link href="/whatsapp" className="btn btn-primary">פתח את הלשונית</Link>
+          <Link href="/whatsapp/jobs" className="btn btn-secondary">משרות שחולצו</Link>
         </div>
       </div>
     </div>

@@ -12,6 +12,12 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // Baileys is CommonJS, ships its own generated protobuf modules and reaches for
+  // native crypto helpers. Keep it out of the server bundle so Node resolves it
+  // from node_modules at runtime - the WhatsApp session now lives inside the
+  // Next server process (see lib/whatsapp/session.ts).
+  serverExternalPackages: ['@whiskeysockets/baileys', 'qrcode'],
+>>>>>>> origin/main
 };
 
 export default nextConfig;
