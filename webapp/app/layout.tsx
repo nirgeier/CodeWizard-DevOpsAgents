@@ -1,10 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
-  title: "CodeWizard – מנוע הזדמנויות",
+  title: {
+    default: "CodeWizard – מנוע הזדמנויות",
+    template: "%s · CodeWizard",
+  },
   description: "כלי פנימי לניהול הזדמנויות מכירה, איתותים, חברות ואנשי קשר",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#10366e",
 };
 
 export default async function RootLayout({
@@ -15,15 +24,10 @@ export default async function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body>
-        <div className="layout">
-          <Sidebar />
-          <div className="main">
-            <header className="header">
-              <h1>CodeWizard – מנוע הזדמנויות</h1>
-            </header>
-            <div className="content">{children}</div>
-          </div>
-        </div>
+        <a className="skip-link" href="#content">
+          דלג לתוכן
+        </a>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

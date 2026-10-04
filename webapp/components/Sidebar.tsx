@@ -3,24 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const NAV = [
-  { href: "/", label: "לוח בקרה" },
-  { href: "/opportunities", label: "הזדמנויות" },
-  { href: "/agents", label: "סוכנים" },
-  { href: "/whatsapp", label: "WhatsApp" },
-  { href: "/signals", label: "איתותים" },
-  { href: "/companies", label: "חברות" },
-  { href: "/people", label: "אנשי קשר" },
-  { href: "/scans", label: "סריקות" },
-  { href: "/help", label: "עזרה" },
-];
+import { isActive, NAV_GROUPS } from "@/lib/nav";
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" id="app-nav">
       <div className="brand">
         <Link href="/" className="brand-link" aria-label="CodeWizard — לוח בקרה">
           <Image
@@ -29,30 +18,43 @@ export default function Sidebar() {
             width={117}
             height={32}
             className="brand-logo"
+            priority
           />
         </Link>
         <div className="tagline">מנוע הזדמנויות · Jobs Intel</div>
       </div>
 
-      <nav className="nav">
-        {NAV.map((item) => {
-          const active =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={active ? "active" : undefined}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
+      <nav className="nav" aria-label="ניווט ראשי">
+        {NAV_GROUPS.map((group, i) => (
+          <div className="nav-group" key={group.title || `group-${i}`}>
+            {group.title ? (
+              <div className="nav-group-title">{group.title}</div>
+            ) : null}
+            {group.items.map((item) => {
+              const active = isActive(item.href, pathname);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={active ? "active" : undefined}
+                  aria-current={active ? "page" : undefined}
+                  title={item.description}
+                >
+                  <span className="nav-icon" aria-hidden="true">
+                    {item.icon}
+                  </span>
+                  <span className="nav-label">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
       <div className="sidebar-footer">
+        <div className="sidebar-hint">
+          <kbd>/</kbd> לחיפוש בטבלה
+        </div>
         <div style={{ marginTop: 10 }}>CodeWizard – מנוע הזדמנויות</div>
         <div>Internal tool · v1.0</div>
       </div>
