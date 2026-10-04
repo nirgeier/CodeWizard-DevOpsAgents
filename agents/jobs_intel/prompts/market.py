@@ -1,0 +1,1 @@
+MARKET_PROMPT = """Extract market signals relevant to Cloud/Platform/DevOps Transformation (SaaS 50-500). Return ONLY JSON array with required fields: company_name, domain, event_type, occurred_at, headline, summary, source, url, confidence, implication, relevance."""

@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.env.local
+.env
+*.tsbuildinfo
+next-env.d.ts
+
+# WhatsApp session (Baileys credentials + captured messages). Personal account
+# credentials - never committed. Copied from the CodeWizard tools console.
+.wa-session/

@@ -1,0 +1,1 @@
+PEOPLE_PROMPT = """People (CTO/VP R&D/VP Eng/Head DevOps/Platform): full_name,title,persona,company,domain,linkedin_url,location,prior_company,background_excerpt,decision_power,relevance,confidence. Public only."""

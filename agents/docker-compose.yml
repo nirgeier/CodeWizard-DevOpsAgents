@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  Jobs-agents:
+    build: .
+    env_file: .env
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+  Jobs-api:
+    build: ../api
+    env_file: ../api/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - Jobs-agents
+    restart: unless-stopped

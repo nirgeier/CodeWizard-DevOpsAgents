@@ -1,0 +1,786 @@
+{
+  "_comment": "Israeli companies whose careers run on Comeet. The public positions API (https://www.comeet.co/careers-api/2.0/company/{uid}/positions) needs a uid + a public token; both are embedded in each company's own public careers page, so they are not secrets. Add a company with: python3 Jobs/agents/scan_jobs.py --comeet-discover <hosted-job-url>",
+  "_generated_by": "agents/scripts/discover_comeet_companies.py",
+  "_verified_at": "2026-10-04",
+  "companies": [
+    {
+      "name": "Airobotics",
+      "uid": "AA.005",
+      "token": "AA54A8335395FCD5FCD01FEF1FEF2A94154A",
+      "domain": "airoboticsdrones.com",
+      "discover_from": "https://airoboticsdrones.com/careers",
+      "positions": 21,
+      "israel_positions": 21,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Akeyless",
+      "uid": "27.006",
+      "token": "7262AE41572157215721C984056E4C405623BE",
+      "domain": "akeyless.io",
+      "discover_from": "https://www.comeet.com/jobs/akeyless/27.006",
+      "positions": 10,
+      "israel_positions": 6,
+      "devops_israel_positions": 2
+    },
+    {
+      "name": "Appnext",
+      "uid": "42.003",
+      "token": "24390C1218B4FD9212186C9243B4F486",
+      "domain": "appnext.com",
+      "discover_from": "https://www.comeet.com/jobs/appnext/42.003",
+      "positions": 2,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Aqua Security",
+      "uid": "91.001",
+      "token": "191644966966644E194B3191644644",
+      "domain": "aquasec.com",
+      "discover_from": "https://aquasec.com/careers",
+      "positions": 9,
+      "israel_positions": 5,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Arbe Robotics",
+      "uid": "C6.001",
+      "token": "6C12886D821B0414432886144328862F472F47",
+      "domain": "arberobotics.com",
+      "discover_from": "https://arberobotics.com/careers",
+      "positions": 8,
+      "israel_positions": 8,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Argus Cyber Security",
+      "uid": "A7.004",
+      "token": "7A42DD81E907A444C444C403D203D200",
+      "domain": "argus-sec.com",
+      "discover_from": "https://argus-sec.com/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "AutoBrains",
+      "uid": "57.004",
+      "token": "7542BF815FC2BF8EA83AA024A42BF841F415FC",
+      "domain": "autobrains.ai",
+      "discover_from": "https://www.comeet.com/jobs/autobrains/57.004/senior-devops-engineer---solo-role-site-only/DF.078"
+    },
+    {
+      "name": "Balance",
+      "uid": "67.008",
+      "token": "7682C70163833D81DA042A833D876842A8ED0",
+      "domain": "getbalance.com",
+      "discover_from": "https://getbalance.com/careers",
+      "positions": 10,
+      "israel_positions": 5,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Blockaid",
+      "uid": "69.00B",
+      "token": "96B41ED041ED12D654C3388241ED12D654C3",
+      "domain": "blockaid.io",
+      "discover_from": "https://www.comeet.com/jobs/blockaid/69.00B",
+      "positions": 11,
+      "israel_positions": 4,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "CardinalOps",
+      "uid": "66.005",
+      "token": "665265E665265E265E2CC3199466519940",
+      "domain": "cardinalops.com",
+      "discover_from": "https://cardinalops.com/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Cognyte",
+      "uid": "F2.009",
+      "token": "2F9EDD2F92F911D61AC12F914CF11D62F9",
+      "domain": "cognyte.com",
+      "discover_from": "https://www.comeet.com/jobs/cognyte/F2.009",
+      "positions": 44,
+      "israel_positions": 13,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Comeet",
+      "uid": "30.005",
+      "token": "359F1DD13E1DD1DD1A813E6A6A",
+      "domain": "comeet.com",
+      "discover_from": "https://www.comeet.com/jobs/spark-hire/30.005",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Compugen",
+      "uid": "D9.00E",
+      "token": "9DE451213BC4EF04EF058CE13BC3B341D9A58CE",
+      "domain": "cgen.com",
+      "discover_from": "https://cgen.com/careers",
+      "positions": 2,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Coro",
+      "uid": "08.00A",
+      "token": "80A303C28320181E2028485A485A4050181E",
+      "domain": "coro.net",
+      "discover_from": "https://coro.net/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "CrazyLabs",
+      "uid": "32.00E",
+      "token": "23E8F811F0B360FB20142E8F8142E",
+      "domain": "crazylabs.com",
+      "discover_from": "https://crazylabs.com/careers",
+      "positions": 14,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Cyera",
+      "uid": "17.008",
+      "token": "7182A90154871823783FD838C031A802378",
+      "domain": "cyera.io",
+      "discover_from": "https://www.comeet.com/jobs/cyera/17.008",
+      "positions": 219,
+      "israel_positions": 26,
+      "devops_israel_positions": 2
+    },
+    {
+      "name": "Cynet",
+      "uid": "33.00D",
+      "token": "33D103133D19E8136E1D25103133D10311D25",
+      "domain": "cynet.com",
+      "discover_from": "https://cynet.com/careers",
+      "positions": 12,
+      "israel_positions": 3,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Dataloop",
+      "uid": "B5.00A",
+      "token": "5BA1CA2338A1CA2B741CA22816281616E85BA",
+      "domain": "dataloop.ai",
+      "discover_from": "https://dataloop.ai/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Develeap",
+      "uid": "B8.005",
+      "token": "8B5343E3CF33CF34E5D4E5D4E5D8B522D4343E",
+      "domain": "develeap.com",
+      "discover_from": "https://develeap.com/careers",
+      "positions": 1,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "EverC",
+      "uid": "C9.003",
+      "token": "9C3445513861D491D49445557DB30CF44551D49",
+      "domain": "everc.com",
+      "discover_from": "https://www.comeet.com/jobs/g2risksolutions/C9.003",
+      "positions": 5,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "EX.CO",
+      "uid": "F0.005",
+      "token": "F53D41EA5BE5BE89D1EA2DF7A8F5",
+      "domain": "ex.co",
+      "discover_from": "https://ex.co/careers",
+      "positions": 5,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Explorium",
+      "uid": "B4.00E",
+      "token": "4BE17B61C744BE1C7497C4BE12F817B612F8",
+      "domain": "explorium.ai",
+      "discover_from": "https://www.comeet.com/jobs/explorium/B4.00E",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Firebolt",
+      "uid": "26.004",
+      "token": "62424D80374424D824D8126C126C1EB41890",
+      "domain": "firebolt.io",
+      "discover_from": "https://www.comeet.com/jobs/firebolt/26.004",
+      "positions": 3,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Frontegg",
+      "uid": "77.009",
+      "token": "7792CD6166B3BC8344F4341166B3BC83BC83BC8",
+      "domain": "frontegg.com",
+      "discover_from": "https://frontegg.com/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "GeoEdge",
+      "uid": "82.00A",
+      "token": "28AA2816DAF3C11C600A28A281450",
+      "domain": "geoedge.com",
+      "discover_from": "https://geoedge.com/careers",
+      "positions": 2,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Gloat",
+      "uid": "E5.000",
+      "token": "5E02340002F0017800234011A01780",
+      "domain": "gloat.com",
+      "discover_from": "https://gloat.com/careers",
+      "positions": 6,
+      "israel_positions": 6,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Guideline",
+      "uid": "89.009",
+      "token": "98942BF98998939361C9B39361C9B2FAD989",
+      "domain": "guideline.co",
+      "discover_from": "https://www.comeet.com/jobs/guideline/89.009/full-stack-developer/94.274"
+    },
+    {
+      "name": "Healthy.io",
+      "uid": "B4.004",
+      "token": "4B417841C3804B420EC02A54E1C4B4",
+      "domain": "healthy.io",
+      "discover_from": "https://www.comeet.com/jobs/healthy/B4.004",
+      "positions": 2,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "HUB Security",
+      "uid": "07.00F",
+      "token": "70F2A5A152D70F70F316903F8770F3169",
+      "domain": "hubsecurity.com",
+      "discover_from": "https://www.comeet.com/jobs/hub-technologies/07.00F",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Hypernative",
+      "uid": "8A.00E",
+      "token": "A8E49E234C634C62A385EFE49E22A38A8E151C",
+      "domain": "hypernative.io",
+      "discover_from": "https://www.comeet.com/jobs/hypernative/8A.00E",
+      "positions": 13,
+      "israel_positions": 6,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Ilyon Dynamics",
+      "uid": "42.00A",
+      "token": "24A9281250DBCDBC928DBC494149A928",
+      "domain": "ilyon.net",
+      "discover_from": "https://ilyon.net/careers",
+      "positions": 2,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Imagry",
+      "uid": "B7.00F",
+      "token": "7BF2E7A1EFC1EFCF7E7BF36393DF826BB2E7A",
+      "domain": "imagry.co",
+      "discover_from": "https://imagry.co/careers",
+      "positions": 7,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Immunai",
+      "uid": "37.009",
+      "token": "7392B5615AB1CE42B5615AB328F039C81CE4",
+      "domain": "immunai.com",
+      "discover_from": "https://www.comeet.com/jobs/immunai/37.009",
+      "positions": 14,
+      "israel_positions": 8,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Incredibuild",
+      "uid": "66.00F",
+      "token": "66F269A66F2D0966F39E7269A202B134D3378",
+      "domain": "incredibuild.com",
+      "discover_from": "https://www.comeet.com/jobs/incredibuild/66.00F",
+      "positions": 6,
+      "israel_positions": 6,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "INSIGHTEC",
+      "uid": "4A.004",
+      "token": "A4447DC2910A44148829105C6452201ECC3354",
+      "domain": "insightec.com",
+      "discover_from": "https://insightec.com/careers",
+      "positions": 19,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "IRONSCALES",
+      "uid": "1A.007",
+      "token": "A1746A11E453C8A285C142E3273327332730",
+      "domain": "ironscales.com",
+      "discover_from": "https://www.comeet.com/jobs/ironscales/1A.007",
+      "positions": 15,
+      "israel_positions": 4,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Island",
+      "uid": "09.00A",
+      "token": "90A363C515A03F4601B1E2D32515A2D32",
+      "domain": "island.io",
+      "discover_from": "https://www.comeet.com/jobs/island/09.00A/senior-devops-engineer/EE.D33"
+    },
+    {
+      "name": "IVIX",
+      "uid": "09.002",
+      "token": "902360C4810511203F0E3F0E481012042408",
+      "domain": "ivix.ai",
+      "discover_from": "https://www.comeet.com/jobs/ivix/09.002",
+      "positions": 4,
+      "israel_positions": 4,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Jifiti",
+      "uid": "47.005",
+      "token": "7452B9E15CF24592B9E2B9E15CF1D142B9E1D14",
+      "domain": "jifiti.com",
+      "discover_from": "https://jifiti.com/careers",
+      "positions": 4,
+      "israel_positions": 4,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Kela Technologies",
+      "uid": "2A.007",
+      "token": "A2747111E755B5F0513847114711A274711",
+      "domain": "kela.co.il",
+      "discover_from": "https://www.comeet.com/jobs/kelatechnologies/2A.007/senior-software-engineer-counter-intrusion/92.B69"
+    },
+    {
+      "name": "Lumenis",
+      "uid": "A1.00C",
+      "token": "1AC6B0A08F0C6B085C85CD60F0C1AC",
+      "domain": "lumenis.com",
+      "discover_from": "https://lumenis.com/careers",
+      "positions": 7,
+      "israel_positions": 4,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Magic Software",
+      "uid": "19.00F",
+      "token": "91F36BA52172D9B0247C247C5217247C2D9B",
+      "domain": "magicsoftware.com",
+      "discover_from": "https://magicsoftware.com/careers",
+      "positions": 23,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Mer Group",
+      "uid": "0B.00B",
+      "token": "B0B4D4D4D4D2121B0B58580021211616",
+      "domain": "mer-group.com",
+      "discover_from": "https://www.comeet.com/jobs/mergroup/0B.00B",
+      "positions": 24,
+      "israel_positions": 24,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Minute Media",
+      "uid": "45.00A",
+      "token": "54A1A7225062A50FDE2F9A1FBC01FBC1528",
+      "domain": "minutemedia.com",
+      "discover_from": "https://www.comeet.com/jobs/minute/45.00A",
+      "positions": 5,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Mitiga",
+      "uid": "26.00B",
+      "token": "62B250262B012811ED718AC128112813158",
+      "domain": "mitiga.io",
+      "discover_from": "https://www.comeet.com/jobs/mitiga/26.00B",
+      "positions": 5,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Moovit",
+      "uid": "63.007",
+      "token": "36711036CE11031E9F146A1B38367A356CE",
+      "domain": "moovit.com",
+      "discover_from": "https://moovit.com/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Morphisec",
+      "uid": "65.00C",
+      "token": "56C1B1C2B600208825F42B601B1C0AD8",
+      "domain": "morphisec.com",
+      "discover_from": "https://www.comeet.com/jobs/morphisec/65.00C",
+      "positions": 1,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Nanox",
+      "uid": "43.00F",
+      "token": "34F108B69E34F108B13DA17299ED13DAD3C",
+      "domain": "nanox.vision",
+      "discover_from": "https://nanox.vision/careers",
+      "positions": 6,
+      "israel_positions": 5,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Navina",
+      "uid": "E6.00C",
+      "token": "6EC2988DD837606EC376014C43E4C376014C4",
+      "domain": "navina.ai",
+      "discover_from": "https://www.comeet.com/jobs/navina/E6.00C",
+      "positions": 15,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Onyx Security",
+      "uid": "BA.005",
+      "token": "AB54AF3403E156A55A8605D156A2AD44AF3605D",
+      "domain": "onyx.security",
+      "discover_from": "https://www.comeet.com/jobs/onyxsecurity/BA.005/senior-devops-engineer/97.76E"
+    },
+    {
+      "name": "Orca AI",
+      "uid": "86.003",
+      "token": "68327126833A9B13891389138934182D95683",
+      "domain": "orca-ai.io",
+      "discover_from": "https://www.comeet.com/jobs/Orca-AI/86.003",
+      "positions": 10,
+      "israel_positions": 3,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Panaya",
+      "uid": "61.00C",
+      "token": "16C5B071C444CCC16C5B044416C888",
+      "domain": "panaya.com",
+      "discover_from": "https://panaya.com/careers",
+      "positions": 2,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Pentera",
+      "uid": "C5.00D",
+      "token": "5CD1D013435289B343501D012E682E68289B",
+      "domain": "pentera.io",
+      "discover_from": "https://pentera.io/careers",
+      "positions": 24,
+      "israel_positions": 12,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Personetics",
+      "uid": "83.00A",
+      "token": "38A11B2A9E018C60153C714A9E38A",
+      "domain": "personetics.com",
+      "discover_from": "https://personetics.com/careers",
+      "positions": 12,
+      "israel_positions": 9,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Pixellot",
+      "uid": "BA.00B",
+      "token": "ABB4B1D4062203155D855D8203155D815762031",
+      "domain": "pixellot.tv",
+      "discover_from": "https://pixellot.tv/careers",
+      "positions": 3,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "proteanTecs",
+      "uid": "D5.00E",
+      "token": "5DE23340029121D562912029122334",
+      "domain": "proteantecs.com",
+      "discover_from": "https://proteantecs.com/careers",
+      "positions": 16,
+      "israel_positions": 8,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Qedma",
+      "uid": "7A.006",
+      "token": "A76493A344E14EC029D853B01F621F62A76",
+      "domain": "qedma.com",
+      "discover_from": "https://qedma.com/careers",
+      "positions": 5,
+      "israel_positions": 3,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "RADCOM",
+      "uid": "1A.003",
+      "token": "A1346851E393C7203C72284C284C14263C72",
+      "domain": "radcom.com",
+      "discover_from": "https://radcom.com/careers",
+      "positions": 1,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Reco",
+      "uid": "3A.00D",
+      "token": "A3D47AB28F405C2505C2551E8333151E8",
+      "domain": "reco.ai",
+      "discover_from": "https://www.comeet.com/jobs/reco/3A.00D",
+      "positions": 5,
+      "israel_positions": 2,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Riverside.fm",
+      "uid": "66.009",
+      "token": "66926766692CDF00669CD22CDF133B",
+      "domain": "riverside.fm",
+      "discover_from": "https://www.comeet.com/jobs/riverside-fm/66.009",
+      "positions": 22,
+      "israel_positions": 11,
+      "devops_israel_positions": 2
+    },
+    {
+      "name": "Seemplicity",
+      "uid": "67.00D",
+      "token": "76D2C8E164733FB33FB1DB442D5042D5EDA",
+      "domain": "seemplicity.io",
+      "discover_from": "https://seemplicity.io/careers",
+      "positions": 2,
+      "israel_positions": 1,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Senai",
+      "uid": "CA.004",
+      "token": "AC44B5C40982B104B5C60E460E44098204C2B10",
+      "domain": "senai.io",
+      "discover_from": "https://www.comeet.com/jobs/senai/CA.004/platform--dev-ops-engineer---infrastructure--automation/AF.567"
+    },
+    {
+      "name": "Silverfort",
+      "uid": "54.007",
+      "token": "45715B315B38AE22B8D051A0A457D051E61",
+      "domain": "silverfort.com",
+      "discover_from": "https://silverfort.com/careers",
+      "positions": 37,
+      "israel_positions": 10,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Smart Shooter",
+      "uid": "0B.00A",
+      "token": "B0A4D464D46211EB0A4D46635A635AB0A211E",
+      "domain": "smart-shooter.com",
+      "discover_from": "https://www.comeet.com/jobs/smart-shooter/0B.00A",
+      "positions": 7,
+      "israel_positions": 7,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Sola Security",
+      "uid": "A9.003",
+      "token": "9A343759A343751CE91CE939D24D1813469A3",
+      "domain": "solasecurity.com",
+      "discover_from": "https://www.comeet.com/jobs/solasecurity/A9.003/senior-devops-engineer/49.561"
+    },
+    {
+      "name": "Start.io",
+      "uid": "B2.004",
+      "token": "2B4D84056812EC185415A015A015A081C",
+      "domain": "start.io",
+      "discover_from": "https://start.io/careers",
+      "positions": 4,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Supercom",
+      "uid": "46.00A",
+      "token": "64A25BC64A12DEC943250389A64A64A12DE",
+      "domain": "supercom.com",
+      "discover_from": "https://www.comeet.com/jobs/supercom/46.00A",
+      "positions": 6,
+      "israel_positions": 4,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Swimm",
+      "uid": "56.007",
+      "token": "657260A657195C1FB332B8390F195C6571305",
+      "domain": "swimm.io",
+      "discover_from": "https://swimm.io/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Sygnia",
+      "uid": "78.00A",
+      "token": "87A32DC3B5687A196E2A6210F43B5610F43B56",
+      "domain": "sygnia.co",
+      "discover_from": "https://sygnia.co/careers",
+      "positions": 23,
+      "israel_positions": 14,
+      "devops_israel_positions": 2
+    },
+    {
+      "name": "ThetaRay",
+      "uid": "72.00F",
+      "token": "27F9FC16779FC13F8EFA13F84FE27F77D",
+      "domain": "thetaray.com",
+      "discover_from": "https://www.comeet.com/jobs/thetaray/72.00F",
+      "positions": 7,
+      "israel_positions": 2,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Tikal Knowledge",
+      "uid": "68.00C",
+      "token": "86C32883288436021B086C86C3AF486C4360",
+      "domain": "tikalk.com",
+      "discover_from": "https://www.comeet.com/jobs/tikalk/68.00C",
+      "positions": 6,
+      "israel_positions": 4,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Trax Retail",
+      "uid": "22.007",
+      "token": "22789C113844E227AC301138AC3227",
+      "domain": "traxretail.com",
+      "discover_from": "https://traxretail.com/careers",
+      "positions": 4,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "TriEye",
+      "uid": "A6.00E",
+      "token": "6AE2814D5CD5C1AB8140A35706AE2EC22814",
+      "domain": "trieye.tech",
+      "discover_from": "https://trieye.tech/careers",
+      "positions": 5,
+      "israel_positions": 5,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Trullion",
+      "uid": "07.000",
+      "token": "7002A00E003F002A007002A0002A002A00",
+      "domain": "trullion.com",
+      "discover_from": "https://trullion.com/careers",
+      "positions": 3,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Utila",
+      "uid": "D9.00F",
+      "token": "9DF451913BE4EF84EF858D713BE4EF804EF8",
+      "domain": "utila.io",
+      "discover_from": "https://www.comeet.com/jobs/utila/D9.00F",
+      "positions": 9,
+      "israel_positions": 6,
+      "devops_israel_positions": 1
+    },
+    {
+      "name": "Waterfall Security Solutions",
+      "uid": "C7.009",
+      "token": "7C92EB61F241F244611F923E483E482EB63E48",
+      "domain": "waterfall-security.com",
+      "discover_from": "https://waterfall-security.com/careers",
+      "positions": 5,
+      "israel_positions": 4,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Windward",
+      "uid": "31.002",
+      "token": "1324C84C80AC299072C5FA72C396",
+      "domain": "windward.ai",
+      "discover_from": "https://windward.ai/careers",
+      "positions": 15,
+      "israel_positions": 5,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "XM Cyber",
+      "uid": "15.005",
+      "token": "51519692393A2A1454A2A145423930F3F",
+      "domain": "xmcyber.com",
+      "discover_from": "https://xmcyber.com/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Zenity",
+      "uid": "19.000",
+      "token": "9103660519012202D5024401B3091024403660",
+      "domain": "zenity.io",
+      "discover_from": "https://www.comeet.com/jobs/zenity/19.000",
+      "positions": 23,
+      "israel_positions": 9,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Zesty",
+      "uid": "06.000",
+      "token": "600240001E00030003000300024001E00",
+      "domain": "zesty.co",
+      "discover_from": "https://zesty.co/careers",
+      "positions": 0,
+      "israel_positions": 0,
+      "devops_israel_positions": 0
+    }
+  ]
+}
