@@ -875,3 +875,133 @@ export async function facet(
     .map(([value, count]) => ({ value, count }))
     .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value, "he"));
 }
+// ====================================================================
+// Settings (the key/value config behind /settings: ICP, keywords,
+// storage_mode)
+// ====================================================================
+//
+// Unlike the scanner-owned rows above, a setting has to survive a restart -
+// "local" mode is itself a setting - so the local backend writes
+// data/settings.json back to disk after an update.
+
+export interface Setting {
+  key: string;
+  value: unknown;
+  description: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+}
+
+const SETTING_COLUMNS = "key,value,description,created_at,updated_at";
+
+/** Drop the cached backend so a `storage_mode` change takes effect. */
+export function resetModeCache(): void {
+  modePromise = null;
+}
+
+function saveLocalSettings(items: Setting[]): void {
+  localCache.settings = items;
+  try {
+    fs.writeFileSync(
+      path.join(DATA_DIR, "settings.json"),
+      `${JSON.stringify(items, null, 2)}\n`,
+      "utf8",
+    );
+  } catch {
+    // best effort - the in-memory copy still serves this process
+  }
+}
+
+export async function listSettings(): Promise<Setting[]> {
+  const mode = await getMode();
+
+  if (mode === "supabase") {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/settings?select=${SETTING_COLUMNS}&order=key.asc`,
+        { headers: supabaseHeaders(), cache: "no-store" },
+      );
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data) ? (data as Setting[]) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  return [...loadLocal<Setting>("settings")].sort((a, b) =>
+    a.key.localeCompare(b.key, "he"),
+  );
+}
+
+export async function getSetting(key: string): Promise<Setting | null> {
+  const cleanKey = String(key ?? "").trim();
+  if (!cleanKey) return null;
+
+  const mode = await getMode();
+
+  if (mode === "supabase") {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/settings?key=eq.${encodeURIComponent(cleanKey)}&select=${SETTING_COLUMNS}&limit=1`,
+        { headers: supabaseHeaders(), cache: "no-store" },
+      );
+      if (!res.ok) return null;
+      const data = await res.json();
+      return Array.isArray(data) && data.length > 0 ? (data[0] as Setting) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  return loadLocal<Setting>("settings").find((s) => s.key === cleanKey) ?? null;
+}
+
+export async function updateSetting(
+  key: string,
+  value: unknown,
+  description?: string | null,
+): Promise<Setting | null> {
+  const cleanKey = String(key ?? "").trim();
+  if (!cleanKey) return null;
+
+  const mode = await getMode();
+  const now = new Date().toISOString();
+
+  if (mode === "supabase") {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/settings?on_conflict=key`, {
+        method: "POST",
+        headers: {
+          ...supabaseHeaders(),
+          "Content-Type": "application/json",
+          Prefer: "resolution=merge-duplicates,return=representation",
+        },
+        body: JSON.stringify([
+          { key: cleanKey, value, description: description ?? null, updated_at: now },
+        ]),
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return Array.isArray(data) && data.length > 0
+        ? (data[0] as Setting)
+        : { key: cleanKey, value, description: description ?? null, updated_at: now };
+    } catch {
+      return null;
+    }
+  }
+
+  const items = loadLocal<Setting>("settings");
+  const idx = items.findIndex((s) => s.key === cleanKey);
+  const row: Setting = {
+    ...(idx >= 0 ? items[idx] : { created_at: now }),
+    key: cleanKey,
+    value,
+    description: description ?? items[idx]?.description ?? null,
+    updated_at: now,
+  };
+  if (idx >= 0) items[idx] = row;
+  else items.push(row);
+  saveLocalSettings(items);
+  return row;
+}

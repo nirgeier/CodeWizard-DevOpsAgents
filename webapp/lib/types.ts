@@ -103,6 +103,10 @@ export interface Company {
   service?: string | null;
   status?: string | null;
   tags?: string[] | null;
+  /** Open roles in Israel per the employer directory snapshot. */
+  open_roles_israel?: number | null;
+  /** ATS the employer's own board is readable from, when probed live. */
+  ats?: { providers?: string[] | null; slug?: string | null } | null;
   first_seen_at?: string | null;
   last_seen_at?: string | null;
 }

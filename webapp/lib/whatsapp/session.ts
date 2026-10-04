@@ -67,7 +67,6 @@ const MAX_RECONNECT_ATTEMPTS = 5;
 const MAX_MESSAGES = 20000;
 const FLUSH_DEBOUNCE_MS = 1500;
 
-export const WA_SESSION_DIR = path.join(process.cwd(), ".wa-session");
 // Overridable so a second session (or a test for the pairing flow) can point at
 // its own credential directory without touching the real one.
 export const WA_SESSION_DIR = process.env.WA_SESSION_DIR
@@ -223,8 +222,6 @@ class WhatsAppSession {
       /* no store yet */
     }
     while (this.messages.size > MAX_MESSAGES) {
-      const oldest = this.messages.keys().next().value;
-      this.messages.delete(oldest);
       const oldest = this.messages.keys().next().value as string | undefined;
       if (oldest !== undefined) this.messages.delete(oldest);
     }
@@ -299,7 +296,6 @@ class WhatsAppSession {
 
     try {
       const [{ makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason }, qrcode] =
-      const [{ makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers }, qrcode] =
         await Promise.all([
           import("@whiskeysockets/baileys"),
           import("qrcode"),
@@ -317,7 +313,6 @@ class WhatsAppSession {
         version: [2, 3000, 1025153825] as [number, number, number],
       }));
 
-      const sock = makeWASocket({
       const sock: AnySock = makeWASocket({
         version,
         auth: state,
@@ -328,16 +323,15 @@ class WhatsAppSession {
         keepAliveIntervalMs: 25000,
       });
       this.sock = sock;
-      this.disconnectReasons = DisconnectReason;
+      this.disconnectReasons = DisconnectReason as unknown as Record<string, number>;
 
       // v6 declares saveCreds as taking no argument, but at runtime it takes the
-// merged update. Cast so the declaration does not strip the call.
-const save = saveCreds as unknown as (u: unknown) => Promise<void>;
+      // merged update. Cast so the declaration does not strip the call.
+      const save = saveCreds as unknown as (u: unknown) => Promise<void>;
 
       sock.ev.on("creds.update", async (update: any) => {
         this.creds = { ...(this.creds || {}), ...(update || {}) };
         try {
-          await saveCreds(update);
           await save(update);
         } catch {
           /* non-fatal */
@@ -584,8 +578,6 @@ const save = saveCreds as unknown as (u: unknown) => Promise<void>;
       this.pending.push(record);
       added += 1;
       while (this.messages.size > MAX_MESSAGES) {
-        const oldest = this.messages.keys().next().value;
-        this.messages.delete(oldest);
         const oldest = this.messages.keys().next().value as string | undefined;
         if (oldest !== undefined) this.messages.delete(oldest);
       }

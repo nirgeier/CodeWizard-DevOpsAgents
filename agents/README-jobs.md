@@ -134,7 +134,6 @@ local-mode file the webapp's Companies page reads. It only fills in companies
 the pipeline has not met yet - rows the scanner already owns keep their own,
 richer numbers.
 
->>>>>>> origin/main
 ## Relevance scoring
 
 Each posting gets a `score` in `[0, 0.99]` from DevOps **role** terms (title

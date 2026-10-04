@@ -267,15 +267,15 @@ export default function WhatsAppScannerPage() {
 
       {/* QR Code */}
       {qrCode && (
-        <div className="source-card" style="border-left: 4px solid #25d366;">
+        <div className="source-card" style={{ borderLeft: "4px solid #25d366" }}>
           <div className="source-header">
             <div className="source-info">
               <h3 className="source-name">סרוק QR Code</h3>
             </div>
           </div>
-          <div style="text-align: center; padding: 20px;">
+          <div style={{ textAlign: "center", padding: "20px" }}>
             <img src={qrCode} alt="WhatsApp QR Code" style={{ maxWidth: "100%", height: "auto", borderRadius: "8px", boxShadow: "var(--shadow)" }} />
-            <p style="margin-top: 12px; color: var(--muted);">פתח WhatsApp → הגדרות → מכשירים מקושרים → קשר מכשיר</p>
+            <p style={{ marginTop: "12px", color: "var(--muted)" }}>פתח WhatsApp → הגדרות → מכשירים מקושרים → קשר מכשיר</p>
           </div>
         </div>
       )}
@@ -289,8 +289,8 @@ export default function WhatsAppScannerPage() {
                 <h3 className="source-name">קבוצות ({groups.length})</h3>
               </div>
             </div>
-            <div className="row" style="margin-bottom: 16px;">
-              <div style="flex: 2;">
+            <div className="row" style={{ marginBottom: "16px" }}>
+              <div style={{ flex: "2" }}>
                 <input
                   type="text"
                   id="inviteCode"
@@ -303,31 +303,31 @@ export default function WhatsAppScannerPage() {
                 הצטרף
               </button>
             </div>
-            <div className="group-list" style="max-height: 400px; overflow-y: auto;">
+            <div className="group-list" style={{ maxHeight: "400px", overflowY: "auto" }}>
               {groups.map((g) => (
-                <div key={g.jid} className="group-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid var(--border);">
-                  <div className="group-info" style="flex: 1; min-width: 0;">
-                    <div className="group-name" style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{g.subject}</div>
-                    <div className="group-meta" style="font-size: 0.75rem; color: var(--muted); margin-top: 2px;">{g.jid} · {g.size} חברים {monitoredGroups.includes(g.jid) && "✓ מנוטרת"}</div>
+                <div key={g.jid} className="group-item" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px", borderBottom: "1px solid var(--border)" }}>
+                  <div className="group-info" style={{ flex: "1", minWidth: "0" }}>
+                    <div className="group-name" style={{ fontWeight: "500", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.subject}</div>
+                    <div className="group-meta" style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "2px" }}>{g.jid} · {g.size} חברים {monitoredGroups.includes(g.jid) && "✓ מנוטרת"}</div>
                   </div>
-                  <div style="display: flex; gap: 8px;">
+                  <div style={{ display: "flex", gap: "8px" }}>
                     {!monitoredGroups.includes(g.jid) && (
-                      <button className="btn btn-primary" style="padding: 6px 12px; font-size: 0.75rem;" onClick={() => monitorGroup(g.jid, true)}>
+                      <button className="btn btn-primary" style={{ padding: "6px 12px", fontSize: "0.75rem" }} onClick={() => monitorGroup(g.jid, true)}>
                         נטר
                       </button>
                     )}
                     {monitoredGroups.includes(g.jid) && (
                       <>
-                        <button className="btn btn-secondary" style="padding: 6px 12px; font-size: 0.75rem;" onClick={() => loadMessages(g.jid)}>
+                        <button className="btn btn-secondary" style={{ padding: "6px 12px", fontSize: "0.75rem" }} onClick={() => loadMessages(g.jid)}>
                           הודעות
                         </button>
-                        <button className="btn btn-primary" style="padding: 6px 12px; font-size: 0.75rem;" onClick={() => extractJobs(g.jid)}>
+                        <button className="btn btn-primary" style={{ padding: "6px 12px", fontSize: "0.75rem" }} onClick={() => extractJobs(g.jid)}>
                           חלץ משרות
                         </button>
-                        <button className="btn btn-info" style="padding: 6px 12px; font-size: 0.75rem;" onClick={() => fetchHistory(g.jid)}>
+                        <button className="btn btn-info" style={{ padding: "6px 12px", fontSize: "0.75rem" }} onClick={() => fetchHistory(g.jid)}>
                           היסטוריה
                         </button>
-                        <button className="btn btn-danger" style="padding: 6px 12px; font-size: 0.75rem;" onClick={() => monitorGroup(g.jid, false)}>
+                        <button className="btn btn-danger" style={{ padding: "6px 12px", fontSize: "0.75rem" }} onClick={() => monitorGroup(g.jid, false)}>
                           הפסק
                         </button>
                       </>
@@ -346,19 +346,19 @@ export default function WhatsAppScannerPage() {
                   <h3 className="source-name">הודעות ({messages.length})</h3>
                 </div>
               </div>
-              <div className="msg-list" style="max-height: 500px; overflow-y: auto;">
+              <div className="msg-list" style={{ maxHeight: "500px", overflowY: "auto" }}>
                 {messages.slice().reverse().map((m) => (
-                  <div key={m.id} className="msg-item" style="border-bottom: 1px solid var(--border); padding: 12px;">
-                    <div style="display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap;">
+                  <div key={m.id} className="msg-item" style={{ borderBottom: "1px solid var(--border)", padding: "12px" }}>
+                    <div style={{ display: "flex", gap: "12px", marginBottom: "8px", flexWrap: "wrap" }}>
                       <strong>{m.jid || "—"}</strong>
                       <span>{formatTime(m.ts)}</span>
                       {m.pushName && <span>{m.pushName}</span>}
                       {m.fromMe && <span style={{ color: "var(--primary)" }}>📤 שלי</span>}
                       <span style={{ background: "rgba(59,130,246,0.15)", color: "var(--info)", padding: "2px 8px", borderRadius: "999px", fontSize: "0.75rem" }}>{m.kind}</span>
                     </div>
-                    <div style="white-space: pre-wrap; font-size: 0.875rem; line-height: 1.6;">{m.text || "(ללא טקסט)"}</div>
+                    <div style={{ whiteSpace: "pre-wrap", fontSize: "0.875rem", lineHeight: "1.6" }}>{m.text || "(ללא טקסט)"}</div>
                     {m.quoted && (
-                      <div style="color: var(--muted); border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; font-size: 0.75rem;">
+                      <div style={{ color: "var(--muted)", borderTop: "1px solid var(--border)", paddingTop: "8px", marginTop: "8px", fontSize: "0.75rem" }}>
                         ↳ מצוטט: {m.quoted}
                       </div>
                     )}
@@ -378,7 +378,7 @@ export default function WhatsAppScannerPage() {
               <h3 className="source-name">הפעלה ידנית</h3>
             </div>
           </div>
-          <div style="padding: 16px; background: var(--bg); border-radius: 8px; font-family: monospace; font-size: 0.875rem; white-space: pre-wrap;">
+          <div style={{ padding: "16px", background: "var(--bg)", borderRadius: "8px", fontFamily: "monospace", fontSize: "0.875rem", whiteSpace: "pre-wrap" }}>
 {`# בטרמינל נפרד:
 cd agents/wa_scanner
 npm start

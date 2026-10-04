@@ -15,72 +15,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-  "_comment": "Israeli tech companies that publish jobs on a public ATS. Each provider is a documented unauthenticated JSON API (no key, no login, no HTML scraping), so these rows are the employer's own postings with full descriptions. Add a company by probing its ATS slug: python3 agents/scan_jobs.py --ats-probe <slug>. Only providers returning >0 jobs are listed; the scanner skips the rest. `slug` is the ATS board identifier, not always the domain.",
-  "companies": [
-    {
-      "name": "Adasky",
-      "slug": "adasky",
-      "domain": "adasky.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Addionics",
-      "slug": "addionics",
-      "domain": "addionics.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "AI21 Labs",
-      "slug": "ai21labs",
-      "domain": "ai21.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "AiFi",
-      "slug": "aifi",
-      "domain": "aifi.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Aleph Farms",
-      "slug": "alephfarms",
-      "domain": "aleph-farms.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Amazon Web Services Israel",
-      "slug": "aws",
-      "domain": "amazon.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Antidote Health",
-      "slug": "antidotehealth",
-      "domain": "antidote.health",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Ape",
-      "slug": "ape",
-      "domain": "apecoin.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Apiiro",
@@ -94,24 +28,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Apple Israel",
-      "slug": "apple",
-      "domain": "apple.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Applied Materials Israel",
-      "slug": "appliedmaterials",
-      "domain": "appliedmaterials.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "AppsFlyer",
@@ -125,32 +41,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Aqua Security",
-      "slug": "aqua-security",
-      "domain": "aquasec.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Arbe Robotics",
-      "slug": "arbe",
-      "domain": "arbe-robotics.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Arbitrum",
-      "slug": "arbitrum",
-      "domain": "arbitrum.io",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Armis",
@@ -203,104 +93,6 @@
       "devops_jobs": 1,
       "devops_israel_jobs": 1,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "ARMO",
-      "slug": "armo",
-      "domain": "armosec.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Aserto",
-      "slug": "aserto",
-      "domain": "aserto.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Astroscale",
-      "slug": "astroscale",
-      "domain": "astroscale.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Atidot",
-      "slug": "atidot",
-      "domain": "atidot.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Atlassian Israel",
-      "slug": "atlassian",
-      "domain": "atlassian.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Augwind",
-      "slug": "augwind",
-      "domain": "augwind.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Auth0",
-      "slug": "auth0",
-      "domain": "auth0.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Autobrains",
-      "slug": "autobrains",
-      "domain": "autobrains.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Autotalks",
-      "slug": "autotalks",
-      "domain": "autotalks.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Base",
-      "slug": "base",
-      "domain": "base.org",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Belong.Life",
-      "slug": "belonglife",
-      "domain": "belong.life",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Best Doctors",
-      "slug": "bestdoctors",
-      "domain": "bestdoctors.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "BigID",
@@ -379,128 +171,6 @@
       "devops_jobs": 2,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
-    },
-    {
-      "name": "Biobeat",
-      "slug": "biobeat",
-      "domain": "biobeat.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "BioMilk",
-      "slug": "biomilk",
-      "domain": "biomilk.co.il",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Bit2C",
-      "slug": "bit2c",
-      "domain": "bit2c.co.il",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Blast",
-      "slug": "blast",
-      "domain": "blast.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "BlueVine",
-      "slug": "bluevine",
-      "domain": "bluevine.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Boba",
-      "slug": "boba",
-      "domain": "boba.network",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Boundary",
-      "slug": "boundary",
-      "domain": "boundary.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "BrainQ",
-      "slug": "brainq",
-      "domain": "brainq.co",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Brenmiller",
-      "slug": "brenmiller",
-      "domain": "brenmiller.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Bridgecrew",
-      "slug": "bridgecrew",
-      "domain": "bridgecrew.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Canny",
-      "slug": "canny",
-      "domain": "canny.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Cerbos",
-      "slug": "cerbos",
-      "domain": "cerbos.dev",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Ceva",
-      "slug": "ceva",
-      "domain": "ceva-dsp.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Checkmarx",
-      "slug": "checkmarx",
-      "domain": "checkmarx.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Classiq",
-      "slug": "classiq",
-      "domain": "classiq.io",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Cloudinary",
@@ -527,48 +197,6 @@
       "devops_jobs": 4,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Codacy",
-      "slug": "codacy",
-      "domain": "codacy.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "CodeMonkey",
-      "slug": "codemonkey",
-      "domain": "codemonkey.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Codota",
-      "slug": "codota",
-      "domain": "codota.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Cognata",
-      "slug": "cognata",
-      "domain": "cognata.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Cogniteam",
-      "slug": "cogniteam",
-      "domain": "cogniteam.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "CoinMama",
@@ -582,8 +210,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Confluent Israel",
@@ -665,76 +291,6 @@
     },
     {
       "name": "Databricks Israel",
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Contrast Security",
-      "slug": "contrastsecurity",
-      "domain": "contrastsecurity.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "CrazyLabs",
-      "slug": "crazylabs",
-      "domain": "crazylabs.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "CropX",
-      "slug": "cropx",
-      "domain": "cropx.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "CyberArk",
-      "slug": "cyberark",
-      "domain": "cyberark.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Cycode",
-      "slug": "cycode",
-      "domain": "cycode.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Cyera",
-      "slug": "cyera",
-      "domain": "cyera.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "CytoReason",
-      "slug": "cytroreason",
-      "domain": "cytroreason.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Darrow",
-      "slug": "darrow",
-      "domain": "darrow.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "DataBricks Israel",
->>>>>>> origin/main
       "slug": "databricks",
       "domain": "databricks.com",
       "providers": [
@@ -771,88 +327,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "DayTwo",
-      "slug": "daytwo",
-      "domain": "daytwo.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Deci",
-      "slug": "deci",
-      "domain": "deci.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "DeepCode",
-      "slug": "deepcode",
-      "domain": "deepcode.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Dell Technologies Israel",
-      "slug": "dell",
-      "domain": "delltechnologies.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Demand.io",
-      "slug": "demandio",
-      "domain": "demand.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "DockTech",
-      "slug": "docktech",
-      "domain": "docktech.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Doge",
-      "slug": "doge",
-      "domain": "dogecoin.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "DSP Group",
-      "slug": "dspgroup",
-      "domain": "dspg.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "EarlySense",
-      "slug": "earlysense",
-      "domain": "earlysense.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Eggmented Reality",
-      "slug": "eggmented",
-      "domain": "eggmented.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Elastic Israel",
@@ -866,8 +340,6 @@
       "devops_jobs": 17,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Electreon",
@@ -920,40 +392,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Enlight",
-      "slug": "enlight",
-      "domain": "enlight-renewable.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Ermetic",
-      "slug": "ermetic",
-      "domain": "ermetic.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Escape",
-      "slug": "escape",
-      "domain": "escape.tech",
-      "providers": [
-        "ashby"
-      ]
-    },
-    {
-      "name": "Fabric",
-      "slug": "fabric",
-      "domain": "fabric.inc",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Fireblocks",
@@ -967,16 +405,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "FireTail",
-      "slug": "firetail",
-      "domain": "firetail.io",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Fiverr",
@@ -1016,88 +444,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
-    },
-    {
-      "name": "Floki",
-      "slug": "floki",
-      "domain": "floki.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Foretellix",
-      "slug": "foretellix",
-      "domain": "foretellix.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ForgeRock",
-      "slug": "forgerock",
-      "domain": "forgerock.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Foxpass",
-      "slug": "foxpass",
-      "domain": "foxpass.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Freightos",
-      "slug": "freightos",
-      "domain": "freightos.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "FundGuard",
-      "slug": "fundguard",
-      "domain": "fundguard.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Future Meat",
-      "slug": "futuremeat",
-      "domain": "future-meat.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "GenCell",
-      "slug": "gencell",
-      "domain": "gencellenergy.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "GeneDx",
-      "slug": "genedx",
-      "domain": "genedx.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "GitHub Israel",
-      "slug": "github",
-      "domain": "github.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "GitLab Israel",
@@ -1124,8 +470,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Gong",
@@ -1217,96 +561,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Google Israel",
-      "slug": "google",
-      "domain": "google.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Grabango",
-      "slug": "grabango",
-      "domain": "grabango.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Guesty",
-      "slug": "guesty",
-      "domain": "guesty.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "H2Pro",
-      "slug": "h2pro",
-      "domain": "h2pro.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Habana Labs",
-      "slug": "habanalabs",
-      "domain": "habana.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Hailo",
-      "slug": "hailo",
-      "domain": "hailo.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "HashiCorp Israel",
-      "slug": "hashicorp",
-      "domain": "hashicorp.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Headscale",
-      "slug": "headscale",
-      "domain": "headscale.net",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Healthy.io",
-      "slug": "healthyio",
-      "domain": "healthy.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Helios",
-      "slug": "helios",
-      "domain": "helios.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Hippo",
-      "slug": "hippo",
-      "domain": "hippo.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "HP Israel",
@@ -1346,136 +600,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "HydroSpin",
-      "slug": "hydrospin",
-      "domain": "hydrospin.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "IBM Israel",
-      "slug": "ibm",
-      "domain": "ibm.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ICON",
-      "slug": "icon",
-      "domain": "iconbuild.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "IDE",
-      "slug": "ide",
-      "domain": "ide-tech.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Ilyon",
-      "slug": "ilyon",
-      "domain": "ilyon.net",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ImageSat",
-      "slug": "imagesat",
-      "domain": "imagesatintl.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Immunai",
-      "slug": "immunai",
-      "domain": "immunai.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Immutable",
-      "slug": "immutable",
-      "domain": "immutable.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Impossible Foods Israel",
-      "slug": "impossible",
-      "domain": "impossiblefoods.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Incorta",
-      "slug": "incorta",
-      "domain": "incorta.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Innoviz",
-      "slug": "innoviz",
-      "domain": "innoviz-tech.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Insurance",
-      "slug": "insurance",
-      "domain": "insurance.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Intel Israel",
-      "slug": "intel",
-      "domain": "intel.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Inui Health",
-      "slug": "inuihealth",
-      "domain": "inuihealth.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "IronSource",
-      "slug": "ironsource",
-      "domain": "ironsrc.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ISA",
-      "slug": "isa",
-      "domain": "isa.org.il",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "JFrog",
@@ -1502,112 +626,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
-    },
-    {
-      "name": "JoyTunes",
-      "slug": "joytunes",
-      "domain": "joytunes.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "JumpCloud",
-      "slug": "jumpcloud",
-      "domain": "jumpcloud.com",
-      "providers": [
-        "lever"
-      ]
-    },
-    {
-      "name": "K Health",
-      "slug": "khealth",
-      "domain": "khealth.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Kabbage",
-      "slug": "kabbage",
-      "domain": "kabbage.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Katerra",
-      "slug": "katerra",
-      "domain": "katerra.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Kite",
-      "slug": "kite",
-      "domain": "kite.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "KLA Israel",
-      "slug": "klaisrael",
-      "domain": "kla.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Kubescape",
-      "slug": "kubescape",
-      "domain": "kubescape.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Kubiya",
-      "slug": "kubiya",
-      "domain": "kubiya.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Laguna Health",
-      "slug": "lagunahealth",
-      "domain": "lagunahealth.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "LawGeex",
-      "slug": "lawgeex",
-      "domain": "lawgeex.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "LeakSignal",
-      "slug": "leaksignal",
-      "domain": "leaksignal.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "LegalUp",
-      "slug": "legalup",
-      "domain": "legalup.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Lemonade",
@@ -1660,88 +678,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
-    },
-    {
-      "name": "Lenovo Israel",
-      "slug": "lenovo",
-      "domain": "lenovo.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Lightricks",
-      "slug": "lightricks",
-      "domain": "lightricks.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Linea",
-      "slug": "linea",
-      "domain": "linea.build",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "LinearB",
-      "slug": "linearb",
-      "domain": "linearb.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Localize",
-      "slug": "localize",
-      "domain": "localize.city",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Manna",
-      "slug": "manna",
-      "domain": "manna-irrigation.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Mantle",
-      "slug": "mantle",
-      "domain": "mantle.xyz",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Matific",
-      "slug": "matific",
-      "domain": "matific.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Matter Labs",
-      "slug": "matterlabs",
-      "domain": "matterlabs.dev",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Mekorot",
-      "slug": "mekorot",
-      "domain": "mekorot.co.il",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Melio",
@@ -1755,72 +691,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Meta Israel",
-      "slug": "meta",
-      "domain": "meta.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Metis",
-      "slug": "metis",
-      "domain": "metis.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Microsoft Israel",
-      "slug": "microsoft",
-      "domain": "microsoft.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Mighty Buildings",
-      "slug": "mightybuildings",
-      "domain": "mightybuildings.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Mobileye",
-      "slug": "mobileye",
-      "domain": "mobileye.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Mobility Insights",
-      "slug": "mobilityinsights",
-      "domain": "mobilityinsights.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Mode",
-      "slug": "mode",
-      "domain": "mode.network",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Monday.com",
-      "slug": "monday",
-      "domain": "monday.com",
-      "providers": [
-        "workable"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "MongoDB Israel",
@@ -1834,8 +704,6 @@
       "devops_jobs": 17,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Moon Active",
@@ -1849,16 +717,6 @@
       "devops_jobs": 5,
       "devops_israel_jobs": 2,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "MoonPay",
-      "slug": "moonpay",
-      "domain": "moonpay.com",
-      "providers": [
-        "lever"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "MyHeritage",
@@ -1872,16 +730,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "N-Drip",
-      "slug": "ndrip",
-      "domain": "n-drip.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Nanit",
@@ -1963,115 +811,6 @@
     },
     {
       "name": "Okta Israel",
-      ]
-    },
-    {
-      "name": "Nayax",
-      "slug": "nayax",
-      "domain": "nayax.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Neosec",
-      "slug": "neosec",
-      "domain": "neosec.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Netafim",
-      "slug": "netafim",
-      "domain": "netafim.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "NetBird",
-      "slug": "netbird",
-      "domain": "netbird.io",
-      "providers": [
-        "ashby"
-      ]
-    },
-    {
-      "name": "Neura",
-      "slug": "neura",
-      "domain": "neura.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "NeuReality",
-      "slug": "neureality",
-      "domain": "neureality.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "NeuroBlade",
-      "slug": "neuroblade",
-      "domain": "neuroblade.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Next Insurance",
-      "slug": "next-insurance",
-      "domain": "nextinsurance.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Noname Security",
-      "slug": "nonamesecurity",
-      "domain": "nonamesecurity.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Nova",
-      "slug": "nova",
-      "domain": "novameasuring.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "NSLComm",
-      "slug": "nslcomm",
-      "domain": "nslcomm.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "NuvoAir",
-      "slug": "nuvoair",
-      "domain": "nuvoair.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "NVIDIA Israel",
-      "slug": "nvidia",
-      "domain": "nvidia.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Okta",
->>>>>>> origin/main
       "slug": "okta",
       "domain": "okta.com",
       "providers": [
@@ -2095,40 +834,6 @@
       "devops_jobs": 1,
       "devops_israel_jobs": 1,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "OneLogin",
-      "slug": "onelogin",
-      "domain": "onelogin.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "OpenVPN",
-      "slug": "openvpn",
-      "domain": "openvpn.net",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Optimism",
-      "slug": "optimism",
-      "domain": "optimism.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Orca AI",
-      "slug": "orcaai",
-      "domain": "orca-ai.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Orca Security",
@@ -2142,48 +847,6 @@
       "devops_jobs": 2,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "OSO",
-      "slug": "oso",
-      "domain": "osohq.com",
-      "providers": [
-        "ashby"
-      ]
-    },
-    {
-      "name": "Otonomo",
-      "slug": "otonomo",
-      "domain": "otonomo.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Outbrain",
-      "slug": "outbrain",
-      "domain": "outbrain.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Overwolf",
-      "slug": "overwolf",
-      "domain": "overwolf.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "OX Security",
-      "slug": "oxsecurity",
-      "domain": "ox.security",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Pagaya",
@@ -2197,16 +860,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
-    },
-    {
-      "name": "Panoply",
-      "slug": "panoply",
-      "domain": "panoply.io",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Payoneer",
@@ -2236,35 +889,6 @@
     },
     {
       "name": "Ping Identity Israel",
-      ]
-    },
-    {
-      "name": "Pepe",
-      "slug": "pepe",
-      "domain": "pepe.vip",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Permit.io",
-      "slug": "permit",
-      "domain": "permit.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Phytech",
-      "slug": "phytech",
-      "domain": "phytech.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Ping Identity",
->>>>>>> origin/main
       "slug": "pingidentity",
       "domain": "pingidentity.com",
       "providers": [
@@ -2327,152 +951,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": false
-      ]
-    },
-    {
-      "name": "Plarium",
-      "slug": "plarium",
-      "domain": "plarium.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Playgendary",
-      "slug": "playgendary",
-      "domain": "playgendary.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Playstudios",
-      "slug": "playstudios",
-      "domain": "playstudios.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Playtika",
-      "slug": "playtika",
-      "domain": "playtika.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Polygon",
-      "slug": "polygon",
-      "domain": "polygon.technology",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Pritunl",
-      "slug": "pritunl",
-      "domain": "pritunl.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Prospera",
-      "slug": "prospera",
-      "domain": "prospera.ag",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ProteanTecs",
-      "slug": "proteantecs",
-      "domain": "proteantecs.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Pynt",
-      "slug": "pynt",
-      "domain": "pynt.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Qedma",
-      "slug": "qedma",
-      "domain": "qedma.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "QuantLR",
-      "slug": "quantlr",
-      "domain": "quantlr.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Quantum Machines",
-      "slug": "quantummachines",
-      "domain": "quantum-machines.co",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Qubole",
-      "slug": "qubole",
-      "domain": "qubole.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Ramon Space",
-      "slug": "ramonspace",
-      "domain": "ramon.space",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Red Hat Israel",
-      "slug": "redhat",
-      "domain": "redhat.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Redefine Meat",
-      "slug": "redefinemeat",
-      "domain": "redefinemeat.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Redis Israel",
-      "slug": "redis",
-      "domain": "redis.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Remilk",
-      "slug": "remilk",
-      "domain": "remilk.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Riskified",
@@ -2499,16 +977,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Roboteam",
-      "slug": "roboteam",
-      "domain": "roboteam.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Salt Security",
@@ -2561,88 +1029,6 @@
       "devops_jobs": 4,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Saturas",
-      "slug": "saturas",
-      "domain": "saturas.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "SavorEat",
-      "slug": "savoreat",
-      "domain": "savoreat.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Sayollo",
-      "slug": "sayollo",
-      "domain": "sayollo.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "SciPlay",
-      "slug": "sciplay",
-      "domain": "sciplay.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Scribe Security",
-      "slug": "scribesecurity",
-      "domain": "scribesecurity.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Scroll",
-      "slug": "scroll",
-      "domain": "scroll.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "SentinelOne",
-      "slug": "sentinelone",
-      "domain": "sentinelone.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Shiba",
-      "slug": "shiba",
-      "domain": "shibatoken.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ShiftLeft",
-      "slug": "shiftleft",
-      "domain": "shiftleft.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Sibros",
-      "slug": "sibros",
-      "domain": "sibros.tech",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Similarweb",
@@ -2682,24 +1068,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Simplex",
-      "slug": "simplex",
-      "domain": "simplex.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Simplilearn",
-      "slug": "simplilearn",
-      "domain": "simplilearn.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Sisense",
@@ -2713,17 +1081,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Skyline AI",
-      "slug": "skylineai",
-      "domain": "skyline.ai",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Snowflake Israel",
@@ -2737,9 +1094,6 @@
       "devops_jobs": 2,
       "devops_israel_jobs": 0,
       "israel_verified": true
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Snyk",
@@ -2805,120 +1159,6 @@
       "devops_jobs": 0,
       "devops_israel_jobs": 0,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "SolarEdge",
-      "slug": "solaredge",
-      "domain": "solaredge.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "SonarSource",
-      "slug": "sonarsource",
-      "domain": "sonarsource.com",
-      "providers": [
-        "lever"
-      ]
-    },
-    {
-      "name": "Source",
-      "slug": "source",
-      "domain": "source.ag",
-      "providers": [
-        "lever"
-      ]
-    },
-    {
-      "name": "SpaceIL",
-      "slug": "spaceil",
-      "domain": "spaceil.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "SpacePharma",
-      "slug": "spacepharma",
-      "domain": "spacepharma.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Sproutt",
-      "slug": "sproutt",
-      "domain": "sproutt.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "StarkNet",
-      "slug": "starknet",
-      "domain": "starknet.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "StarkWare",
-      "slug": "starkware",
-      "domain": "starkware.co",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "StoreDot",
-      "slug": "storedot",
-      "domain": "storedot.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "StrongDM",
-      "slug": "strongdm",
-      "domain": "strongdm.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "SupPlant",
-      "slug": "supplant",
-      "domain": "supplant.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Sweetch",
-      "slug": "sweetch",
-      "domain": "sweetch.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Swimm",
-      "slug": "swimm",
-      "domain": "swimm.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Tabnine",
-      "slug": "tabnine",
-      "domain": "tabnine.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Taboola",
@@ -2984,80 +1224,6 @@
       "devops_jobs": 1,
       "devops_israel_jobs": 1,
       "israel_verified": true
-      ]
-    },
-    {
-      "name": "Taiko",
-      "slug": "taiko",
-      "domain": "taiko.xyz",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Tailscale",
-      "slug": "tailscale",
-      "domain": "tailscale.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "TaKaDu",
-      "slug": "takadu",
-      "domain": "takadu.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Taranis",
-      "slug": "taranis",
-      "domain": "taranis.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Teleport",
-      "slug": "teleport",
-      "domain": "goteleport.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Tower Semiconductor",
-      "slug": "towersemi",
-      "domain": "towersemi.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Traceable AI",
-      "slug": "traceable",
-      "domain": "traceable.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Treetoscope",
-      "slug": "treetoscope",
-      "domain": "treetoscope.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "TriEye",
-      "slug": "trieye",
-      "domain": "trieye.tech",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "Trigo",
@@ -3123,83 +1289,6 @@
       "devops_jobs": 4,
       "devops_israel_jobs": 3,
       "israel_verified": true
-      "domain": "trigo.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Twingate",
-      "slug": "twingate",
-      "domain": "twingate.com",
-      "providers": [
-        "lever"
-      ]
-    },
-    {
-      "name": "TytoCare",
-      "slug": "tytocare",
-      "domain": "tytocare.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Unbound Tech",
-      "slug": "unboundtech",
-      "domain": "unboundtech.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Valens",
-      "slug": "valens",
-      "domain": "valens.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Vayyar",
-      "slug": "vayyar",
-      "domain": "vayyar.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Veev",
-      "slug": "veev",
-      "domain": "veev.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Veracode",
-      "slug": "veracode",
-      "domain": "veracode.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Vimeo",
-      "slug": "vimeo",
-      "domain": "vimeo.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "VMware Israel",
-      "slug": "vmware",
-      "domain": "vmware.com",
-      "providers": [
-        "greenhouse"
-      ]
->>>>>>> origin/main
     },
     {
       "name": "WalkMe",
@@ -3268,112 +1357,3 @@
     }
   ]
 }
-      ]
-    },
-    {
-      "name": "WalkOut",
-      "slug": "walkout",
-      "domain": "walkout.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Watergen",
-      "slug": "watergen",
-      "domain": "watergen.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Wefox",
-      "slug": "wefox",
-      "domain": "wefox.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "WhiteSource",
-      "slug": "whitesource",
-      "domain": "whitesourcesoftware.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Wilk",
-      "slug": "wilk",
-      "domain": "wilk.co.il",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Windward",
-      "slug": "windward",
-      "domain": "windward.ai",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "WireGuard",
-      "slug": "wireguard",
-      "domain": "wireguard.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Wix",
-      "slug": "wix",
-      "domain": "wix.com",
-      "providers": [
-        "workable"
-      ]
-    },
-    {
-      "name": "Wiz",
-      "slug": "wiz",
-      "domain": "wiz.io",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "Yo Egg",
-      "slug": "yoegg",
-      "domain": "yo-egg.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ZenGo",
-      "slug": "zengo",
-      "domain": "zengo.com",
-      "providers": [
-        "greenhouse"
-      ]
-    },
-    {
-      "name": "ZeroTier",
-      "slug": "zerotier",
-      "domain": "zerotier.com",
-      "providers": [
-        "smartrecruiters"
-      ]
-    },
-    {
-      "name": "ZKSync",
-      "slug": "zksync",
-      "domain": "zksync.io",
-      "providers": [
-        "greenhouse"
-      ]
-    }
-  ]
-}
->>>>>>> origin/main
