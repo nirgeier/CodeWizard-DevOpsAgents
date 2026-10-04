@@ -1,0 +1,12 @@
+{
+  "_comment": "Defaults for the job-scanning agent (Jobs/agents/scan_jobs.py). All values can be overridden on the command line.",
+  "location": "Israel",
+  "country": "IL",
+  "only_israel": true,
+  "max_age_days": 30,
+  "pages": 2,
+  "min_score": 0.35,
+  "sources": ["linkedin", "drushim", "comeet"],
+  "linkedin_keywords": ["DevOps", "Platform Engineer", "SRE", "Cloud Engineer", "Kubernetes", "Infrastructure Engineer"],
+  "drushim_keywords": ["devops", "cloud engineer", "sre", "kubernetes", "platform engineer"]
+}

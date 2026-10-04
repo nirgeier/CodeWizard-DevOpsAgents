@@ -1,0 +1,26 @@
+{
+  "name": "codewizard-Jobs-intel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.17.16",
+    "next": "16.3.5",
+    "qrcode": "^1.5.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "patch-package": "^8.0.1",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,60 @@
+# ── Dependencies ───────────────────────────────────────────────
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pypackages/
+
+# ── Secrets & local env (templates stay tracked) ───────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ── Build outputs ──────────────────────────────────────────────
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# ── Generated data (runtime mirrors, never source of truth) ────
+# store.py / sources.py / scan_jobs.py write these at run time.
+data/
+agent/data/
+**/data/*.json
+*.ndjson
+
+# ── Python tooling caches ──────────────────────────────────────
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+.tox/
+.nox/
+
+# ── Logs ───────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Agent & editor local state ─────────────────────────────────
+.opencode-memory/
+.opencode/
+.claude/
+.cursor/
+.idea/
+.vscode/
+
+# ── OS / editor cruft ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~
+*.bak
+*.orig
+*.rej

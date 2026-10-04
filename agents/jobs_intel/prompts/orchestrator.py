@@ -1,0 +1,1 @@
+ORCHESTRATOR_PROMPT = """Fuse signals. Return JSON array of opportunities with WHO/WHAT/WHY NOW/PAIN/CONTEXT/APPROACH/QUESTION, confidence, status, signals[], evidence[]. If cannot explain WHY NOW from evidence → status='rejected'. Human-in-loop. Project-First. Require evidence+WHY NOW."""
