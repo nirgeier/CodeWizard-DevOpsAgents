@@ -444,6 +444,17 @@ export default async function CompaniesPage({
           </table>
         </div>
       )}
+
+      <Pagination
+        basePath={BASE}
+        params={params}
+        defaults={DEFAULTS}
+        page={result.page}
+        pageSize={result.pageSize}
+        total={result.total}
+        totalPages={result.totalPages}
+        unit="חברות"
+      />
     </div>
   );
 }
