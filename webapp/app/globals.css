@@ -70,13 +70,15 @@ a:hover {
   margin-bottom: 14px;
 }
 
-.brand .logo {
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 0.2px;
+/* Brand logo. The PNG is light-on-dark (blue #20a0e0 + orange #e0a020), so it
+   belongs on the navy sidebar, where it measures 4.5:1 contrast. */
+.brand-logo {
+  display: block;
+  height: 32px;
+  width: auto;
 }
-.brand .logo span {
-  color: var(--blue);
+.brand-link:hover {
+  text-decoration: none;
 }
 .brand .tagline {
   font-size: 12px;
@@ -773,4 +775,433 @@ tbody tr:hover {
 .badge-gray {
   background: #eef1f5;
   color: #63708a;
+}
+.badge-wa {
+  background: #e3f9ec;
+  color: #0f7a3d;
+}
+.badge-red {
+  background: #fdeaea;
+  color: #a52a2a;
+}
+
+.wa-border {
+  border-inline-start: 4px solid var(--green);
+}
+
+/* WhatsApp tab ------------------------------------------------------------ */
+
+.wa-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .wa-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.wa-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wa-card h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.wa-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: #fafbfe;
+  border: 1px solid #eef2f7;
+  border-radius: 12px;
+}
+
+.wa-qr img {
+  width: 260px;
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.wa-qr .hint {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.wa-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.wa-toolbar .input {
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13.5px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(55, 169, 222, 0.15);
+}
+
+.wa-groups {
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid #eef2f7;
+  border-radius: 10px;
+}
+
+.wa-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f2f5f9;
+}
+
+.wa-group:last-child {
+  border-bottom: none;
+}
+
+.wa-group.on {
+  background: #f2fbf6;
+}
+
+.wa-group .name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-group .meta {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.wa-msgs {
+  max-height: 460px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wa-msg {
+  border: 1px solid #eef2f7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fcfdff;
+}
+
+.wa-msg.job {
+  border-color: #bfe8cf;
+  background: #f4fcf7;
+}
+
+.wa-msg .head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.wa-msg .head strong {
+  color: var(--navy);
+  font-size: 12.5px;
+}
+
+.wa-msg .body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.wa-notice {
+  font-size: 12.5px;
+  color: var(--navy);
+  background: #f0f7fd;
+  border: 1px solid #d6e9f7;
+  border-radius: 9px;
+  padding: 9px 12px;
+}
+
+/* ── Help page (/help) ────────────────────────────────────────────── */
+
+.help-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px 18px;
+  margin: 18px 0 8px;
+  font-size: 13.5px;
+}
+.help-toc-label {
+  font-weight: 800;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.help-toc a {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+}
+.help-toc a:hover {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.help-flow {
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+}
+.help-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 10px;
+}
+.help-step:nth-child(odd) {
+  background: #f7f9fc;
+}
+.help-step-n {
+  flex: 0 0 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-step strong {
+  color: var(--navy);
+  font-size: 14.5px;
+}
+.help-step-sub {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+.help-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 14px 0;
+}
+@media (max-width: 900px) {
+  .help-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.help-num {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: right;
+}
+.help-pts {
+  font-weight: 700;
+  color: var(--blue);
+}
+.help-run {
+  color: var(--navy);
+  font-weight: 700;
+}
+.help-total-row td {
+  background: #f0f7fd;
+  border-top: 2px solid var(--blue);
+}
+.help-total-row .help-pts,
+.help-total-row .help-run {
+  color: var(--navy);
+}
+
+.help-two-col .table-wrap tbody td:first-child {
+  font-size: 12.5px;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: #eef3fa;
+  color: var(--navy);
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 12.5px;
+  direction: ltr;
+  unicode-bidi: embed;
+}
+.section-title code {
+  font-size: 13px;
+}
+
+.help-formula {
+  background: var(--navy);
+  color: #eaf4fd;
+  border-radius: 10px;
+  padding: 14px 18px;
+  text-align: center;
+  margin: 14px 0;
+  font-size: 14.5px;
+  overflow-x: auto;
+}
+.help-formula code {
+  background: transparent;
+  color: #cfe8fb;
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 0;
+}
+.help-formula-inline {
+  text-align: right;
+  margin: 10px 0;
+  font-size: 13.5px;
+}
+.help-formula-inline code,
+.help-formula-inline strong {
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+}
+
+.help-callout {
+  background: #f7f9fc;
+  border: 1px solid var(--line);
+  border-right: 4px solid var(--blue);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+.help-callout p {
+  margin: 8px 0 0;
+}
+.help-callout p:first-of-type {
+  margin-top: 0;
+}
+.help-callout strong {
+  color: var(--navy);
+}
+.help-callout-key {
+  border-right-color: var(--amber);
+  background: #fdf8ee;
+}
+.help-callout-ok {
+  border-right-color: var(--green);
+  background: #f0fbf4;
+}
+.help-callout-no {
+  border-right-color: var(--red);
+  background: #fdf2f2;
+}
+.help-callout-warn {
+  border-right-color: var(--red);
+  background: #fdf5f5;
+}
+
+.help-gates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 14px 0;
+}
+@media (max-width: 900px) {
+  .help-gates {
+    grid-template-columns: 1fr;
+  }
+}
+.help-gate {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+}
+.help-gate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.help-gate-head code {
+  font-size: 11.5px;
+}
+.help-gate strong {
+  display: block;
+  color: var(--navy);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.help-gate p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.help-footer-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
 }

@@ -320,6 +320,86 @@ export async function listScans({
 }
 
 // DevOps Jobs
+export interface SaveJobsResult {
+  mode: DataMode;
+  inserted: number;
+  skipped: number;
+  error?: string;
+}
+
+/**
+ * Upsert scanned jobs.
+ *
+ * `unique (source, external_id)` is what makes a re-scan idempotent: a WhatsApp
+ * group hands back the same posting every hour, and the second sighting should
+ * bump `last_seen_at` rather than add a duplicate row.
+ *
+ * Local mode has no writable store - the rest of this file treats
+ * `data/*.json` as a read-only cache - so it reports the jobs back rather than
+ * pretending they were saved.
+ */
+export async function saveJobs(
+  jobs: Array<Partial<DevOpsJob> & { external_id: string }>,
+): Promise<SaveJobsResult> {
+  const mode = await getMode();
+  let inserted = 0;
+  let skipped = 0;
+  let error: string | undefined;
+
+  if (mode === "supabase") {
+    for (const job of jobs) {
+      const now = new Date().toISOString();
+      const row: Record<string, unknown> = { ...job, last_seen_at: now, ingested_at: now };
+      try {
+        // The dedupe key is the pair (source, external_id) - that is the
+        // unique constraint on devops_jobs, so on_conflict must name both
+        // columns or PostgREST rejects the whole batch with "no unique or
+        // exclusion constraint matching".
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/devops_jobs?on_conflict=source,external_id`,
+          {
+            method: "POST",
+            headers: {
+              ...supabaseHeaders(),
+              "Content-Type": "application/json",
+              // merge-duplicates turns a repeat sighting into an update
+              // instead of a conflict error.
+              Prefer: "resolution=merge-duplicates,return=minimal",
+            },
+            body: JSON.stringify(row),
+          },
+        );
+        if (res.ok) {
+          inserted++;
+        } else {
+          skipped++;
+          // Keep the first failure so the tab can say why nothing landed
+          // instead of showing a bare "0 saved".
+          if (!error) error = `PostgREST ${res.status}: ${(await res.text()).slice(0, 200)}`;
+        }
+      } catch (err) {
+        skipped++;
+        if (!error) error = String((err as Error)?.message || err);
+      }
+    }
+    return { mode, inserted, skipped, error };
+  }
+
+  // Local mode has no writable store: data/*.json is a read-only cache, and the
+  // page and route-handler copies of this module do not even share memory, so
+  // anything written here would be invisible to the UI. Report the jobs as
+  // previewed-but-not-saved rather than pretending they landed.
+  return {
+    mode,
+    inserted: 0,
+    skipped: jobs.length,
+    error:
+      jobs.length > 0
+        ? "מצב מקומי (local) - data/*.json נקרא בלבד, ולכן המשרות שחולצו מוצגות אך לא נשמרו. חברו Supabase ב-.env.local כדי לשמור."
+        : undefined,
+  };
+}
+
 export async function listJobs({
   source,
   company,

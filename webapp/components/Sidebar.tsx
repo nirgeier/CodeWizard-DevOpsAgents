@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -7,10 +8,12 @@ const NAV = [
   { href: "/", label: "לוח בקרה" },
   { href: "/opportunities", label: "הזדמנויות" },
   { href: "/agents", label: "סוכנים" },
+  { href: "/whatsapp", label: "WhatsApp" },
   { href: "/signals", label: "איתותים" },
   { href: "/companies", label: "חברות" },
   { href: "/people", label: "אנשי קשר" },
   { href: "/scans", label: "סריקות" },
+  { href: "/help", label: "עזרה" },
 ];
 
 export default function Sidebar() {
@@ -19,9 +22,15 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <div className="logo">
-          Code<span>Wizard</span>
-        </div>
+        <Link href="/" className="brand-link" aria-label="CodeWizard — לוח בקרה">
+          <Image
+            src="/codewizard-logo.png"
+            alt="CodeWizard"
+            width={117}
+            height={32}
+            className="brand-logo"
+          />
+        </Link>
         <div className="tagline">מנוע הזדמנויות · Jobs Intel</div>
       </div>
 
