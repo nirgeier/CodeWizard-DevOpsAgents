@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>WhatsApp Job Scanner</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--primary:#22c55e;--primary-hover:#16a34a;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;--radius:10px;--shadow:0 4px 6px -1px rgb(0 0 0 / 0.1),0 2px 4px -2px rgb(0 0 0 / 0.1)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+h1{font-size:1.75rem;font-weight:600;color:var(--text)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:0.75rem;font-weight:600}
+.badge.connected{background:rgba(34,197,94,0.15);color:var(--primary)}
+.badge.disconnected{background:rgba(239,68,68,0.15);color:var(--danger)}
+.badge.pairing{background:rgba(245,158,11,0.15);color:var(--warning)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:var(--shadow)}
+.card h2{font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:8px;font-weight:600;font-size:0.875rem;border:none;cursor:pointer;transition:all 0.15s}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn-primary{background:var(--primary);color:#052e16}
+.btn-primary:hover:not(:disabled){background:var(--primary-hover)}
+.btn-danger{background:var(--danger);color:white}
+.btn-danger:hover:not(:disabled){background:#dc2626}
+.btn-secondary{background:var(--border);color:var(--text)}
+.btn-secondary:hover:not(:disabled){background:#475569}
+.btn-info{background:var(--info);color:white}
+.btn-info:hover:not(:disabled){background:#2563eb}
+.qr-container{text-align:center;padding:20px}
+.qr-container img{max-width:100%;height:auto;border-radius:8px;box-shadow:var(--shadow)}
+.qr-container .qr-meta{margin-top:12px;font-size:0.875rem;color:var(--muted)}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{background:rgba(148,163,184,0.08);padding:16px;border-radius:8px;text-align:center}
+.stat .value{font-size:1.5rem;font-weight:700;color:var(--primary)}
+.stat .label{font-size:0.75rem;color:var(--muted);margin-top:4px}
+.group-list{max-height:400px;overflow-y:auto}
+.group-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid var(--border);gap:12px}
+.group-item:last-child{border-bottom:none}
+.group-info{flex:1;min-width:0}
+.group-name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.group-meta{font-size:0.75rem;color:var(--muted);margin-top:2px}
+.group-actions{display:flex;gap:6px;flex-shrink:0}
+.msg-list{max-height:500px;overflow-y:auto}
+.msg-item{border-bottom:1px solid var(--border);padding:12px}
+.msg-item:last-child{border-bottom:none}
+.msg-header{display:flex;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.msg-meta{font-size:0.75rem;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
+.msg-text{white-space:pre-wrap;font-size:0.875rem;line-height:1.6}
+.msg-job{border-left:3px solid var(--primary);background:rgba(34,197,94,0.05)}
+.job-extracted{margin-top:16px;padding:16px;background:rgba(34,197,94,0.1);border-radius:8px;border:1px solid rgba(34,197,94,0.3)}
+.job-extracted h3{margin-bottom:8px;color:var(--primary)}
+.job-field{display:flex;gap:8px;margin:4px 0;font-size:0.875rem}
+.job-field .label{color:var(--muted);min-width:100px}
+.input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:0.875rem}
+.input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(34,197,94,0.2)}
+.textarea{min-height:100px;resize:vertical}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.row > *{flex:1;min-width:180px}
+.spinner{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none !important}
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:8px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);z-index:1000;animation:slideIn 0.3s}
+.toast.success{border-left:3px solid var(--primary)}
+.toast.error{border-left:3px solid var(--danger)}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+h3{font-size:1rem;font-weight:600;margin:16px 0 8px}
+.empty{text-align:center;padding:40px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📱 WhatsApp Job Scanner</h1>
+    <span id="connBadge" class="badge disconnected">מנותק</span>
+  </header>
+
+  <div class="card">
+    <h2>🔐 מצב חיבור</h2>
+    <div class="status-grid">
+      <div class="stat"><div class="value" id="statPhase">—</div><div class="label">שלב</div></div>
+      <div class="stat"><div class="value" id="statConn">—</div><div class="label">חיבור</div></div>
+      <div class="stat"><div class="value" id="statGroups">0</div><div class="label">קבוצות</div></div>
+      <div class="stat"><div class="value" id="statMessages">0</div><div class="label">הודעות</div></div>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button id="btnStart" class="btn btn-primary">התחל התחברות</button>
+      <button id="btnStop" class="btn btn-danger" disabled>נתק</button>
+      <button id="btnRefreshGroups" class="btn btn-secondary" disabled>רענן קבוצות</button>
+    </div>
+  </div>
+
+  <div id="qrCard" class="card hidden">
+    <h2>📷 סרוק QR Code</h2>
+    <div class="qr-container">
+      <img id="qrImage" alt="WhatsApp QR Code"/>
+      <div class="qr-meta">סדרתי: <span id="qrSeq">0</span> · נוצר: <span id="qrTime">—</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>👥 קבוצות מנוטרות</h2>
+      <div class="row" style="margin-bottom:12px">
+        <div style="flex:2"><input type="text" id="inviteInput" class="input" placeholder="קוד הזמנה (chat.whatsapp.com/XXXX)" /></div>
+        <button id="btnJoinInvite" class="btn btn-info">הצטרף</button>
+      </div>
+      <div class="group-list" id="groupsList">
+        <div class="loading">לחץ "רענן קבוצות" לטעינה</div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="btnMonitorAll" class="btn btn-primary" disabled>נטר את כולן</button>
+        <button id="btnUnmonitorAll" class="btn btn-secondary" disabled>הפסק ניטור כולן</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💬 הודעות אחרונות</h2>
+      <div class="row" style="margin-bottom:12px">
+        <div style="flex:2"><input type="text" id="msgSearch" class="input" placeholder="חיפוש בהודעות..." /></div>
+        <div><input type="number" id="msgLimit" class="input" value="50" min="1" max="500" style="width:100px" /></div>
+        <button id="btnLoadMessages" class="btn btn-secondary">טען</button>
+      </div>
+      <div class="msg-list" id="messagesList">
+        <div class="empty">אין הודעות — התחבר ובחר קבוצות לניטור</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 חילוץ משרות מקבוצה</h2>
+    <div class="row" style="margin-bottom:12px">
+      <div style="flex:2"><input type="text" id="extractJid" class="input" placeholder="JID הקבוצה (למשל 123456@g.us)" /></div>
+      <div><input type="number" id="extractSince" class="input" placeholder="מאז (timestamp ms)" /></div>
+      <div><input type="number" id="extractLimit" class="input" value="100" min="1" max="500" /></div>
+      <button id="btnExtractJobs" class="btn btn-primary">חלץ משרות</button>
+    </div>
+    <div id="extractedJobs" class="hidden"></div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<script type="module">
+const API = ''
+let eventSource = null
+let currentQR = null
+
+const els = {
+  badge: document.getElementById('connBadge'),
+  statPhase: document.getElementById('statPhase'),
+  statConn: document.getElementById('statConn'),
+  statGroups: document.getElementById('statGroups'),
+  statMessages: document.getElementById('statMessages'),
+  qrCard: document.getElementById('qrCard'),
+  qrImage: document.getElementById('qrImage'),
+  qrSeq: document.getElementById('qrSeq'),
+  qrTime: document.getElementById('qrTime'),
+  groupsList: document.getElementById('groupsList'),
+  messagesList: document.getElementById('messagesList'),
+  extractedJobs: document.getElementById('extractedJobs'),
+  btnStart: document.getElementById('btnStart'),
+  btnStop: document.getElementById('btnStop'),
+  btnRefreshGroups: document.getElementById('btnRefreshGroups'),
+  btnMonitorAll: document.getElementById('btnMonitorAll'),
+  btnUnmonitorAll: document.getElementById('btnUnmonitorAll'),
+  btnJoinInvite: document.getElementById('btnJoinInvite'),
+  btnLoadMessages: document.getElementById('btnLoadMessages'),
+  btnExtractJobs: document.getElementById('btnExtractJobs'),
+  inviteInput: document.getElementById('inviteInput'),
+  msgSearch: document.getElementById('msgSearch'),
+  msgLimit: document.getElementById('msgLimit'),
+  extractJid: document.getElementById('extractJid'),
+  extractSince: document.getElementById('extractSince'),
+  extractLimit: document.getElementById('extractLimit'),
+}
+
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer')
+  const el = document.createElement('div')
+  el.className = `toast ${type}`
+  el.textContent = msg
+  container.appendChild(el)
+  setTimeout(() => { el.style.animation = 'slideIn 0.3s reverse'; setTimeout(() => el.remove(), 300) }, 4000)
+}
+
+function setBtnLoading(btn, loading) {
+  if (loading) {
+    btn.disabled = true
+    btn.dataset.original = btn.innerHTML
+    btn.innerHTML = '<span class="spinner"></span> טוען...'
+  } else {
+    btn.disabled = false
+    if (btn.dataset.original) btn.innerHTML = btn.dataset.original
+  }
+}
+
+function updateStatus(state) {
+  els.statPhase.textContent = state.phase || '—'
+  els.statConn.textContent = state.connection || '—'
+  const paired = state.paired === true
+  els.badge.textContent = paired ? 'מחובר' : (state.phase === 'pairing' ? 'מצמד' : 'מנותק')
+  els.badge.className = 'badge ' + (paired ? 'connected' : state.phase === 'pairing' ? 'pairing' : 'disconnected')
+  els.btnStart.disabled = paired || state.phase === 'connecting' || state.phase === 'pairing'
+  els.btnStop.disabled = !paired && state.phase !== 'pairing' && state.phase !== 'connecting'
+  els.btnRefreshGroups.disabled = !paired
+  els.btnMonitorAll.disabled = !paired
+  els.btnUnmonitorAll.disabled = !paired
+
+  if (state.phase === 'pairing' && currentQR) {
+    els.qrCard.classList.remove('hidden')
+  } else if (paired) {
+    els.qrCard.classList.add('hidden')
+  }
+}
+
+async function api(path, opts = {}) {
+  const headers = { 'content-type': 'application/json', ...(opts.headers || {}) }
+  const res = await fetch(API + path, { ...opts, headers, credentials: 'include' })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+  return data
+}
+
+async function loadStatus() {
+  try {
+    const data = await api('/api/status')
+    updateStatus(data)
+    els.statGroups.textContent = data.groupsCount || 0
+    els.statMessages.textContent = data.messages?.total || 0
+  } catch (e) {
+    console.error('status error', e)
+  }
+}
+
+async function loadGroups() {
+  try {
+    setBtnLoading(els.btnRefreshGroups, true)
+    const data = await api('/api/groups')
+    renderGroups(data.groups)
+    toast(`נטענו ${data.count} קבוצות`, 'success')
+  } catch (e) {
+    toast('שגיאה בטעינת קבוצות: ' + e.message, 'error')
+  } finally {
+    setBtnLoading(els.btnRefreshGroups, false)
+  }
+}
+
+function renderGroups(groups) {
+  if (!groups.length) {
+    els.groupsList.innerHTML = '<div class="empty">אין קבוצות — ודא שהחשבון מחובר</div>'
+    return
+  }
+  els.groupsList.innerHTML = groups.map(g => `
+    <div class="group-item" data-jid="${g.jid}">
+      <div class="group-info">
+        <div class="group-name">${escapeHtml(g.subject)}</div>
+        <div class="group-meta">${g.jid} · ${g.size} חברים</div>
+      </div>
+      <div class="group-actions">
+        <button class="btn btn-secondary btn-monitor" data-jid="${g.jid}" ${g.monitored ? 'disabled' : ''}>${g.monitored ? '✓ מנוטרת' : 'נטר'}</button>
+        <button class="btn btn-danger btn-unmonitor" data-jid="${g.jid}" ${!g.monitored ? 'disabled' : ''}>הפסק</button>
+      </div>
+    </div>
+  `).join('')
+
+  els.groupsList.querySelectorAll('.btn-monitor').forEach(btn => {
+    btn.onclick = () => monitorGroup(btn.dataset.jid, true)
+  })
+  els.groupsList.querySelectorAll('.btn-unmonitor').forEach(btn => {
+    btn.onclick = () => monitorGroup(btn.dataset.jid, false)
+  })
+}
+
+async function monitorGroup(jid, add) {
+  try {
+    await api(add ? '/api/groups/monitor' : '/api/groups/unmonitor', {
+      method: 'POST',
+      body: JSON.stringify({ jids: [jid] })
+    })
+    loadGroups()
+    toast(add ? 'הקבוצה נוספה לניטור' : 'הקבוצה הוסרה מהניטור', 'success')
+  } catch (e) {
+    toast('שגיאה: ' + e.message, 'error')
+  }
+}
+
+async function monitorAll(add) {
+  const jids = [...document.querySelectorAll('.group-item')].map(el => el.dataset.jid)
+  if (!jids.length) return
+  try {
+    await api(add ? '/api/groups/monitor' : '/api/groups/unmonitor', {
+      method: 'POST',
+      body: JSON.stringify({ jids })
+    })
+    loadGroups()
+    toast(add ? 'כל הקבוצות נוספו לניטור' : 'ניטור הופסק לכל הקבוצות', 'success')
+  } catch (e) {
+    toast('שגיאה: ' + e.message, 'error')
+  }
+}
+
+async function loadMessages() {
+  const jid = els.messagesList.dataset.currentJid
+  const q = els.msgSearch.value.trim()
+  const limit = Number(els.msgLimit.value) || 50
+  try {
+    setBtnLoading(els.btnLoadMessages, true)
+    const params = new URLSearchParams({ limit: String(limit) })
+    if (jid) params.set('jid', jid)
+    if (q) params.set('q', q)
+    const data = await api('/api/messages?' + params.toString())
+    renderMessages(data.messages, data.store)
+  } catch (e) {
+    toast('שגיאה בטעינת הודעות: ' + e.message, 'error')
+  } finally {
+    setBtnLoading(els.btnLoadMessages, false)
+  }
+}
+
+function renderMessages(messages, store) {
+  if (!messages.length) {
+    els.messagesList.innerHTML = '<div class="empty">אין הודעות תואמות</div>'
+    return
+  }
+  els.messagesList.innerHTML = messages.slice().reverse().map(m => `
+    <div class="msg-item ${isJobMessage(m) ? 'msg-job' : ''}" data-jid="${m.jid}">
+      <div class="msg-header">
+        <strong>${escapeHtml(m.jid || '—')}</strong>
+        <span>${formatTime(m.ts)}</span>
+        ${m.pushName ? `<span>${escapeHtml(m.pushName)}</span>` : ''}
+        ${m.fromMe ? '<span style="color:var(--primary)">📤 שלי</span>' : ''}
+        <span class="badge" style="background:rgba(59,130,246,0.15);color:var(--info)">${m.kind}</span>
+      </div>
+      <div class="msg-text">${escapeHtml(m.text || '(ללא טקסט)')}</div>
+      ${m.quoted ? `<div class="msg-text" style="color:var(--muted);border-top:1px solid var(--border);padding-top:8px;margin-top:8px;font-size:0.75rem">↳ מצוטט: ${escapeHtml(m.quoted)}</div>` : ''}
+    </div>
+  `).join('')
+}
+
+function isJobMessage(m) {
+  const text = (m.text || '').toLowerCase()
+  return ['devops','sre','platform','infrastructure','kubernetes','cloud','ci/cd','docker','ansible','jenkins','terraform','aws','gcp','azure','linux','sysadmin','build engineer','release engineer'].some(kw => text.includes(kw))
+}
+
+async function extractJobs() {
+  const jid = els.extractJid.value.trim()
+  const since = els.extractSince.value ? Number(els.extractSince.value) : undefined
+  const limit = Number(els.extractLimit.value) || 100
+  if (!jid) return toast('הכנס JID קבוצה', 'error')
+
+  try {
+    setBtnLoading(els.btnExtractJobs, true)
+    const data = await api('/api/scan/extract-jobs', {
+      method: 'POST',
+      body: JSON.stringify({ jid, since, limit })
+    })
+    renderExtractedJobs(data.jobs, jid)
+    toast(`נסרקו ${data.scanned} הודעות, נמצאו ${data.jobs.length} משרות`, 'success')
+  } catch (e) {
+    toast('שגיאה בחילוץ: ' + e.message, 'error')
+  } finally {
+    setBtnLoading(els.btnExtractJobs, false)
+  }
+}
+
+function renderExtractedJobs(jobs, jid) {
+  const container = els.extractedJobs
+  container.classList.remove('hidden')
+  if (!jobs.length) {
+    container.innerHTML = '<div class="empty">לא נמצאו משרות בהודעות אלו</div>'
+    return
+  }
+  container.innerHTML = `
+    <h3>נמצאו ${jobs.length} משרות בקבוצה ${escapeHtml(jid)}</h3>
+    <div class="msg-list">
+      ${jobs.map(job => `
+        <div class="msg-item msg-job">
+          <div class="msg-header">
+            <strong>${escapeHtml(job.title)}</strong>
+            <span class="badge" style="background:rgba(34,197,94,0.15);color:var(--primary)">Score: ${job.score.toFixed(2)}</span>
+            ${job.seniority ? `<span class="badge" style="background:rgba(245,158,11,0.15);color:var(--warning)">${job.seniority}</span>` : ''}
+          </div>
+          <div class="job-extracted">
+            <div class="job-field"><span class="label">חברה:</span><span>${escapeHtml(job.company || '—')}</span></div>
+            <div class="job-field"><span class="label">מיקום:</span><span>${escapeHtml(job.location || '—')}</span></div>
+            <div class="job-field"><span class="label">מילים:</span><span>${job.keywords.join(', ')}</span></div>
+            <div class="job-field"><span class="label">תיאור:</span><span>${escapeHtml(job.description.slice(0, 200))}...</span></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+
+function connectSSE() {
+  if (eventSource) eventSource.close()
+  eventSource = new EventSource('/api/events', { withCredentials: true })
+  eventSource.onmessage = e => {}
+  eventSource.addEventListener('state', e => { updateStatus(JSON.parse(e.data)) })
+  eventSource.addEventListener('status', e => { updateStatus(JSON.parse(e.data)) })
+  eventSource.addEventListener('qr', e => {
+    const data = JSON.parse(e.data)
+    currentQR = data
+    els.qrImage.src = data.dataUrl
+    els.qrSeq.textContent = data.seq
+    els.qrTime.textContent = new Date().toLocaleTimeString('he-IL')
+    els.qrCard.classList.remove('hidden')
+    toast('QR Code חדש — סרוק עם WhatsApp', 'info')
+  })
+  eventSource.addEventListener('connection', e => {
+    const data = JSON.parse(e.data)
+    updateStatus({ connection: data.connection, phase: data.connection === 'open' ? 'open' : 'connecting', paired: data.connection === 'open' })
+  })
+  eventSource.addEventListener('meta', e => {
+    const data = JSON.parse(e.data)
+    if (data.message) toast(data.message, 'info')
+  })
+  eventSource.addEventListener('groups', e => {
+    loadGroups()
+  })
+  eventSource.addEventListener('messages', e => {
+    if (document.getElementById('messagesList').dataset.currentJid) loadMessages()
+  })
+  eventSource.onerror = () => {
+    toast('נותק מהשרת — מנסה להתחבר מחדש...', 'error')
+    setTimeout(connectSSE, 3000)
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&','<':'<','>':'>','"':'"',"'":'''}[c]))
+}
+
+function formatTime(ts) {
+  if (!ts) return '—'
+  return new Date(ts).toLocaleString('he-IL', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
+// Event listeners
+els.btnStart.onclick = async () => {
+  try {
+    setBtnLoading(els.btnStart, true)
+    await api('/api/session/start', { method: 'POST' })
+    toast('התחברות התחילה', 'success')
+  } catch (e) { toast('שגיאה: ' + e.message, 'error') }
+  finally { setBtnLoading(els.btnStart, false) }
+}
+
+els.btnStop.onclick = async () => {
+  try {
+    setBtnLoading(els.btnStop, true)
+    await api('/api/session/stop', { method: 'POST' })
+    toast('נותק', 'success')
+    loadStatus()
+  } catch (e) { toast('שגיאה: ' + e.message, 'error') }
+  finally { setBtnLoading(els.btnStop, false) }
+}
+
+els.btnRefreshGroups.onclick = loadGroups
+els.btnMonitorAll.onclick = () => monitorAll(true)
+els.btnUnmonitorAll.onclick = () => monitorAll(false)
+els.btnLoadMessages.onclick = loadMessages
+els.btnExtractJobs.onclick = extractJobs
+
+els.btnJoinInvite.onclick = async () => {
+  const code = els.inviteInput.value.trim()
+  if (!code) return toast('הכנס קוד הזמנה', 'error')
+  try {
+    setBtnLoading(els.btnJoinInvite, true)
+    await api('/api/groups/join', { method: 'POST', body: JSON.stringify({ code }) })
+    toast('הצטרפת לקבוצה', 'success')
+    els.inviteInput.value = ''
+    loadGroups()
+  } catch (e) { toast('שגיאה: ' + e.message, 'error') }
+  finally { setBtnLoading(els.btnJoinInvite, false) }
+}
+
+els.msgSearch.addEventListener('keypress', e => { if (e.key === 'Enter') loadMessages() })
+
+// Click on message to load its group's messages
+document.addEventListener('click', e => {
+  const item = e.target.closest('.msg-item')
+  if (item && item.dataset.jid) {
+    els.messagesList.dataset.currentJid = item.dataset.jid
+    loadMessages()
+  }
+})
+
+// Init
+loadStatus()
+connectSSE()
+loadGroups()
+</script>
+</body>
+</html>

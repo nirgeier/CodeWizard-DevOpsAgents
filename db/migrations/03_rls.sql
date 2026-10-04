@@ -1,0 +1,13 @@
+alter table companies enable row level security;
+alter table people enable row level security;
+alter table signals enable row level security;
+alter table events enable row level security;
+alter table company_signals enable row level security;
+alter table person_signals enable row level security;
+alter table social_signals enable row level security;
+alter table scans enable row level security;
+alter table opportunities enable row level security;
+alter table outreach enable row level security;
+alter table digest_logs enable row level security;
+alter table settings enable row level security;
+alter table embeddings enable row level security;

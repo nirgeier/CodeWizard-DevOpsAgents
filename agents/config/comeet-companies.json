@@ -1,0 +1,14 @@
+{
+  "_comment": "Israeli companies whose careers run on Comeet. The public positions API (https://www.comeet.co/careers-api/2.0/company/{uid}/positions) needs a uid + a public token; both are embedded in each company's own public careers page, so they are not secrets. Add a company with: python3 Jobs/agents/scan_jobs.py --comeet-discover <hosted-job-url>",
+  "companies": [
+    { "name": "Island",          "uid": "09.00A", "token": "90A363C515A03F4601B1E2D32515A2D32",      "domain": "island.io",       "discover_from": "https://www.comeet.com/jobs/island/09.00A/senior-devops-engineer/EE.D33" },
+    { "name": "Incredibuild",    "uid": "66.00F", "token": "66F269A66F2D0966F39E7269A202B134D3378",  "domain": "incredibuild.com","discover_from": "https://www.comeet.com/jobs/incredibuild/66.00F/devops-engineer/BD.C6B" },
+    { "name": "Kela Technologies","uid": "2A.007","token": "A2747111E755B5F0513847114711A274711",    "domain": "kela.co.il",      "discover_from": "https://www.comeet.com/jobs/kelatechnologies/2A.007/senior-software-engineer-counter-intrusion/92.B69" },
+    { "name": "Guideline",       "uid": "89.009", "token": "98942BF98998939361C9B39361C9B2FAD989",   "domain": "guideline.co",    "discover_from": "https://www.comeet.com/jobs/guideline/89.009/full-stack-developer/94.274" },
+    { "name": "AutoBrains",      "uid": "57.004", "token": "7542BF815FC2BF8EA83AA024A42BF841F415FC",  "domain": "autobrains.ai",   "discover_from": "https://www.comeet.com/jobs/autobrains/57.004/senior-devops-engineer---solo-role-site-only/DF.078" },
+    { "name": "Senai",           "uid": "CA.004", "token": "AC44B5C40982B104B5C60E460E44098204C2B10",  "domain": "senai.io",        "discover_from": "https://www.comeet.com/jobs/senai/CA.004/platform--dev-ops-engineer---infrastructure--automation/AF.567" },
+    { "name": "Sola Security",   "uid": "A9.003", "token": "9A343759A343751CE91CE939D24D1813469A3",   "domain": "solasecurity.com","discover_from": "https://www.comeet.com/jobs/solasecurity/A9.003/senior-devops-engineer/49.561" },
+    { "name": "Onyx Security",   "uid": "BA.005", "token": "AB54AF3403E156A55A8605D156A2AD44AF3605D", "domain": "onyx.security",   "discover_from": "https://www.comeet.com/jobs/onyxsecurity/BA.005/senior-devops-engineer/97.76E" },
+    { "name": "Arbe Robotics",   "uid": "C6.001", "token": "6C12886D821B0414432886144328862F472F47",  "domain": "arberobotics.com","discover_from": "https://arberobotics.com/comeet/" }
+  ]
+}

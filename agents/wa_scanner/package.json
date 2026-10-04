@@ -1,0 +1,19 @@
+{
+  "name": "wa-job-scanner",
+  "version": "1.0.0",
+  "description": "WhatsApp job scanner using Baileys",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "echo \"no tests\" && exit 0"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.0",
+    "qrcode": "^1.5.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

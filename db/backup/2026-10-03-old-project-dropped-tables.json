@@ -1,0 +1,95 @@
+{
+  "note": "Backup of tables dropped from Supabase project CodeWizard (xnupezumwuufjfpnwmbj) on 2026-10-03. Schema: db/sales_schema.sql (schema_app.sql for the 8-table subset). To restore: re-run the schema DDL, then POST each array back to /rest/v1/<table>.",
+  "dropped_at": "2026-10-03",
+  "tables": {
+    "settings": [
+      {
+        "id": "1fd38aaa-5899-4c13-acc2-88efc84a9993",
+        "key": "icp",
+        "value": {
+          "personas": [
+            "cto",
+            "vp_rnd",
+            "vp_engineering",
+            "head_of_devops",
+            "head_of_platform",
+            "recruiter"
+          ],
+          "countries": [
+            "IL",
+            "US",
+            "GB",
+            "DE",
+            "NL",
+            "FR",
+            "CA",
+            "AU",
+            "SE"
+          ],
+          "use_cases": [
+            "cloud",
+            "platform",
+            "devops_transformation",
+            "devops_training",
+            "devops_placement"
+          ],
+          "company_sizes": [
+            "50-100",
+            "101-200",
+            "201-500"
+          ]
+        },
+        "description": "ICP defaults",
+        "created_at": "2026-10-03T06:39:57.735656+00:00",
+        "updated_at": "2026-10-03T10:28:06.201672+00:00"
+      },
+      {
+        "id": "244b7134-53f7-4083-b125-305c4086a0f6",
+        "key": "keywords",
+        "value": {
+          "hiring": [
+            "devops",
+            "platform engineer",
+            "sre",
+            "infrastructure",
+            "cloud engineer",
+            "system administrator"
+          ],
+          "market": [
+            "devops",
+            "platform engineering",
+            "kubernetes",
+            "aws",
+            "azure",
+            "gcp",
+            "cloud migration",
+            "sre",
+            "ci/cd",
+            "terraform",
+            "internal developer platform"
+          ]
+        },
+        "description": "Keywords",
+        "created_at": "2026-10-03T06:39:57.735656+00:00",
+        "updated_at": "2026-10-03T10:28:06.201672+00:00"
+      },
+      {
+        "id": "79994d0a-b3de-4ddd-9caf-62ea933e393a",
+        "key": "guardrails",
+        "value": {
+          "human_in_loop": true,
+          "min_confidence": 0.7,
+          "require_why_now": true,
+          "require_evidence": true,
+          "require_approval_before_outreach": true
+        },
+        "description": "Guardrails",
+        "created_at": "2026-10-03T06:39:57.735656+00:00",
+        "updated_at": "2026-10-03T10:28:06.201672+00:00"
+      }
+    ],
+    "outreach": [],
+    "digest_logs": [],
+    "embeddings": []
+  }
+}
