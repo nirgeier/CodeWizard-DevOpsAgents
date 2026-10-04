@@ -262,8 +262,7 @@ export default function AgentsPage() {
         </div>
       )}
 
-<<<<<<< HEAD
-      {/* WhatsApp Scanner Section */}
+
             <div className="source-card wa-border">
         <div className="source-header">
           <div className="source-info">

@@ -1,5 +1,4 @@
 import Link from "next/link";
-<<<<<<< HEAD
 import { listOpportunities } from "@/lib/db";
 import { ConfidenceBadge, StatusBadge } from "@/components/Badges";
 import { formatDate } from "@/lib/format";
@@ -13,7 +12,6 @@ const STATUSES = [
   "rejected",
   "contacted",
   "meeting",
-=======
 import { facet, pageOpportunities } from "@/lib/db";
 import { ConfidenceBadge, StatusBadge } from "@/components/Badges";
 import { formatDate } from "@/lib/format";
@@ -50,18 +48,15 @@ const STATUS_ORDER = [
   "contacted",
   "meeting",
   "rejected",
->>>>>>> origin/main
   "lost",
   "archived",
 ];
 
-<<<<<<< HEAD
 const CONFIDENCE_OPTIONS = [
   { value: "", label: "הכל" },
   { value: "0.80", label: "≥ 0.80" },
   { value: "0.70", label: "≥ 0.70" },
   { value: "0.65", label: "≥ 0.65" },
-=======
 const STATUS_LABELS: Record<string, string> = {
   new: "חדש",
   review: "לבדיקה",
@@ -78,13 +73,11 @@ const CONFIDENCE_OPTIONS = [
   { value: "0.70", label: "≥ 0.70" },
   { value: "0.65", label: "≥ 0.65" },
   { value: "0.50", label: "≥ 0.50" },
->>>>>>> origin/main
 ];
 
 export default async function OpportunitiesPage({
   searchParams,
 }: {
-<<<<<<< HEAD
   searchParams: Promise<{ status?: string; minConfidence?: string }>;
 }) {
   const sp = await searchParams;
@@ -185,7 +178,6 @@ export default async function OpportunitiesPage({
             </tbody>
           </table>
         </div>
-=======
   searchParams: Promise<RawParams>;
 }) {
   const params = parseListParams(await searchParams, SPEC);
@@ -340,7 +332,6 @@ export default async function OpportunitiesPage({
             unit="הזדמנויות"
           />
         </>
->>>>>>> origin/main
       )}
     </div>
   );

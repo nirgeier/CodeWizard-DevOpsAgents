@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 import { listPeople } from "@/lib/db";
 import { confidenceText, toNumber } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
-=======
 import { facet, pagePeople } from "@/lib/db";
 import { confidenceText, toNumber } from "@/lib/format";
 import {
@@ -30,7 +28,6 @@ const SPEC: ListParamsSpec = {
 };
 
 const DEFAULTS = { defaultSort: SPEC.defaultSort, defaultDir: SPEC.defaultDir };
->>>>>>> origin/main
 
 function relevanceClass(value: unknown): string {
   const v = toNumber(value);
@@ -40,7 +37,6 @@ function relevanceClass(value: unknown): string {
   return "conf-grey";
 }
 
-<<<<<<< HEAD
 export default async function PeoplePage() {
   const items = await listPeople({ limit: 500 });
 
@@ -107,7 +103,6 @@ export default async function PeoplePage() {
             </tbody>
           </table>
         </div>
-=======
 export default async function PeoplePage({
   searchParams,
 }: {
@@ -272,7 +267,6 @@ export default async function PeoplePage({
             unit="אנשי קשר"
           />
         </>
->>>>>>> origin/main
       )}
     </div>
   );

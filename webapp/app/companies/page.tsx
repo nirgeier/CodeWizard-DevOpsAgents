@@ -2,8 +2,6 @@ import { listCompanies } from "@/lib/db";
 import { Chips } from "@/components/Badges";
 import { formatDate } from "@/lib/format";
 import { ScanButton } from "@/components/ScanButton";
-<<<<<<< HEAD
-=======
 import { applyListing, type ListingSpec } from "@/lib/listing";
 import {
   hasActiveFilters,
@@ -29,7 +27,6 @@ const SPEC: ListParamsSpec = {
 };
 
 const DEFAULTS = { defaultSort: SPEC.defaultSort, defaultDir: SPEC.defaultDir };
->>>>>>> origin/main
 
 interface ComeetCompany {
   id: string;
@@ -41,8 +38,6 @@ interface ComeetCompany {
   source: "comeet";
 }
 
-<<<<<<< HEAD
-=======
 /** A database row, a Comeet config entry, or one reconciled from both. */
 interface MergedCompany {
   id: string;
@@ -65,12 +60,10 @@ interface MergedCompany {
   country: string;
 }
 
->>>>>>> origin/main
 async function getComeetCompanies(): Promise<ComeetCompany[]> {
   const fs = await import("node:fs");
   const path = await import("node:path");
   const WEBAPP_DIR = process.cwd();
-<<<<<<< HEAD
   
   function firstExisting(candidates: string[], fallback: string): string {
     for (const c of candidates) {
@@ -98,7 +91,6 @@ async function getComeetCompanies(): Promise<ComeetCompany[]> {
       discover_from: c.discover_from,
       source: "comeet" as const,
     }));
-=======
 
   function firstExisting(candidates: string[], fallback: string): string {
     for (const c of candidates) {
@@ -135,13 +127,11 @@ async function getComeetCompanies(): Promise<ComeetCompany[]> {
         source: "comeet",
       }),
     );
->>>>>>> origin/main
   } catch {
     return [];
   }
 }
 
-<<<<<<< HEAD
 export const dynamic = "force-dynamic";
 
 export default async function CompaniesPage() {
@@ -160,7 +150,6 @@ export default async function CompaniesPage() {
   }
   
   // Then add/merge Comeet companies
-=======
 /**
  * The listing spec for the merged set.
  *
@@ -217,15 +206,11 @@ export default async function CompaniesPage({
     });
   }
 
->>>>>>> origin/main
   for (const c of comeetCompanies) {
     const key = `${c.name.toLowerCase()}|${(c.domain || "").toLowerCase()}`;
     const existing = mergedMap.get(key);
     if (existing) {
-<<<<<<< HEAD
       // Merge: add Comeet info to existing DB company
-=======
->>>>>>> origin/main
       mergedMap.set(key, {
         ...existing,
         comeet_uid: c.uid,
@@ -234,10 +219,7 @@ export default async function CompaniesPage({
         hasComeet: true,
       });
     } else {
-<<<<<<< HEAD
       // New company only in Comeet
-=======
->>>>>>> origin/main
       mergedMap.set(key, {
         id: c.id,
         name: c.name,
@@ -249,13 +231,11 @@ export default async function CompaniesPage({
         comeet_token: c.token,
         comeet_discover_from: c.discover_from,
         score: 0,
-<<<<<<< HEAD
         devops_hiring_count: 0,
         devops_hiring: false,
         tech_stack: [],
         last_seen_at: null,
         service: "Comeet",
-=======
         devops_hiring: false,
         devops_hiring_count: 0,
         tech_stack: [],
@@ -264,12 +244,10 @@ export default async function CompaniesPage({
         industry: "",
         hq_city: "",
         country: "",
->>>>>>> origin/main
       });
     }
   }
 
-<<<<<<< HEAD
   const mergedCompanies = Array.from(mergedMap.values()).sort((a, b) => 
     (b.score ?? 0) - (a.score ?? 0)
   );
@@ -361,7 +339,6 @@ export default async function CompaniesPage({
     </div>
   );
 }
-=======
   const merged = [...mergedMap.values()];
 
   const sourceFilter = params.filters.source ?? "";
@@ -571,4 +548,3 @@ export default async function CompaniesPage({
     </div>
   );
 }
->>>>>>> origin/main

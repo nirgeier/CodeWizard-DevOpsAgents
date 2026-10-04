@@ -205,8 +205,6 @@ export interface ListJobsArgs {
   minScore?: number | null;
   limit?: number | null;
 }
-<<<<<<< HEAD
-=======
 
 // ---------------------------------------------------------------------------
 // Paged list API
@@ -241,4 +239,3 @@ export interface FacetOption {
   value: string;
   count: number;
 }
->>>>>>> origin/main

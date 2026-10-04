@@ -1,6 +1,5 @@
 "use client";
 
-<<<<<<< HEAD
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,18 +12,15 @@ const NAV = [
   { href: "/people", label: "אנשי קשר" },
   { href: "/scans", label: "סריקות" },
 ];
-=======
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { isActive, NAV_GROUPS } from "@/lib/nav";
->>>>>>> origin/main
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-<<<<<<< HEAD
     <aside className="sidebar">
       <div className="brand">
         <div className="logo">
@@ -52,7 +48,6 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-=======
     <aside className="sidebar" id="app-nav">
       <div className="brand">
         <Link href="/" className="brand-link" aria-label="CodeWizard — לוח בקרה">
@@ -99,14 +94,10 @@ export default function Sidebar() {
         <div className="sidebar-hint">
           <kbd>/</kbd> לחיפוש בטבלה
         </div>
->>>>>>> origin/main
         <div style={{ marginTop: 10 }}>CodeWizard – מנוע הזדמנויות</div>
         <div>Internal tool · v1.0</div>
       </div>
     </aside>
   );
-<<<<<<< HEAD
 }
-=======
 }
->>>>>>> origin/main

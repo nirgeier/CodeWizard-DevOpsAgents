@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 import { listSignals } from "@/lib/db";
 import { TypeBadge } from "@/components/Badges";
 import { formatDateTime } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
-=======
 import { facet, pageSignals } from "@/lib/db";
 import { TypeBadge } from "@/components/Badges";
 import { formatDateTime } from "@/lib/format";
@@ -40,12 +38,10 @@ const SORT_CHOICES = [
   { value: "company_name:asc", label: "חברה (א־ת)" },
   { value: "type:asc", label: "סוג איתות" },
 ];
->>>>>>> origin/main
 
 export default async function SignalsPage({
   searchParams,
 }: {
-<<<<<<< HEAD
   searchParams: Promise<{ type?: string }>;
 }) {
   const sp = await searchParams;
@@ -124,7 +120,6 @@ export default async function SignalsPage({
             </article>
           ))}
         </div>
-=======
   searchParams: Promise<RawParams>;
 }) {
   const params = parseListParams(await searchParams, SPEC);
@@ -242,7 +237,6 @@ export default async function SignalsPage({
             unit="איתותים"
           />
         </>
->>>>>>> origin/main
       )}
     </div>
   );

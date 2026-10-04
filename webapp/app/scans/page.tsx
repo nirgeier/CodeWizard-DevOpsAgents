@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { listScans } from "@/lib/db";
 import { formatDateTime } from "@/lib/format";
 
@@ -59,7 +58,6 @@ export default async function ScansPage() {
             </tbody>
           </table>
         </div>
-=======
 import { facet, pageScans } from "@/lib/db";
 import { formatDateTime } from "@/lib/format";
 import {
@@ -246,7 +244,6 @@ export default async function ScansPage({
             unit="סריקות"
           />
         </>
->>>>>>> origin/main
       )}
     </div>
   );

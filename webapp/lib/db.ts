@@ -6,27 +6,18 @@
 
 import fs from "node:fs";
 import path from "node:path";
-<<<<<<< HEAD
-=======
 import { applyListing, type ListingSpec } from "./listing";
->>>>>>> origin/main
 import type {
   Company,
   DataMode,
   DevOpsJob,
-<<<<<<< HEAD
-=======
   FacetOption,
->>>>>>> origin/main
   ListJobsArgs,
   ListOpportunitiesArgs,
   Opportunity,
   OpportunityPatch,
-<<<<<<< HEAD
-=======
   Paged,
   PageQuery,
->>>>>>> origin/main
   Person,
   Scan,
   Signal,
@@ -333,8 +324,6 @@ export async function listScans({
 }
 
 // DevOps Jobs
-<<<<<<< HEAD
-=======
 export interface SaveJobsResult {
   mode: DataMode;
   inserted: number;
@@ -415,7 +404,6 @@ export async function saveJobs(
   };
 }
 
->>>>>>> origin/main
 export async function listJobs({
   source,
   company,
@@ -504,14 +492,10 @@ export async function updateOpportunity(
   };
   items[idx] = updated;
   return updated;
-<<<<<<< HEAD
-=======
 }
 
-// ===========================================================================
-// Paged list API
-// ===========================================================================
-//
+// ====================================================================// Paged list API
+// ====================================================================//
 // The `list*` functions above return a capped array and leave filtering to the
 // caller. That is fine for a dashboard widget but wrong for a list view: the
 // page needs the *total* matching count to render "26-50 of 312", and it must
@@ -890,5 +874,4 @@ export async function facet(
   return [...counts.entries()]
     .map(([value, count]) => ({ value, count }))
     .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value, "he"));
->>>>>>> origin/main
 }
