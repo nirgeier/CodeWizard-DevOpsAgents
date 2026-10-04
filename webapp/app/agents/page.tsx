@@ -262,7 +262,8 @@ export default function AgentsPage() {
         </div>
       )}
 
-      <div className="source-card wa-border">
+
+            <div className="source-card wa-border">
         <div className="source-header">
           <div className="source-info">
             <h3 className="source-name">WhatsApp</h3>

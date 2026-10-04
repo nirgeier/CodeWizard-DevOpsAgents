@@ -17,6 +17,7 @@ const nextConfig = {
   // from node_modules at runtime - the WhatsApp session now lives inside the
   // Next server process (see lib/whatsapp/session.ts).
   serverExternalPackages: ['@whiskeysockets/baileys', 'qrcode'],
+
 };
 
 export default nextConfig;

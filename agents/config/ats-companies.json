@@ -1,4 +1,20 @@
 {
+  "_comment": "Israeli employers whose jobs are readable from a public, unauthenticated ATS JSON API - the employer's own postings, with full descriptions, so the classifier sees the real stack. Every row here was confirmed live on the date below: the board answered and returned at least one posting, and `israel_jobs` counts how many of those are in Israel. Regenerate with `python3 agents/scripts/discover_ats_companies.py`, which re-probes the roster in agents/scripts/candidates_israel.txt. The wider list of Israeli DevOps employers - including the ones with no public ATS, such as Elbit, Rafael and the banks - lives in agents/config/israel-companies.json.",
+  "_generated_by": "agents/scripts/discover_ats_companies.py",
+  "_verified_at": "2026-10-04",
+  "companies": [
+    {
+      "name": "accessiBe",
+      "slug": "accessibe",
+      "domain": "accessibe.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 2,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
   "_comment": "Israeli tech companies that publish jobs on a public ATS. Each provider is a documented unauthenticated JSON API (no key, no login, no HTML scraping), so these rows are the employer's own postings with full descriptions. Add a company by probing its ATS slug: python3 agents/scan_jobs.py --ats-probe <slug>. Only providers returning >0 jobs are listed; the scanner skips the rest. `slug` is the ATS board identifier, not always the domain.",
   "companies": [
     {
@@ -64,6 +80,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Apiiro",
@@ -71,6 +88,12 @@
       "domain": "apiiro.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 6,
+      "israel_jobs": 4,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -88,6 +111,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "AppsFlyer",
@@ -95,6 +119,12 @@
       "domain": "appsflyer.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 46,
+      "israel_jobs": 13,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -120,6 +150,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Armis",
@@ -127,6 +158,51 @@
       "domain": "armis.com",
       "providers": [
         "smartrecruiters"
+      ],
+      "jobs": 2,
+      "israel_jobs": 2,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
+      "name": "Atera",
+      "slug": "atera",
+      "domain": "atera.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 7,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Augury",
+      "slug": "augury",
+      "domain": "augury.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 12,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Axonius",
+      "slug": "axonius",
+      "domain": "axonius.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 22,
+      "israel_jobs": 7,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
       ]
     },
     {
@@ -224,6 +300,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "BigID",
@@ -231,6 +308,77 @@
       "domain": "bigid.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 6,
+      "israel_jobs": 0,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "BioCatch",
+      "slug": "biocatch",
+      "domain": "biocatch.com",
+      "providers": [
+        "lever"
+      ],
+      "jobs": 13,
+      "israel_jobs": 5,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
+      "name": "Bringg",
+      "slug": "bringg",
+      "domain": "bringg.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 2,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Capitolis",
+      "slug": "capitolis",
+      "domain": "capitolis.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 1,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Cato Networks",
+      "slug": "catonetworks",
+      "domain": "catonetworks.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 92,
+      "israel_jobs": 34,
+      "devops_jobs": 3,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Cloudflare Israel",
+      "slug": "cloudflare",
+      "domain": "cloudflare.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 405,
+      "israel_jobs": 0,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
     },
     {
@@ -352,6 +500,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Cloudinary",
@@ -359,6 +508,25 @@
       "domain": "cloudinary.com",
       "providers": [
         "lever"
+      ],
+      "jobs": 8,
+      "israel_jobs": 5,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Coinbase Israel",
+      "slug": "coinbase",
+      "domain": "coinbase.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 229,
+      "israel_jobs": 1,
+      "devops_jobs": 4,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -400,6 +568,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "CoinMama",
@@ -407,13 +576,95 @@
       "domain": "coinmama.com",
       "providers": [
         "smartrecruiters"
+      ],
+      "jobs": 2,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Confluent Israel",
       "slug": "confluent",
       "domain": "confluent.io",
       "providers": [
+        "ashby"
+      ],
+      "jobs": 17,
+      "israel_jobs": 0,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Connecteam",
+      "slug": "connecteam",
+      "domain": "connecteam.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 65,
+      "israel_jobs": 20,
+      "devops_jobs": 4,
+      "devops_israel_jobs": 4,
+      "israel_verified": true
+    },
+    {
+      "name": "Cortica",
+      "slug": "cortica",
+      "domain": "cortica.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 60,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Cybereason",
+      "slug": "cybereason",
+      "domain": "cybereason.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 5,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Cymulate",
+      "slug": "cymulate",
+      "domain": "cymulate.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 15,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Databand",
+      "slug": "databand",
+      "domain": "databand.ai",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 1,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Databricks Israel",
         "greenhouse"
       ]
     },
@@ -483,10 +734,43 @@
     },
     {
       "name": "DataBricks Israel",
+>>>>>>> origin/main
       "slug": "databricks",
       "domain": "databricks.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 886,
+      "israel_jobs": 1,
+      "devops_jobs": 4,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Datadog Israel",
+      "slug": "datadog",
+      "domain": "datadoghq.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 444,
+      "israel_jobs": 1,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Descope",
+      "slug": "descope",
+      "domain": "descope.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 5,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -568,6 +852,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Elastic Israel",
@@ -575,7 +860,14 @@
       "domain": "elastic.co",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 392,
+      "israel_jobs": 5,
+      "devops_jobs": 17,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Electreon",
@@ -583,6 +875,51 @@
       "domain": "electreon.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 7,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Eleos Health",
+      "slug": "eleoshealth",
+      "domain": "eleos.health",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 16,
+      "israel_jobs": 8,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Figma Israel",
+      "slug": "figma",
+      "domain": "figma.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 162,
+      "israel_jobs": 1,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Finout",
+      "slug": "finout",
+      "domain": "finout.io",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 15,
+      "israel_jobs": 5,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -616,6 +953,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Fireblocks",
@@ -623,6 +961,12 @@
       "domain": "fireblocks.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 32,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -632,6 +976,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Fiverr",
@@ -639,6 +984,38 @@
       "domain": "fiverr.com",
       "providers": [
         "smartrecruiters"
+      ],
+      "jobs": 3,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Forter",
+      "slug": "forter",
+      "domain": "forter.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 26,
+      "israel_jobs": 6,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "General Robotics",
+      "slug": "generalrobotics",
+      "domain": "glrobotics.com",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 13,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
     },
     {
@@ -720,6 +1097,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "GitLab Israel",
@@ -727,7 +1105,27 @@
       "domain": "gitlab.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 211,
+      "israel_jobs": 8,
+      "devops_jobs": 10,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Gloat",
+      "slug": "gloat",
+      "domain": "gloat.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 7,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Gong",
@@ -735,6 +1133,90 @@
       "domain": "gong.io",
       "providers": [
         "smartrecruiters"
+      ],
+      "jobs": 9,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Grafana Labs Israel",
+      "slug": "grafanalabs",
+      "domain": "grafana.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 121,
+      "israel_jobs": 1,
+      "devops_jobs": 5,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Guardz",
+      "slug": "guardz",
+      "domain": "guardz.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 2,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Hello Heart",
+      "slug": "helloheart",
+      "domain": "helloheart.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 16,
+      "israel_jobs": 6,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "HiBob",
+      "slug": "hibob",
+      "domain": "hibob.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 1,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "HoneyBook",
+      "slug": "honeybook",
+      "domain": "honeybook.com",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 9,
+      "israel_jobs": 6,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Honeycomb Insurance",
+      "slug": "honeycombinsurance",
+      "domain": "honeycombinsurance.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 13,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -824,6 +1306,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "HP Israel",
@@ -831,6 +1314,38 @@
       "domain": "hp.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 3,
+      "israel_jobs": 0,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Innovid",
+      "slug": "innovid",
+      "domain": "innovid.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 7,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Island",
+      "slug": "island",
+      "domain": "island.io",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 6,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -960,6 +1475,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "JFrog",
@@ -967,6 +1483,25 @@
       "domain": "jfrog.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 61,
+      "israel_jobs": 22,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Joonko",
+      "slug": "joonko",
+      "domain": "joonko.io",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 42,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
     },
     {
@@ -1072,6 +1607,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Lemonade",
@@ -1079,6 +1615,51 @@
       "domain": "lemonade.com",
       "providers": [
         "ashby"
+      ],
+      "jobs": 41,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Lendbuzz",
+      "slug": "lendbuzz",
+      "domain": "lendbuzz.com",
+      "providers": [
+        "lever"
+      ],
+      "jobs": 57,
+      "israel_jobs": 4,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 2,
+      "israel_verified": true
+    },
+    {
+      "name": "Lightrun",
+      "slug": "lightrun",
+      "domain": "lightrun.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 1,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Lyft Israel",
+      "slug": "lyft",
+      "domain": "lyft.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 192,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
     },
     {
@@ -1160,6 +1741,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Melio",
@@ -1167,6 +1749,12 @@
       "domain": "melio.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 21,
+      "israel_jobs": 8,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1232,6 +1820,7 @@
       "providers": [
         "workable"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "MongoDB Israel",
@@ -1239,7 +1828,14 @@
       "domain": "mongodb.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 390,
+      "israel_jobs": 6,
+      "devops_jobs": 17,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Moon Active",
@@ -1247,6 +1843,12 @@
       "domain": "moonactive.com",
       "providers": [
         "ashby"
+      ],
+      "jobs": 36,
+      "israel_jobs": 26,
+      "devops_jobs": 5,
+      "devops_israel_jobs": 2,
+      "israel_verified": true
       ]
     },
     {
@@ -1256,6 +1858,7 @@
       "providers": [
         "lever"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "MyHeritage",
@@ -1263,6 +1866,12 @@
       "domain": "myheritage.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 5,
+      "israel_jobs": 5,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1272,6 +1881,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Nanit",
@@ -1279,6 +1889,80 @@
       "domain": "nanit.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 7,
+      "israel_jobs": 3,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Ness Technologies",
+      "slug": "nesstechnologies",
+      "domain": "ness-tech.co.il",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 1,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Nexxen",
+      "slug": "nexxen",
+      "domain": "nexxen.com",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 28,
+      "israel_jobs": 6,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "NICE",
+      "slug": "nice",
+      "domain": "nice.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 180,
+      "israel_jobs": 20,
+      "devops_jobs": 13,
+      "devops_israel_jobs": 3,
+      "israel_verified": true
+    },
+    {
+      "name": "Nintex Israel",
+      "slug": "nintex",
+      "domain": "nintex.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 12,
+      "israel_jobs": 0,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Novidea",
+      "slug": "novidea",
+      "domain": "novidea.com",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 1,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Okta Israel",
       ]
     },
     {
@@ -1387,10 +2071,30 @@
     },
     {
       "name": "Okta",
+>>>>>>> origin/main
       "slug": "okta",
       "domain": "okta.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 368,
+      "israel_jobs": 1,
+      "devops_jobs": 26,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Optimove",
+      "slug": "optimove",
+      "domain": "optimove.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 18,
+      "israel_jobs": 4,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
       ]
     },
     {
@@ -1424,6 +2128,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Orca Security",
@@ -1431,6 +2136,12 @@
       "domain": "orca.security",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 10,
+      "israel_jobs": 2,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1472,6 +2183,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Pagaya",
@@ -1479,6 +2191,12 @@
       "domain": "pagaya.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 15,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
     },
     {
@@ -1488,6 +2206,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Payoneer",
@@ -1495,6 +2214,28 @@
       "domain": "payoneer.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 107,
+      "israel_jobs": 25,
+      "devops_jobs": 3,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
+      "name": "Pinecone",
+      "slug": "pinecone",
+      "domain": "pinecone.io",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 5,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Ping Identity Israel",
       ]
     },
     {
@@ -1523,10 +2264,69 @@
     },
     {
       "name": "Ping Identity",
+>>>>>>> origin/main
       "slug": "pingidentity",
       "domain": "pingidentity.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 65,
+      "israel_jobs": 0,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Playtech",
+      "slug": "playtech",
+      "domain": "playtech.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 100,
+      "israel_jobs": 0,
+      "devops_jobs": 3,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Raven",
+      "slug": "raven",
+      "domain": "raven.io",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 2,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Redis",
+      "slug": "redis",
+      "domain": "redis.com",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 32,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Riseup",
+      "slug": "riseup",
+      "domain": "riseup.co.il",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 6,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
       ]
     },
     {
@@ -1672,6 +2472,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Riskified",
@@ -1679,6 +2480,25 @@
       "domain": "riskified.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 27,
+      "israel_jobs": 8,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "SafeBreach",
+      "slug": "safebreach",
+      "domain": "safebreach.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 8,
+      "israel_jobs": 4,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1688,6 +2508,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Salt Security",
@@ -1695,6 +2516,51 @@
       "domain": "salt.security",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 13,
+      "israel_jobs": 6,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
+      "name": "Scopely Israel",
+      "slug": "scopely",
+      "domain": "scopely.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 168,
+      "israel_jobs": 2,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Sentra",
+      "slug": "sentra",
+      "domain": "sentra.io",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 3,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "ServiceNow Israel",
+      "slug": "servicenow",
+      "domain": "servicenow.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 100,
+      "israel_jobs": 1,
+      "devops_jobs": 4,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1776,6 +2642,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Similarweb",
@@ -1783,6 +2650,38 @@
       "domain": "similarweb.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 67,
+      "israel_jobs": 26,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 2,
+      "israel_verified": true
+    },
+    {
+      "name": "Simply",
+      "slug": "simply",
+      "domain": "hellosimply.com",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 5,
+      "israel_jobs": 4,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Singular",
+      "slug": "singular",
+      "domain": "singular.net",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 15,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1800,12 +2699,20 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Sisense",
       "slug": "sisense",
       "domain": "sisense.com",
       "providers": [
+        "ashby"
+      ],
+      "jobs": 6,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
         "greenhouse"
       ]
     },
@@ -1816,14 +2723,23 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Snowflake Israel",
       "slug": "snowflake",
       "domain": "snowflake.com",
       "providers": [
+        "ashby"
+      ],
+      "jobs": 348,
+      "israel_jobs": 1,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Snyk",
@@ -1831,6 +2747,64 @@
       "domain": "snyk.io",
       "providers": [
         "ashby"
+      ],
+      "jobs": 13,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Soft2Bet",
+      "slug": "soft2bet",
+      "domain": "soft2bet.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 15,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Stripe Israel",
+      "slug": "stripe",
+      "domain": "stripe.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 716,
+      "israel_jobs": 3,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Sweep",
+      "slug": "sweep",
+      "domain": "sweep.io",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 7,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Sweet Security",
+      "slug": "sweetsecurity",
+      "domain": "sweet.security",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 2,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
       ]
     },
     {
@@ -1944,6 +2918,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Taboola",
@@ -1951,6 +2926,64 @@
       "domain": "taboola.com",
       "providers": [
         "greenhouse"
+      ],
+      "jobs": 83,
+      "israel_jobs": 22,
+      "devops_jobs": 5,
+      "devops_israel_jobs": 5,
+      "israel_verified": true
+    },
+    {
+      "name": "Token Security",
+      "slug": "tokensecurity",
+      "domain": "token.security",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 7,
+      "israel_jobs": 5,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
+      "name": "Torii",
+      "slug": "toriihq",
+      "domain": "toriihq.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 1,
+      "israel_jobs": 1,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Torq",
+      "slug": "torq",
+      "domain": "torq.io",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 27,
+      "israel_jobs": 7,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Transmit Security",
+      "slug": "transmitsecurity",
+      "domain": "transmitsecurity.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 16,
+      "israel_jobs": 14,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
       ]
     },
     {
@@ -2024,10 +3057,72 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "Trigo",
       "slug": "trigo",
+      "domain": "trigoretail.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 100,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Twilio Israel",
+      "slug": "twilio",
+      "domain": "twilio.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 125,
+      "israel_jobs": 0,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Uber Israel",
+      "slug": "uber",
+      "domain": "uber.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 1,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Unit",
+      "slug": "unit",
+      "domain": "unit.co",
+      "providers": [
+        "ashby"
+      ],
+      "jobs": 3,
+      "israel_jobs": 2,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Via",
+      "slug": "via",
+      "domain": "ridewithvia.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 169,
+      "israel_jobs": 12,
+      "devops_jobs": 4,
+      "devops_israel_jobs": 3,
+      "israel_verified": true
       "domain": "trigo.ai",
       "providers": [
         "greenhouse"
@@ -2104,6 +3199,7 @@
       "providers": [
         "greenhouse"
       ]
+>>>>>>> origin/main
     },
     {
       "name": "WalkMe",
@@ -2111,6 +3207,67 @@
       "domain": "walkme.com",
       "providers": [
         "lever"
+      ],
+      "jobs": 22,
+      "israel_jobs": 5,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "Western Digital Israel",
+      "slug": "westerndigital",
+      "domain": "westerndigital.com",
+      "providers": [
+        "smartrecruiters"
+      ],
+      "jobs": 100,
+      "israel_jobs": 0,
+      "devops_jobs": 0,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Yotpo",
+      "slug": "yotpo",
+      "domain": "yotpo.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 15,
+      "israel_jobs": 5,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    },
+    {
+      "name": "ZoomInfo Israel",
+      "slug": "zoominfo",
+      "domain": "zoominfo.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 95,
+      "israel_jobs": 0,
+      "devops_jobs": 1,
+      "devops_israel_jobs": 0,
+      "israel_verified": false
+    },
+    {
+      "name": "Zscaler Israel",
+      "slug": "zscaler",
+      "domain": "zscaler.com",
+      "providers": [
+        "greenhouse"
+      ],
+      "jobs": 364,
+      "israel_jobs": 4,
+      "devops_jobs": 15,
+      "devops_israel_jobs": 0,
+      "israel_verified": true
+    }
+  ]
+}
       ]
     },
     {
@@ -2219,3 +3376,4 @@
     }
   ]
 }
+>>>>>>> origin/main

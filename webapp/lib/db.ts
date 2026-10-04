@@ -494,10 +494,8 @@ export async function updateOpportunity(
   return updated;
 }
 
-// ===========================================================================
-// Paged list API
-// ===========================================================================
-//
+// ====================================================================// Paged list API
+// ====================================================================//
 // The `list*` functions above return a capped array and leave filtering to the
 // caller. That is fine for a dashboard widget but wrong for a list view: the
 // page needs the *total* matching count to render "26-50 of 312", and it must

@@ -13,6 +13,14 @@ __pycache__/
 *.pem
 *.key
 
+# WhatsApp Baileys session: the account's own credentials (creds.json holds
+# advSecretKey + the registered account id) plus every captured message.
+# webapp/.gitignore already covers it, but that rule only applies to that one
+# directory - a stale pre-rename copy of the app (webapp -> web) is exactly how
+# ~5,400 of these files got staged and nearly committed. Ignored at the repo
+# root, without a leading slash, so it matches at any depth.
+.wa-session/
+
 # ── Build outputs ──────────────────────────────────────────────
 .next/
 out/

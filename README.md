@@ -71,6 +71,7 @@ It reads from `./data/*.json` and caches in memory. Writes (status updates) are 
 includes the WhatsApp scanner: it extracts jobs and shows them, but reports them
 as unsaved. Set real Supabase credentials to get persistence.
 
+>>>>>>> origin/main
 ### Switching to Supabase Mode
 1. Copy `webapp/.env.example` to `webapp/.env.local` and add real credentials
 2. Copy `agents/.env.example` to `agents/.env` and add real credentials
@@ -132,3 +133,4 @@ Baileys is pinned to **6.17.16** with a `patch-package` patch applied on
 `postinstall`. WhatsApp changed its protocol in 2026-07; without the patch,
 pairing and message decryption break. Keep both the version and the patch in
 sync if you ever bump it.
+>>>>>>> origin/main
