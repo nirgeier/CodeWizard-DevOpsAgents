@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,8 +10,10 @@ const nextConfig = {
   // Next.js 16 auto-generates AGENTS.md/CLAUDE.md for AI agents; not wanted here.
   agentRules: false,
   turbopack: {
-    root: __dirname,
+    // The db abstraction layer lives in ../db/ts (git submodule), one level up.
+    root: resolve(__dirname, ".."),
   },
+  transpilePackages: ["@codewizard/devopsagents-db"],
   // Baileys is CommonJS, ships its own generated protobuf modules and reaches for
   // native crypto helpers. Keep it out of the server bundle so Node resolves it
   // from node_modules at runtime - the WhatsApp session now lives inside the

@@ -1,15 +1,28 @@
 // Server-only data layer for the CodeWizard Jobs Intelligence webapp.
-// Two backends:
-//   * "supabase" - REST calls against SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY
+//
+// All storage goes through the abstraction in @codewizard/devopsagents-db
+// (db/ts submodule). Three backends are supported, chosen either by the
+// STORAGE_MODE / DB_MODE env vars or by the persisted `storage_mode`
+// setting (Settings page):
+//
+//   * "supabase" - PostgREST against SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY
+//   * "postgres" - local or remote Postgres via DATABASE_URL
 //   * "local"    - JSON files under <repo>/data
-// The app auto-detects which one to use at runtime, but the UI never shows it.
+//
+// The UI never shows which one is active.
 
 import fs from "node:fs";
 import path from "node:path";
-import { applyListing, type ListingSpec } from "./listing";
+import {
+  createBackend,
+  normalizeMode,
+  type DataMode,
+  type DbBackend,
+  type QuerySpec,
+} from "@codewizard/devopsagents-db";
+import type { ListingSpec } from "./listing";
 import type {
   Company,
-  DataMode,
   DevOpsJob,
   FacetOption,
   ListJobsArgs,
@@ -90,32 +103,83 @@ const SUPABASE_URL = (process.env.SUPABASE_URL || fileEnv.SUPABASE_URL || "").re
 );
 const SUPABASE_KEY =
   process.env.SUPABASE_PUBLISHABLE_KEY || fileEnv.SUPABASE_PUBLISHABLE_KEY || "";
+const POSTGRES_URL =
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL ||
+  fileEnv.DATABASE_URL ||
+  fileEnv.POSTGRES_URL ||
+  "";
 
 // ---------------------------------------------------------------------------
 // Mode detection (cached)
 // ---------------------------------------------------------------------------
 
 let modePromise: Promise<DataMode> | null = null;
+let backendPromise: Promise<DbBackend> | null = null;
 
-function supabaseHeaders(): Record<string, string> {
-  return {
-    apikey: SUPABASE_KEY,
-    Authorization: `Bearer ${SUPABASE_KEY}`,
-    Accept: "application/json",
-  };
+/** The `storage_mode` setting, read straight from the local file so the
+ * choice survives restarts no matter which backend is active. */
+function readPersistedMode(): DataMode | null {
+  try {
+    const raw = fs.readFileSync(path.join(DATA_DIR, "settings.json"), "utf8");
+    const parsed = JSON.parse(raw);
+    const items: Array<{ key?: string; value?: unknown }> = Array.isArray(parsed)
+      ? parsed
+      : parsed?.items ?? [];
+    const row = items.find((s) => s.key === "storage_mode");
+    const value = row?.value as { mode?: string; storage_mode?: string } | string | undefined;
+    const rawMode =
+      typeof value === "string" ? value : value?.mode ?? value?.storage_mode ?? null;
+    return normalizeMode(rawMode);
+  } catch {
+    return null;
+  }
+}
+
+async function probe(mode: DataMode): Promise<boolean> {
+  try {
+    if (mode === "supabase") {
+      if (!SUPABASE_URL || !SUPABASE_KEY) return false;
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/opportunities?select=id&limit=1`, {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      });
+      return res.ok;
+    }
+    if (mode === "postgres") {
+      if (!POSTGRES_URL) return false;
+      const backend = createBackend({
+        mode,
+        dataDir: DATA_DIR,
+        postgresUrl: POSTGRES_URL,
+      });
+      await backend.list("opportunities", { limit: 1 });
+      return true;
+    }
+    return true; // local JSON always works
+  } catch {
+    return false;
+  }
 }
 
 async function detectMode(): Promise<DataMode> {
-  if (!SUPABASE_URL || !SUPABASE_KEY) return "local";
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/opportunities?select=id&limit=1`,
-      { headers: supabaseHeaders(), cache: "no-store" },
-    );
-    return res.ok ? "supabase" : "local";
-  } catch {
-    return "local";
-  }
+  // 1. Explicit env var wins.
+  const envMode = normalizeMode(process.env.DB_MODE || process.env.STORAGE_MODE);
+  if (envMode) return envMode;
+
+  // 2. Persisted user choice wins - but only if it is actually reachable,
+  //    otherwise we would silently read an empty store.
+  const persisted = readPersistedMode();
+  if (persisted && (await probe(persisted))) return persisted;
+
+  // 3. Otherwise probe in order: supabase -> postgres -> local.
+  if (SUPABASE_URL && SUPABASE_KEY && (await probe("supabase"))) return "supabase";
+  if (POSTGRES_URL && (await probe("postgres"))) return "postgres";
+  return "local";
 }
 
 export async function getMode(): Promise<DataMode> {
@@ -123,43 +187,24 @@ export async function getMode(): Promise<DataMode> {
   return modePromise;
 }
 
-// ---------------------------------------------------------------------------
-// Local JSON store (cached in memory so updateOpportunity can mutate it)
-// ---------------------------------------------------------------------------
-
-const localCache: Record<string, unknown[]> = {};
-
-function loadLocal<T>(name: string): T[] {
-  if (localCache[name]) return localCache[name] as T[];
-  let items: unknown[] = [];
-  try {
-    const raw = fs.readFileSync(path.join(DATA_DIR, `${name}.json`), "utf8");
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) items = parsed;
-    else if (parsed && Array.isArray(parsed.items)) items = parsed.items;
-  } catch {
-    items = [];
+async function getBackend(): Promise<DbBackend> {
+  if (!backendPromise) {
+    backendPromise = getMode().then((mode) =>
+      createBackend({
+        mode,
+        dataDir: DATA_DIR,
+        supabaseUrl: SUPABASE_URL,
+        supabaseKey: SUPABASE_KEY,
+        postgresUrl: POSTGRES_URL,
+      }),
+    );
   }
-  localCache[name] = items;
-  return items as T[];
+  return backendPromise;
 }
 
-// ---------------------------------------------------------------------------
-// Generic Supabase helpers
-// ---------------------------------------------------------------------------
-
-async function sbGet<T>(table: string, query: string): Promise<T[]> {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
-      headers: supabaseHeaders(),
-      cache: "no-store",
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? (data as T[]) : [];
-  } catch {
-    return [];
-  }
+export function resetModeCache(): void {
+  modePromise = null;
+  backendPromise = null;
 }
 
 function num(value: unknown): number {
@@ -169,16 +214,6 @@ function num(value: unknown): number {
 
 function str(value: unknown): string {
   return typeof value === "string" ? value : "";
-}
-
-function byDesc<T>(items: T[], key: (item: T) => string | number): T[] {
-  return [...items].sort((a, b) => {
-    const av = key(a);
-    const bv = key(b);
-    if (av < bv) return 1;
-    if (av > bv) return -1;
-    return 0;
-  });
 }
 
 // ---------------------------------------------------------------------------
@@ -220,107 +255,56 @@ export async function listOpportunities({
   minConfidence,
   limit,
 }: ListOpportunitiesArgs = {}): Promise<Opportunity[]> {
-  const mode = await getMode();
   const cap = Math.min(Math.max(limit ?? 50, 0), 5000);
-
-  if (mode === "supabase") {
-    const params = [
-      "select=*",
-      "order=confidence.desc,created_at.desc",
-      `limit=${cap}`,
-    ];
-    if (status) params.push(`status=eq.${encodeURIComponent(status)}`);
-    if (minConfidence != null) params.push(`confidence=gte.${minConfidence}`);
-    return sbGet<Opportunity>("opportunities", params.join("&"));
-  }
-
-  let items = loadLocal<Opportunity>("opportunities");
-  if (status) items = items.filter((o) => str(o.status) === status);
-  if (minConfidence != null)
-    items = items.filter((o) => num(o.confidence) >= minConfidence);
-  items = byDesc(items, (o) => num(o.confidence));
-  return items.slice(0, cap);
+  const backend = await getBackend();
+  return backend.list<Opportunity>("opportunities", {
+    filters: status ? { status } : undefined,
+    ranges: minConfidence != null ? { confidence: { gte: minConfidence } } : undefined,
+    order: "confidence.desc,created_at.desc",
+    limit: cap,
+  });
 }
 
 export async function getOpportunity(id: string): Promise<Opportunity | null> {
-  const mode = await getMode();
-  if (mode === "supabase") {
-    const rows = await sbGet<Opportunity>(
-      "opportunities",
-      `select=*&id=eq.${encodeURIComponent(id)}&limit=1`,
-    );
-    return rows[0] ?? null;
-  }
-  const items = loadLocal<Opportunity>("opportunities");
-  return items.find((o) => String(o.id) === String(id)) ?? null;
+  const backend = await getBackend();
+  return backend.get<Opportunity>("opportunities", { id });
 }
 
 export async function listSignals({
   type,
   limit,
 }: { type?: string | null; limit?: number | null } = {}): Promise<Signal[]> {
-  const mode = await getMode();
   const cap = Math.min(Math.max(limit ?? 50, 0), 5000);
-
-  if (mode === "supabase") {
-    const params = [
-      "select=*",
-      "order=occurred_at.desc,ingested_at.desc",
-      `limit=${cap}`,
-    ];
-    if (type) params.push(`type=eq.${encodeURIComponent(type)}`);
-    return sbGet<Signal>("signals", params.join("&"));
-  }
-
-  let items = loadLocal<Signal>("signals");
-  if (type) items = items.filter((s) => str(s.type) === type);
-  items = byDesc(items, (s) => str(s.occurred_at) || str(s.ingested_at));
-  return items.slice(0, cap);
+  const backend = await getBackend();
+  return backend.list<Signal>("signals", {
+    filters: type ? { type } : undefined,
+    order: "occurred_at.desc,ingested_at.desc",
+    limit: cap,
+  });
 }
 
 export async function listCompanies({
   limit,
 }: { limit?: number | null } = {}): Promise<Company[]> {
-  const mode = await getMode();
   const cap = Math.min(Math.max(limit ?? 100, 0), 5000);
-
-  if (mode === "supabase") {
-    return sbGet<Company>(
-      "companies",
-      `select=*&order=score.desc&limit=${cap}`,
-    );
-  }
-
-  const items = byDesc(loadLocal<Company>("companies"), (c) => num(c.score));
-  return items.slice(0, cap);
+  const backend = await getBackend();
+  return backend.list<Company>("companies", { order: "score.desc", limit: cap });
 }
 
 export async function listPeople({
   limit,
 }: { limit?: number | null } = {}): Promise<Person[]> {
-  const mode = await getMode();
   const cap = Math.min(Math.max(limit ?? 100, 0), 5000);
-
-  if (mode === "supabase") {
-    return sbGet<Person>("people", `select=*&order=relevance.desc&limit=${cap}`);
-  }
-
-  const items = byDesc(loadLocal<Person>("people"), (p) => num(p.relevance));
-  return items.slice(0, cap);
+  const backend = await getBackend();
+  return backend.list<Person>("people", { order: "relevance.desc", limit: cap });
 }
 
 export async function listScans({
   limit,
 }: { limit?: number | null } = {}): Promise<Scan[]> {
-  const mode = await getMode();
   const cap = Math.min(Math.max(limit ?? 50, 0), 5000);
-
-  if (mode === "supabase") {
-    return sbGet<Scan>("scans", `select=*&order=started_at.desc&limit=${cap}`);
-  }
-
-  const items = byDesc(loadLocal<Scan>("scans"), (s) => str(s.started_at));
-  return items.slice(0, cap);
+  const backend = await getBackend();
+  return backend.list<Scan>("scans", { order: "started_at.desc", limit: cap });
 }
 
 // DevOps Jobs
@@ -331,75 +315,42 @@ export interface SaveJobsResult {
   error?: string;
 }
 
-/**
- * Upsert scanned jobs.
- *
- * `unique (source, external_id)` is what makes a re-scan idempotent: a WhatsApp
- * group hands back the same posting every hour, and the second sighting should
- * bump `last_seen_at` rather than add a duplicate row.
- *
- * Local mode has no writable store - the rest of this file treats
- * `data/*.json` as a read-only cache - so it reports the jobs back rather than
- * pretending they were saved.
- */
 export async function saveJobs(
   jobs: Array<Partial<DevOpsJob> & { external_id: string }>,
 ): Promise<SaveJobsResult> {
   const mode = await getMode();
-  let inserted = 0;
-  let skipped = 0;
-  let error: string | undefined;
 
-  if (mode === "supabase") {
+  if (mode === "supabase" || mode === "postgres") {
+    const backend = await getBackend();
+    let inserted = 0;
+    let skipped = 0;
+    let error: string | undefined;
+
     for (const job of jobs) {
       const now = new Date().toISOString();
-      const row: Record<string, unknown> = { ...job, last_seen_at: now, ingested_at: now };
-      try {
-        // The dedupe key is the pair (source, external_id) - that is the
-        // unique constraint on devops_jobs, so on_conflict must name both
-        // columns or PostgREST rejects the whole batch with "no unique or
-        // exclusion constraint matching".
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/devops_jobs?on_conflict=source,external_id`,
-          {
-            method: "POST",
-            headers: {
-              ...supabaseHeaders(),
-              "Content-Type": "application/json",
-              // merge-duplicates turns a repeat sighting into an update
-              // instead of a conflict error.
-              Prefer: "resolution=merge-duplicates,return=minimal",
-            },
-            body: JSON.stringify(row),
-          },
-        );
-        if (res.ok) {
-          inserted++;
-        } else {
-          skipped++;
-          // Keep the first failure so the tab can say why nothing landed
-          // instead of showing a bare "0 saved".
-          if (!error) error = `PostgREST ${res.status}: ${(await res.text()).slice(0, 200)}`;
-        }
-      } catch (err) {
+      const row = { ...job, last_seen_at: now, ingested_at: now };
+      // The dedupe key is the pair (source, external_id) - the unique
+      // constraint on devops_jobs.
+      const result = await backend.upsert("devops_jobs", [row], "source,external_id" as string);
+      if (result.saved > 0) {
+        inserted++;
+      } else {
         skipped++;
-        if (!error) error = String((err as Error)?.message || err);
+        if (!error) error = result.error;
       }
     }
     return { mode, inserted, skipped, error };
   }
 
-  // Local mode has no writable store: data/*.json is a read-only cache, and the
-  // page and route-handler copies of this module do not even share memory, so
-  // anything written here would be invisible to the UI. Report the jobs as
-  // previewed-but-not-saved rather than pretending they landed.
+  // Local mode treats data/*.json as read-only (in-process module caches are
+  // per route handler, so writes would be invisible to the UI).
   return {
     mode,
     inserted: 0,
     skipped: jobs.length,
     error:
       jobs.length > 0
-        ? "מצב מקומי (local) - data/*.json נקרא בלבד, ולכן המשרות שחולצו מוצגות אך לא נשמרו. חברו Supabase ב-.env.local כדי לשמור."
+        ? "מצב מקומי (local) - data/*.json נקרא בלבד, ולכן המשרות שחולצו מוצגות אך לא נשמרו. חברו Supabase או Postgres ב-.env.local כדי לשמור."
         : undefined,
   };
 }
@@ -411,29 +362,18 @@ export async function listJobs({
   minScore,
   limit,
 }: ListJobsArgs = {}): Promise<DevOpsJob[]> {
-  const mode = await getMode();
   const cap = Math.min(Math.max(limit ?? 100, 0), 5000);
-
-  if (mode === "supabase") {
-    const params = [
-      "select=*",
-      "order=score.desc,posted_at.desc,last_seen_at.desc",
-      `limit=${cap}`,
-    ];
-    if (source) params.push(`source=eq.${encodeURIComponent(source)}`);
-    if (company) params.push(`company=eq.${encodeURIComponent(company)}`);
-    if (is_devops != null) params.push(`is_devops=eq.${is_devops}`);
-    if (minScore != null) params.push(`score=gte.${minScore}`);
-    return sbGet<DevOpsJob>("devops_jobs", params.join("&"));
-  }
-
-  let items = loadLocal<DevOpsJob>("devops_jobs");
-  if (source) items = items.filter((j) => str(j.source) === source);
-  if (company) items = items.filter((j) => str(j.company) === company);
-  if (is_devops != null) items = items.filter((j) => j.is_devops === is_devops);
-  if (minScore != null) items = items.filter((j) => num(j.score) >= minScore);
-  items = byDesc(items, (j) => num(j.score));
-  return items.slice(0, cap);
+  const backend = await getBackend();
+  const filters: Record<string, string | number | boolean> = {};
+  if (source) filters.source = source;
+  if (company) filters.company = company;
+  if (is_devops != null) filters.is_devops = is_devops;
+  return backend.list<DevOpsJob>("devops_jobs", {
+    filters: Object.keys(filters).length ? filters : undefined,
+    ranges: minScore != null ? { score: { gte: minScore } } : undefined,
+    order: "score.desc,posted_at.desc,last_seen_at.desc",
+    limit: cap,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -456,133 +396,69 @@ export async function updateOpportunity(
     return getOpportunity(id);
   }
 
-  const mode = await getMode();
-
-  if (mode === "supabase") {
-    try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/opportunities?id=eq.${encodeURIComponent(id)}`,
-        {
-          method: "PATCH",
-          headers: {
-            ...supabaseHeaders(),
-            "Content-Type": "application/json",
-            Prefer: "return=representation",
-          },
-          body: JSON.stringify(clean),
-        },
-      );
-      if (!res.ok) return null;
-      const data = await res.json();
-      if (Array.isArray(data)) return (data[0] as Opportunity) ?? null;
-      return null;
-    } catch {
-      return null;
-    }
-  }
-
-  // local: mutate the in-memory array only (never writes files)
-  const items = loadLocal<Opportunity>("opportunities");
-  const idx = items.findIndex((o) => String(o.id) === String(id));
-  if (idx === -1) return null;
-  const updated: Opportunity = {
-    ...items[idx],
-    ...clean,
-    updated_at: new Date().toISOString(),
-  };
-  items[idx] = updated;
-  return updated;
+  const backend = await getBackend();
+  const result = await backend.update<Opportunity>("opportunities", clean, { id });
+  if (result.row) return result.row;
+  if (result.updated > 0) return getOpportunity(id);
+  return null;
 }
 
-// ====================================================================// Paged list API
-// ====================================================================//
+// ====================================================================
+// Paged list API
+// ====================================================================
 // The `list*` functions above return a capped array and leave filtering to the
 // caller. That is fine for a dashboard widget but wrong for a list view: the
 // page needs the *total* matching count to render "26-50 of 312", and it must
 // not pull 5000 rows over the wire to show 25 of them.
-//
-// Everything below answers a PageQuery with a Paged<T>. Both backends are held
-// to the same contract - Supabase does the work in Postgres, local mode does it
-// in memory over the JSON cache - so a page never knows which one it is on.
 
 /**
  * Per-entity description of what is searchable and sortable.
  *
  * Keys of `sorters` double as the `sort=` value in the URL *and* the Postgres
- * column name, so the two backends stay in step without a translation table.
- * Local mode feeds these straight into `applyListing`; Supabase mode turns the
- * same key into an `order=` clause.
+ * column name, so the backends stay in step without a translation table.
  */
 type EntitySpec<T> = ListingSpec<T>;
 
-/** Local mode: the shared in-memory pipeline, over the JSON cache. */
-const pageLocal = applyListing;
+function toPaged<T>(
+  query: PageQuery,
+  page: { items: T[]; total: number },
+): Paged<T> {
+  const pageSize = Math.min(Math.max(Number(query.pageSize) || 25, 1), 200);
+  const totalPages = Math.max(1, Math.ceil(page.total / pageSize));
+  const current = Math.min(Math.max(Number(query.page) || 1, 1), totalPages);
+  return { items: page.items, total: page.total, page: current, pageSize, totalPages };
+}
 
-/**
- * One page from PostgREST, with an exact count.
- *
- * `Prefer: count=exact` plus a `Range` header makes Postgres do the counting
- * and the slicing; the total comes back in `Content-Range` as `0-24/312`.
- * A ranged request answers 206, which `res.ok` already accepts.
- */
-async function sbPage<T>(
+async function pageQuery<T>(
   table: string,
+  spec: EntitySpec<T>,
+  query: PageQuery,
   opts: {
-    filters?: string[];
-    or?: string | null;
-    order: string;
-    page: number;
-    pageSize: number;
+    filters?: Record<string, string | number | boolean>;
+    ranges?: QuerySpec["ranges"];
+    /** Post-filter for things Postgres can't express safely here. */
+    refine?: (rows: T[]) => T[];
+    fallbackSort: string;
   },
 ): Promise<Paged<T>> {
-  const pageSize = Math.min(Math.max(opts.pageSize, 1), 200);
-  const page = Math.max(opts.page, 1);
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  const backend = await getBackend();
+  const pageSize = Math.min(Math.max(Number(query.pageSize) || 25, 1), 200);
+  const page = Math.max(Number(query.page) || 1, 1);
 
-  const params = ["select=*", `order=${opts.order}`, ...(opts.filters ?? [])];
-  if (opts.or) params.push(`or=(${opts.or})`);
-
-  const empty: Paged<T> = { items: [], total: 0, page: 1, pageSize, totalPages: 1 };
-
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params.join("&")}`, {
-      headers: {
-        ...supabaseHeaders(),
-        Range: `${from}-${to}`,
-        "Range-Unit": "items",
-        Prefer: "count=exact",
-      },
-      cache: "no-store",
-    });
-    if (!res.ok) return empty;
-
-    const data = await res.json();
-    const items = Array.isArray(data) ? (data as T[]) : [];
-    const range = res.headers.get("content-range") ?? "";
-    const total = Number(range.split("/")[1]);
-    const resolved = Number.isFinite(total) ? total : items.length;
-    const totalPages = Math.max(1, Math.ceil(resolved / pageSize));
-    return { items, total: resolved, page: Math.min(page, totalPages), pageSize, totalPages };
-  } catch {
-    return empty;
-  }
-}
-
-/** `col.ilike.*term*` for every searchable column, joined for PostgREST `or=()`. */
-function sbSearch(q: string | null | undefined, columns: string[]): string | null {
-  const term = (q ?? "").trim();
-  if (!term) return null;
-  // Commas and parens would break out of the or=() grouping.
-  const safe = term.replace(/[(),*]/g, " ").trim();
-  if (!safe) return null;
-  return columns.map((c) => `${c}.ilike.*${safe}*`).join(",");
-}
-
-function sbOrder(spec: EntitySpec<unknown>, query: PageQuery, fallback: string): string {
-  const key = query.sort && spec.sorters[query.sort] ? query.sort : fallback;
+  const key = query.sort && spec.sorters[query.sort] ? query.sort : opts.fallbackSort;
   const dir = query.dir === "asc" ? "asc" : "desc";
-  return `${key}.${dir}.nullslast`;
+
+  const result = await backend.page<T>(table, {
+    filters: opts.filters,
+    ranges: opts.ranges,
+    search: query.q ? { columns: spec.search as string[], term: query.q } : null,
+    order: `${key}.${dir}.nullslast`,
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
+  });
+
+  const items = opts.refine ? opts.refine(result.items) : result.items;
+  return toPaged(query, { items, total: result.total });
 }
 
 // --- Opportunities ---------------------------------------------------------
@@ -600,33 +476,16 @@ const OPPORTUNITY_SPEC: EntitySpec<Opportunity> = {
 };
 
 export async function pageOpportunities(query: PageQuery): Promise<Paged<Opportunity>> {
-  const mode = await getMode();
   const status = query.filters?.status ?? "";
   const minConfidence = query.filters?.minConfidence ? Number(query.filters.minConfidence) : null;
 
-  if (mode === "supabase") {
-    const filters: string[] = [];
-    if (status) filters.push(`status=eq.${encodeURIComponent(status)}`);
-    if (minConfidence != null && Number.isFinite(minConfidence)) {
-      filters.push(`confidence=gte.${minConfidence}`);
-    }
-    return sbPage<Opportunity>("opportunities", {
-      filters,
-      or: sbSearch(query.q, OPPORTUNITY_SPEC.search),
-      order: sbOrder(OPPORTUNITY_SPEC as EntitySpec<unknown>, query, "confidence"),
-      page: query.page ?? 1,
-      pageSize: query.pageSize ?? 25,
-    });
-  }
-
-  return pageLocal(
-    loadLocal<Opportunity>("opportunities"),
-    OPPORTUNITY_SPEC,
-    query,
-    (o) =>
-      (!status || str(o.status) === status) &&
-      (minConfidence == null || !Number.isFinite(minConfidence) || num(o.confidence) >= minConfidence),
-  );
+  return pageQuery("opportunities", OPPORTUNITY_SPEC, query, {
+    filters: status ? { status } : undefined,
+    ranges: minConfidence != null && Number.isFinite(minConfidence)
+      ? { confidence: { gte: minConfidence } }
+      : undefined,
+    fallbackSort: "confidence",
+  });
 }
 
 // --- Signals ---------------------------------------------------------------
@@ -643,29 +502,17 @@ const SIGNAL_SPEC: EntitySpec<Signal> = {
 };
 
 export async function pageSignals(query: PageQuery): Promise<Paged<Signal>> {
-  const mode = await getMode();
   const type = query.filters?.type ?? "";
   const source = query.filters?.source ?? "";
 
-  if (mode === "supabase") {
-    const filters: string[] = [];
-    if (type) filters.push(`type=eq.${encodeURIComponent(type)}`);
-    if (source) filters.push(`source=eq.${encodeURIComponent(source)}`);
-    return sbPage<Signal>("signals", {
-      filters,
-      or: sbSearch(query.q, SIGNAL_SPEC.search),
-      order: sbOrder(SIGNAL_SPEC as EntitySpec<unknown>, query, "occurred_at"),
-      page: query.page ?? 1,
-      pageSize: query.pageSize ?? 25,
-    });
-  }
+  const filters: Record<string, string> = {};
+  if (type) filters.type = type;
+  if (source) filters.source = source;
 
-  return pageLocal(
-    loadLocal<Signal>("signals"),
-    SIGNAL_SPEC,
-    query,
-    (s) => (!type || str(s.type) === type) && (!source || str(s.source) === source),
-  );
+  return pageQuery("signals", SIGNAL_SPEC, query, {
+    filters: Object.keys(filters).length ? filters : undefined,
+    fallbackSort: "occurred_at",
+  });
 }
 
 // --- Companies -------------------------------------------------------------
@@ -681,30 +528,13 @@ const COMPANY_SPEC: EntitySpec<Company> = {
 };
 
 export async function pageCompanies(query: PageQuery): Promise<Paged<Company>> {
-  const mode = await getMode();
   const hiring = query.filters?.hiring ?? "";
 
-  if (mode === "supabase") {
-    const filters: string[] = [];
-    if (hiring === "yes") filters.push("devops_hiring=eq.true");
-    if (hiring === "no") filters.push("devops_hiring=eq.false");
-    return sbPage<Company>("companies", {
-      filters,
-      or: sbSearch(query.q, COMPANY_SPEC.search),
-      order: sbOrder(COMPANY_SPEC as EntitySpec<unknown>, query, "score"),
-      page: query.page ?? 1,
-      pageSize: query.pageSize ?? 25,
-    });
-  }
-
-  return pageLocal(
-    loadLocal<Company>("companies"),
-    COMPANY_SPEC,
-    query,
-    (c) =>
-      !hiring ||
-      (hiring === "yes" ? Boolean(c.devops_hiring) : !c.devops_hiring),
-  );
+  return pageQuery("companies", COMPANY_SPEC, query, {
+    filters:
+      hiring === "yes" ? { devops_hiring: true } : hiring === "no" ? { devops_hiring: false } : undefined,
+    fallbackSort: "score",
+  });
 }
 
 // --- People ----------------------------------------------------------------
@@ -721,42 +551,23 @@ const PERSON_SPEC: EntitySpec<Person> = {
 };
 
 export async function pagePeople(query: PageQuery): Promise<Paged<Person>> {
-  const mode = await getMode();
   const seniority = query.filters?.seniority ?? "";
   const persona = query.filters?.persona ?? "";
   const hasContact = query.filters?.contact ?? "";
 
   const reachable = (p: Person) => Boolean(p.email || p.phone || p.linkedin_url);
 
-  if (mode === "supabase") {
-    const filters: string[] = [];
-    if (seniority) filters.push(`seniority=eq.${encodeURIComponent(seniority)}`);
-    if (persona) filters.push(`persona=eq.${encodeURIComponent(persona)}`);
-    const paged = await sbPage<Person>("people", {
-      filters,
-      or: sbSearch(query.q, PERSON_SPEC.search),
-      order: sbOrder(PERSON_SPEC as EntitySpec<unknown>, query, "relevance"),
-      page: query.page ?? 1,
-      pageSize: query.pageSize ?? 25,
-    });
-    // "has contact details" spans three nullable columns; expressing it in
-    // PostgREST alongside the search `or=()` would need a second or-group,
-    // which PostgREST will not nest. Filtering the page is a deliberate
-    // trade-off: the toggle narrows what you see without a second round trip.
-    if (!hasContact) return paged;
-    const items = paged.items.filter((p) => (hasContact === "yes" ? reachable(p) : !reachable(p)));
-    return { ...paged, items };
-  }
+  const filters: Record<string, string> = {};
+  if (seniority) filters.seniority = seniority;
+  if (persona) filters.persona = persona;
 
-  return pageLocal(
-    loadLocal<Person>("people"),
-    PERSON_SPEC,
-    query,
-    (p) =>
-      (!seniority || str(p.seniority) === seniority) &&
-      (!persona || str(p.persona) === persona) &&
-      (!hasContact || (hasContact === "yes" ? reachable(p) : !reachable(p))),
-  );
+  return pageQuery("people", PERSON_SPEC, query, {
+    filters: Object.keys(filters).length ? filters : undefined,
+    refine: hasContact
+      ? (rows) => rows.filter((p) => (hasContact === "yes" ? reachable(p) : !reachable(p)))
+      : undefined,
+    fallbackSort: "relevance",
+  });
 }
 
 // --- Scans -----------------------------------------------------------------
@@ -772,27 +583,12 @@ const SCAN_SPEC: EntitySpec<Scan> = {
 };
 
 export async function pageScans(query: PageQuery): Promise<Paged<Scan>> {
-  const mode = await getMode();
   const status = query.filters?.status ?? "";
 
-  if (mode === "supabase") {
-    const filters: string[] = [];
-    if (status) filters.push(`status=eq.${encodeURIComponent(status)}`);
-    return sbPage<Scan>("scans", {
-      filters,
-      or: sbSearch(query.q, SCAN_SPEC.search),
-      order: sbOrder(SCAN_SPEC as EntitySpec<unknown>, query, "started_at"),
-      page: query.page ?? 1,
-      pageSize: query.pageSize ?? 25,
-    });
-  }
-
-  return pageLocal(
-    loadLocal<Scan>("scans"),
-    SCAN_SPEC,
-    query,
-    (s) => !status || str(s.status) === status,
-  );
+  return pageQuery("scans", SCAN_SPEC, query, {
+    filters: status ? { status } : undefined,
+    fallbackSort: "started_at",
+  });
 }
 
 // --- DevOps jobs -----------------------------------------------------------
@@ -809,60 +605,32 @@ const JOB_SPEC: EntitySpec<DevOpsJob> = {
 };
 
 export async function pageJobs(query: PageQuery): Promise<Paged<DevOpsJob>> {
-  const mode = await getMode();
   const source = query.filters?.source ?? "";
   const seniority = query.filters?.seniority ?? "";
   const minScore = query.filters?.minScore ? Number(query.filters.minScore) : null;
 
-  if (mode === "supabase") {
-    const filters: string[] = [];
-    if (source) filters.push(`source=eq.${encodeURIComponent(source)}`);
-    if (seniority) filters.push(`seniority=eq.${encodeURIComponent(seniority)}`);
-    if (minScore != null && Number.isFinite(minScore)) filters.push(`score=gte.${minScore}`);
-    return sbPage<DevOpsJob>("devops_jobs", {
-      filters,
-      or: sbSearch(query.q, JOB_SPEC.search),
-      order: sbOrder(JOB_SPEC as EntitySpec<unknown>, query, "score"),
-      page: query.page ?? 1,
-      pageSize: query.pageSize ?? 25,
-    });
-  }
+  const filters: Record<string, string> = {};
+  if (source) filters.source = source;
+  if (seniority) filters.seniority = seniority;
 
-  return pageLocal(
-    loadLocal<DevOpsJob>("devops_jobs"),
-    JOB_SPEC,
-    query,
-    (j) =>
-      (!source || str(j.source) === source) &&
-      (!seniority || str(j.seniority) === seniority) &&
-      (minScore == null || !Number.isFinite(minScore) || num(j.score) >= minScore),
-  );
+  return pageQuery("devops_jobs", JOB_SPEC, query, {
+    filters: Object.keys(filters).length ? filters : undefined,
+    ranges: minScore != null && Number.isFinite(minScore) ? { score: { gte: minScore } } : undefined,
+    fallbackSort: "score",
+  });
 }
 
 // --- Facets ----------------------------------------------------------------
 
 /**
  * Distinct values of a column, newest-data-first, for a filter dropdown.
- *
- * Deliberately reads the unfiltered set: a dropdown that only lists values
- * surviving the current filter can strand the user on an empty result with no
- * way back to a wider view.
  */
 export async function facet(
   entity: "opportunities" | "signals" | "companies" | "people" | "scans" | "devops_jobs",
   column: string,
 ): Promise<FacetOption[]> {
-  const mode = await getMode();
-
-  let rows: Record<string, unknown>[] = [];
-  if (mode === "supabase") {
-    rows = await sbGet<Record<string, unknown>>(
-      entity,
-      `select=${encodeURIComponent(column)}&limit=5000`,
-    );
-  } else {
-    rows = loadLocal<Record<string, unknown>>(entity);
-  }
+  const backend = await getBackend();
+  const rows = await backend.list<Record<string, unknown>>(entity, { limit: 5000 });
 
   const counts = new Map<string, number>();
   for (const row of rows) {
@@ -875,14 +643,14 @@ export async function facet(
     .map(([value, count]) => ({ value, count }))
     .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value, "he"));
 }
+
 // ====================================================================
 // Settings (the key/value config behind /settings: ICP, keywords,
 // storage_mode)
 // ====================================================================
-//
 // Unlike the scanner-owned rows above, a setting has to survive a restart -
-// "local" mode is itself a setting - so the local backend writes
-// data/settings.json back to disk after an update.
+// "local" mode is itself a setting - so the local mirror at
+// data/settings.json is always updated on write, whichever backend is active.
 
 export interface Setting {
   key: string;
@@ -892,15 +660,19 @@ export interface Setting {
   updated_at?: string | null;
 }
 
-const SETTING_COLUMNS = "key,value,description,created_at,updated_at";
-
-/** Drop the cached backend so a `storage_mode` change takes effect. */
-export function resetModeCache(): void {
-  modePromise = null;
+function readLocalSettingsFile(): Setting[] {
+  try {
+    const raw = fs.readFileSync(path.join(DATA_DIR, "settings.json"), "utf8");
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed as Setting[];
+    if (Array.isArray(parsed?.items)) return parsed.items as Setting[];
+    return [];
+  } catch {
+    return [];
+  }
 }
 
-function saveLocalSettings(items: Setting[]): void {
-  localCache.settings = items;
+function writeLocalSettingsFile(items: Setting[]): void {
   try {
     fs.writeFileSync(
       path.join(DATA_DIR, "settings.json"),
@@ -908,53 +680,32 @@ function saveLocalSettings(items: Setting[]): void {
       "utf8",
     );
   } catch {
-    // best effort - the in-memory copy still serves this process
+    // best effort
   }
 }
 
+/** Mirror one setting into data/settings.json so the choice survives restarts. */
+function mirrorSettingLocally(setting: Setting): void {
+  const items = readLocalSettingsFile();
+  const idx = items.findIndex((s) => s.key === setting.key);
+  if (idx >= 0) items[idx] = setting;
+  else items.push(setting);
+  writeLocalSettingsFile(items);
+}
+
 export async function listSettings(): Promise<Setting[]> {
-  const mode = await getMode();
-
-  if (mode === "supabase") {
-    try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/settings?select=${SETTING_COLUMNS}&order=key.asc`,
-        { headers: supabaseHeaders(), cache: "no-store" },
-      );
-      if (!res.ok) return [];
-      const data = await res.json();
-      return Array.isArray(data) ? (data as Setting[]) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  return [...loadLocal<Setting>("settings")].sort((a, b) =>
-    a.key.localeCompare(b.key, "he"),
-  );
+  const backend = await getBackend();
+  const rows = await backend.list<Setting>("settings", { order: "key.asc", limit: 5000 });
+  return rows;
 }
 
 export async function getSetting(key: string): Promise<Setting | null> {
   const cleanKey = String(key ?? "").trim();
   if (!cleanKey) return null;
 
-  const mode = await getMode();
-
-  if (mode === "supabase") {
-    try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/settings?key=eq.${encodeURIComponent(cleanKey)}&select=${SETTING_COLUMNS}&limit=1`,
-        { headers: supabaseHeaders(), cache: "no-store" },
-      );
-      if (!res.ok) return null;
-      const data = await res.json();
-      return Array.isArray(data) && data.length > 0 ? (data[0] as Setting) : null;
-    } catch {
-      return null;
-    }
-  }
-
-  return loadLocal<Setting>("settings").find((s) => s.key === cleanKey) ?? null;
+  const backend = await getBackend();
+  const row = await backend.get<Setting>("settings", { key: cleanKey });
+  return row ?? readLocalSettingsFile().find((s) => s.key === cleanKey) ?? null;
 }
 
 export async function updateSetting(
@@ -965,43 +716,23 @@ export async function updateSetting(
   const cleanKey = String(key ?? "").trim();
   if (!cleanKey) return null;
 
-  const mode = await getMode();
   const now = new Date().toISOString();
-
-  if (mode === "supabase") {
-    try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/settings?on_conflict=key`, {
-        method: "POST",
-        headers: {
-          ...supabaseHeaders(),
-          "Content-Type": "application/json",
-          Prefer: "resolution=merge-duplicates,return=representation",
-        },
-        body: JSON.stringify([
-          { key: cleanKey, value, description: description ?? null, updated_at: now },
-        ]),
-      });
-      if (!res.ok) return null;
-      const data = await res.json();
-      return Array.isArray(data) && data.length > 0
-        ? (data[0] as Setting)
-        : { key: cleanKey, value, description: description ?? null, updated_at: now };
-    } catch {
-      return null;
-    }
-  }
-
-  const items = loadLocal<Setting>("settings");
-  const idx = items.findIndex((s) => s.key === cleanKey);
+  const existing = await getSetting(cleanKey);
   const row: Setting = {
-    ...(idx >= 0 ? items[idx] : { created_at: now }),
+    ...(existing ?? { created_at: now }),
     key: cleanKey,
     value,
-    description: description ?? items[idx]?.description ?? null,
+    description: description ?? existing?.description ?? null,
     updated_at: now,
   };
-  if (idx >= 0) items[idx] = row;
-  else items.push(row);
-  saveLocalSettings(items);
+
+  // Always mirror locally so `storage_mode` is honoured on the next boot.
+  mirrorSettingLocally(row);
+
+  const backend = await getBackend();
+  const result = await backend.upsert<Setting>("settings", [row], "key");
+  if (result.saved > 0) {
+    return row;
+  }
   return row;
 }

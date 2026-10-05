@@ -1,161 +1,122 @@
-"""Persistence: Supabase REST when available, local JSON otherwise.
+"""Persistence via the db abstraction layer (db/python submodule).
 
-Both backends receive the same rows. Rows carry deterministic ids, so
-`on_conflict=id` makes every run idempotent (re-runs update, never duplicate).
-The local JSON mirror under Jobs/data/ is always written, so the Next.js
-viewer and the internal app can read results even before the SQL schema is
-applied to Supabase.
+Mode selection:
+  1. STORAGE_MODE / DB_MODE env (or agents/.env): "local" | "json" |
+     "postgres" | "supabase". `JOBS_LOCAL_ONLY=1` forces "local".
+  2. The persisted `storage_mode` setting mirrored in <repo>/data/settings.json
+     (chosen in the webapp Settings page).
+  3. Supabase when creds exist, then Postgres when DATABASE_URL is set,
+     otherwise local JSON.
+
+Whatever the mode, the local mirror under <repo>/data/ is always written too,
+so the Next.js viewer and the internal app can read results even before the
+SQL schema is applied to Supabase/Postgres. Rows carry deterministic ids, so
+`on_conflict=id` makes every run idempotent.
 """
 from __future__ import annotations
 
 import json
-import urllib.error
-import urllib.parse
-import urllib.request
+import sys
 from pathlib import Path
 from typing import Any, Dict, List
 
 from .settings import settings
 from .util import now_iso
 
+# --- import the shared db abstraction (db/ submodule) -----------------------
+try:  # pip-installed first
+    import codewizard_db  # noqa: F401
+except ImportError:  # fall back to the in-repo submodule
+    _db_python = Path(settings.Jobs_dir) / "db" / "python"
+    if _db_python.is_dir():
+        sys.path.insert(0, str(_db_python))
+
+from codewizard_db import BackendConfig, create_backend, normalize_mode  # noqa: E402
+from codewizard_db.json_store import JsonBackend  # noqa: E402
+from codewizard_db.base import DbBackend  # noqa: E402
+
+
+def _persisted_mode() -> str | None:
+    try:
+        data = json.loads((settings.data_dir / "settings.json").read_text(encoding="utf-8"))
+        items = data if isinstance(data, list) else data.get("items") or []
+        row = next((s for s in items if s.get("key") == "storage_mode"), None)
+        value = row and row.get("value")
+        if isinstance(value, str):
+            return normalize_mode(value)
+        if isinstance(value, dict):
+            return normalize_mode(value.get("mode") or value.get("storage_mode"))
+    except Exception:  # noqa: BLE001
+        pass
+    return None
+
 
 class Store:
     def __init__(self) -> None:
-        self.mode = "local"
-        self.reason = "Supabase not configured"
-        self.url = settings.supabase_url
-        self.key = settings.supabase_key
         self.data_dir = settings.data_dir
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        if settings.supabase_configured():
-            ok, reason = self._probe()
-            self.mode = "supabase" if ok else "local"
-            self.reason = reason
+        self.url = settings.supabase_url
+        self.key = settings.supabase_key
+        self._local = JsonBackend(self.data_dir)
+        self._backend = self._make_backend()
+        self.reason = self._backend.reason
 
-    # --- Supabase ----------------------------------------------------------
-    def _request(self, method: str, path: str, body: Any = None, prefer: str | None = None):
-        url = f"{self.url}/rest/v1/{path}"
-        data = json.dumps(body).encode("utf-8") if body is not None else None
-        headers = {
-            "apikey": self.key,
-            "Authorization": f"Bearer {self.key}",
-            "Content-Type": "application/json",
-        }
-        if prefer:
-            headers["Prefer"] = prefer
-        req = urllib.request.Request(url, data=data, headers=headers, method=method)
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                raw = resp.read().decode("utf-8", "replace")
-                return resp.status, (json.loads(raw) if raw.strip() else None)
-        except urllib.error.HTTPError as e:
-            raw = e.read().decode("utf-8", "replace")
-            try:
-                parsed = json.loads(raw) if raw.strip() else None
-            except ValueError:
-                parsed = raw
-            return e.code, parsed
-        except Exception as e:  # network error
-            return 0, str(e)
+    @property
+    def mode(self) -> str:
+        return self._backend.mode
 
-    def _probe(self):
-        status, payload = self._request("GET", "opportunities?select=id&limit=1")
-        if status in (200, 206):
-            return True, "supabase reachable"
-        code = ""
-        if isinstance(payload, dict):
-            code = str(payload.get("code") or payload.get("message") or "")
-        if "PGRST205" in code or "does not exist" in code or status == 404:
-            return False, "Jobs tables missing - run Jobs/db/Jobs_schema.sql"
-        return False, f"supabase unavailable ({status}: {code})"
+    @mode.setter
+    def mode(self, value: str) -> None:
+        # scan_jobs.py flips this to "local" for --no-db; switching the
+        # backend keeps save/read consistent with what the caller expects.
+        if normalize_mode(value) == "local" and self._backend is not self._local:
+            self._backend = self._local
+            self.reason = "forced local JSON store"
+        else:
+            self.reason = self._backend.reason
 
-    # --- public API --------------------------------------------------------
+    def _make_backend(self) -> DbBackend:
+        if settings.local_only:
+            return self._local
+        mode = normalize_mode(getattr(settings, "storage_mode", "")) or _persisted_mode()
+        if not mode:
+            if settings.supabase_configured():
+                mode = "supabase"
+            elif getattr(settings, "postgres_url", ""):
+                mode = "postgres"
+            else:
+                mode = "local"
+        return create_backend(
+            BackendConfig(
+                mode=mode,
+                data_dir=self.data_dir,
+                supabase_url=settings.supabase_url,
+                supabase_key=settings.supabase_key,
+                postgres_url=getattr(settings, "postgres_url", ""),
+            )
+        )
+
+    # --- public API ---------------------------------------------------------
     def info(self) -> Dict[str, Any]:
-        return {"mode": self.mode, "reason": self.reason, "data_dir": str(self.data_dir)}
+        info = dict(self._backend.info())
+        info.setdefault("mode", self.mode)
+        info.setdefault("reason", self.reason)
+        info["data_dir"] = str(self.data_dir)
+        return info
 
     def save(self, table: str, rows: List[Dict[str, Any]], conflict: str = "id", merge: bool = False) -> Dict[str, Any]:
-        rows = [r for r in rows if r]
-        if not rows:
-            return {"table": table, "mode": self.mode, "saved": 0}
-        if self.mode == "supabase":
-            q = urllib.parse.urlencode({"on_conflict": conflict})
-            status, payload = self._request(
-                "POST", f"{table}?{q}", body=rows,
-                prefer="resolution=merge-duplicates,return=minimal",
-            )
-            ok = status in (200, 201, 204)
-            if not ok:
-                # fall back to a row-by-row insert so one bad row can't drop them all
-                saved = 0
-                for row in rows:
-                    s2, _ = self._request("POST", f"{table}?on_conflict={conflict}", body=[row],
-                                          prefer="resolution=merge-duplicates,return=minimal")
-                    if s2 in (200, 201, 204):
-                        saved += 1
-                self._write_local(table, rows, merge=merge)
-                return {"table": table, "mode": "supabase", "saved": saved, "bulk_error": str(payload)[:200]}
-            self._write_local(table, rows, merge=merge)
-            return {"table": table, "mode": "supabase", "saved": len(rows)}
-        self._write_local(table, rows, merge=merge)
-        return {"table": table, "mode": "local", "saved": len(rows)}
+        result = self._backend.save(table, rows, conflict=conflict, merge=merge)
+        if self.mode != "local":
+            # Always keep the local mirror in sync (the webapp can read it).
+            self._local.save(table, rows, conflict=conflict, merge=merge)
+        return result
 
     def count_local(self, table: str) -> int:
-        return len(self._read_local(table))
+        return self._local.count(table)
 
     def read(self, table: str, select: str = "*", limit: int = 1000) -> List[Dict[str, Any]]:
-        """Read rows (Supabase GET or the local mirror). Never raises."""
-        if self.mode == "supabase":
-            status, payload = self._request("GET", f"{table}?select={select}&limit={limit}")
-            if status in (200, 206) and isinstance(payload, list):
-                return payload
-            return []
-        return self._read_local(table)
-
-    # --- local mirror ------------------------------------------------------
-    def _local_path(self, table: str) -> Path:
-        return self.data_dir / f"{table}.json"
-
-    def _read_local(self, table: str) -> List[Dict[str, Any]]:
-        try:
-            data = json.loads(self._local_path(table).read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            return []
-        if isinstance(data, dict):
-            return list(data.get("items") or [])
-        return list(data or [])
-
-    def _write_local(self, table: str, rows: List[Dict[str, Any]], merge: bool = False) -> None:
-        """Write the local table snapshot.
-
-        The pipeline fully recomputes every entity with deterministic ids, so a
-        replace is idempotent and prevents stale rows from lingering. Scanners
-        that accumulate over time (e.g. devops_jobs) pass merge=True so rows
-        discovered in earlier runs are kept.
-        """
-        payload: List[Dict[str, Any]] = []
-        seen: set = set()
-        for row in rows:
-            rid = row.get("id") or row.get("dedupe_key") or row.get("hash")
-            if not rid or rid in seen:
-                continue
-            seen.add(rid)
-            merged = dict(row)
-            merged.setdefault("updated_at", now_iso())
-            merged.setdefault("created_at", now_iso())
-            payload.append(merged)
-        if merge:
-            by_id: Dict[Any, Dict[str, Any]] = {}
-            for row in self._read_local(table):
-                rid = row.get("id") or row.get("dedupe_key") or row.get("hash")
-                if rid:
-                    by_id[rid] = row
-            for row in payload:
-                rid = row.get("id") or row.get("dedupe_key") or row.get("hash")
-                by_id[rid] = {**by_id.get(rid, {}), **row}
-            payload = list(by_id.values())
-        self._local_path(table).write_text(
-            json.dumps(payload, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
-        )
+        """Read rows (active backend or the local mirror). Never raises."""
+        return self._backend.read(table, select=select, limit=limit)
 
 
 def make_store() -> Store:

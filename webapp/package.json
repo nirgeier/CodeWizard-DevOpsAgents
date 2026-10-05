@@ -13,7 +13,9 @@
     "next": "16.3.5",
     "qrcode": "^1.5.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "@codewizard/devopsagents-db": "file:../db/ts",
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -21,6 +23,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "patch-package": "^8.0.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/pg": "^8.11.10"
   }
 }

@@ -13,7 +13,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [storageMode, setStorageMode] = useState<"local" | "supabase">("local");
+  const [storageMode, setStorageMode] = useState<"local" | "postgres" | "supabase">("local");
 
   useEffect(() => {
     loadSettings();
@@ -31,7 +31,7 @@ export default function SettingsPage() {
       if (storageSetting && storageSetting.value) {
         const v = storageSetting.value as any;
         const mode = v.mode || v.storage_mode || "local";
-        setStorageMode(mode === "supabase" ? "supabase" : "local");
+        setStorageMode(mode === "supabase" ? "supabase" : mode === "postgres" ? "postgres" : "local");
       }
     } catch (err) {
       console.error(err);
@@ -51,7 +51,7 @@ export default function SettingsPage() {
         body: JSON.stringify({
           key: "storage_mode",
           value: { mode: storageMode },
-          description: "Data storage mode: local (JSON files) or supabase",
+          description: "Data storage mode: local (JSON files), postgres, or supabase",
         }),
       });
       if (!res.ok) throw new Error("Failed to save");
@@ -84,12 +84,26 @@ export default function SettingsPage() {
                   name="storage_mode"
                   value="local"
                   checked={storageMode === "local"}
-                  onChange={(e) => setStorageMode(e.target.value as "local" | "supabase")}
+                  onChange={(e) => setStorageMode(e.target.value as "local" | "postgres" | "supabase")}
                 />
                 <strong>עבודה מקומית (JSON)</strong>
               </label>
-              <p style={{ marginRight: "1.5rem", color: "#666", marginTop: "-0.5rem" }}>
-                כל הנתונים נשמרים בקבצי JSON בתיקייה data/. מתאים לתורמים שמפתחים ללא חשבון Supabase.
+              <p style={{ marginRight: "2rem", color: "#666", marginTop: "-0.75rem" }}>
+                כל הנתונים נשמרים בקבצי JSON בתיקייה data/. מתאים לפיתוח ללא בסיס נתונים חיצוני.
+              </p>
+
+              <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1.5rem" }}>
+                <input
+                  type="radio"
+                  name="storage_mode"
+                  value="postgres"
+                  checked={storageMode === "postgres"}
+                  onChange={(e) => setStorageMode(e.target.value as "local" | "postgres" | "supabase")}
+                />
+                <strong>Postgres מקומי</strong>
+              </label>
+              <p style={{ marginRight: "2rem", color: "#666", marginTop: "0rem" }}>
+                הנתונים נשמרים במסד Postgres. יש להגדיר DATABASE_URL בקובץ הסביבה ולהחיל את הסכמה מ-db/schema_app.sql.
               </p>
 
               <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "1.5rem" }}>
@@ -98,11 +112,11 @@ export default function SettingsPage() {
                   name="storage_mode"
                   value="supabase"
                   checked={storageMode === "supabase"}
-                  onChange={(e) => setStorageMode(e.target.value as "local" | "supabase")}
+                  onChange={(e) => setStorageMode(e.target.value as "local" | "postgres" | "supabase")}
                 />
                 <strong>עבודה עם Supabase</strong>
               </label>
-              <p style={{ marginRight: "1.5rem", color: "#666", marginTop: "-0.5rem" }}>
+              <p style={{ marginRight: "1.5rem", color: "#666", marginTop: "0rem" }}>
                 הנתונים נשמרים ב-Supabase. יש להגדיר SUPABASE_URL ו-SUPABASE_PUBLISHABLE_KEY בקבצי הסביבה.
               </p>
             </div>

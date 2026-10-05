@@ -76,6 +76,22 @@ as unsaved. Set real Supabase credentials to get persistence.
 2. Copy `agents/.env.example` to `agents/.env` and add real credentials
 3. Run `./start.sh` instead of `./start-local.sh`
 
+### Choosing the Storage Backend (local JSON / local Postgres / Supabase)
+The app stores data through one abstraction layer that lives in its own repo:
+the [`db/`](db) git submodule (`nirgeier/CodeWizard-DevOpsAgents-db`), which
+contains the SQL schema **and** the TS (`db/ts`) + Python (`db/python`)
+backends. Pick one with the `STORAGE_MODE` env var or the **Settings page**
+(מצב עבודה) — the webapp mirrors the choice into `data/settings.json`, and the
+agents read it back:
+
+| value | backend | needs |
+|---|---|---|
+| `local` (alias `json`) | JSON files in `./data/` | nothing |
+| `postgres` | local/remote Postgres | `DATABASE_URL` + `db/schema_app.sql` applied |
+| `supabase` | Supabase REST | `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` |
+
+If nothing is configured, the app probes Supabase → Postgres → local JSON.
+
 ## Database
 
 Supabase project **CodeWizard-DevOpsAgents** (`cbygmjbtnarsdodlvcwr`), 8 tables,

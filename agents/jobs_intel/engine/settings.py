@@ -91,6 +91,16 @@ class Settings:
         )
         self.local_only = os.environ.get("JOBS_LOCAL_ONLY", "") == "1"
 
+        # --- storage backend --------------------------------------------------
+        # "local" (JSON files) | "postgres" | "supabase". Env wins, then the
+        # persisted storage_mode setting, then auto-detect (see store.py).
+        self.storage_mode = _first_env("STORAGE_MODE", *env_files) or _first_env(
+            "DB_MODE", *env_files
+        )
+        self.postgres_url = _first_env("DATABASE_URL", *env_files) or _first_env(
+            "POSTGRES_URL", *env_files
+        )
+
         # --- optional external connectors -----------------------------------
         self.newsapi_key = _first_env("NEWSAPI_KEY", *env_files)
         self.gnews_api_key = _first_env("GNEWS_API_KEY", *env_files)

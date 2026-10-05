@@ -1,8 +1,8 @@
 // Shared types for the CodeWizard Jobs Intelligence webapp.
 // Mirrors /Users/nirg/repositories/CodeWizard/Jobs/db/Jobs_schema.sql
 
-// Two backends: Supabase (production) or local JSON files (development)
-export type DataMode = "supabase" | "local";
+// Backends: Supabase (production), a Postgres server (e.g. local), or local JSON files
+export type DataMode = "supabase" | "postgres" | "local";
 
 export type OpportunityStatus =
   | "new"

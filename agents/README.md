@@ -79,10 +79,20 @@ Behaviour worth knowing:
 
 ## Persistence
 
-`store.py` probes Supabase once; if the Jobs tables are missing it falls back
-to `Jobs/data/*.json`. Rows carry **deterministic ids** (`uuid5`) so re-runs
-upsert instead of duplicating. The local JSON mirror is always written, so the
-Next.js viewer and the internal `web/` tab work before the SQL schema is applied.
+Storage goes through the shared abstraction in the `db/` submodule
+(`db/python/codewizard_db`, mirrored by `db/ts` for the webapp). Pick the
+backend with `STORAGE_MODE` (`local` | `postgres` | `supabase`) in
+`agents/.env` or the webapp Settings page (`data/settings.json` mirror):
+
+- `local`    → `<repo>/data/*.json` (default when nothing else is configured)
+- `postgres` → local/remote Postgres via `DATABASE_URL` (needs `db/schema_app.sql` applied)
+- `supabase` → Supabase REST via `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY`
+
+The store probes once; if the chosen backend is unreachable it falls back to
+the local JSON store with a reason. Rows carry **deterministic ids** (`uuid5`)
+so re-runs upsert instead of duplicating. The local JSON mirror is always
+written, so the Next.js viewer and the internal `web/` tab work before the SQL
+schema is applied.
 
 To enable Supabase: run `Jobs/db/Jobs_schema.sql` (or `node Jobs/db/apply.mjs`).
 Credentials are read from the process env, `Jobs/agents/.env`, then `web/.env`
