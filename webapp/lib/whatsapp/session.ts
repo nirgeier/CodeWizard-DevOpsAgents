@@ -67,7 +67,6 @@ const MAX_RECONNECT_ATTEMPTS = 5;
 const MAX_MESSAGES = 20000;
 const FLUSH_DEBOUNCE_MS = 1500;
 
-export const WA_SESSION_DIR = path.join(process.cwd(), ".wa-session");
 // Overridable so a second session (or a test for the pairing flow) can point at
 // its own credential directory without touching the real one.
 export const WA_SESSION_DIR = process.env.WA_SESSION_DIR
@@ -223,8 +222,6 @@ class WhatsAppSession {
       /* no store yet */
     }
     while (this.messages.size > MAX_MESSAGES) {
-      const oldest = this.messages.keys().next().value;
-      this.messages.delete(oldest);
       const oldest = this.messages.keys().next().value as string | undefined;
       if (oldest !== undefined) this.messages.delete(oldest);
     }
@@ -298,7 +295,6 @@ class WhatsAppSession {
     if (this.sock && this.connection !== "close") return;
 
     try {
-      const [{ makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason }, qrcode] =
       const [{ makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers }, qrcode] =
         await Promise.all([
           import("@whiskeysockets/baileys"),
@@ -317,7 +313,6 @@ class WhatsAppSession {
         version: [2, 3000, 1025153825] as [number, number, number],
       }));
 
-      const sock = makeWASocket({
       const sock: AnySock = makeWASocket({
         version,
         auth: state,
@@ -328,7 +323,6 @@ class WhatsAppSession {
         keepAliveIntervalMs: 25000,
       });
       this.sock = sock;
-      this.disconnectReasons = DisconnectReason;
 
       // v6 declares saveCreds as taking no argument, but at runtime it takes the
 // merged update. Cast so the declaration does not strip the call.
@@ -337,7 +331,6 @@ const save = saveCreds as unknown as (u: unknown) => Promise<void>;
       sock.ev.on("creds.update", async (update: any) => {
         this.creds = { ...(this.creds || {}), ...(update || {}) };
         try {
-          await saveCreds(update);
           await save(update);
         } catch {
           /* non-fatal */
@@ -407,8 +400,6 @@ const save = saveCreds as unknown as (u: unknown) => Promise<void>;
       throw err;
     }
   }
-
-  private disconnectReasons: Record<string, number> = {};
 
   private async setQr(payload: string, qrcode: any) {
     this.qrSeq += 1;
@@ -518,7 +509,6 @@ const save = saveCreds as unknown as (u: unknown) => Promise<void>;
     for (const raw of list) {
       if (!raw?.key?.id) continue;
       const jid: string | null = raw.key.remoteJid || null;
-      if (jid && this.monitored.size > 0 && !this.monitored.has(jid)) continue;
       // Only monitored groups are written to disk. This is a personal account
       // with hundreds of groups on it; capturing all of them by default would
       // store other people's conversations without anyone asking for it.
@@ -584,8 +574,6 @@ const save = saveCreds as unknown as (u: unknown) => Promise<void>;
       this.pending.push(record);
       added += 1;
       while (this.messages.size > MAX_MESSAGES) {
-        const oldest = this.messages.keys().next().value;
-        this.messages.delete(oldest);
         const oldest = this.messages.keys().next().value as string | undefined;
         if (oldest !== undefined) this.messages.delete(oldest);
       }
@@ -622,7 +610,6 @@ const save = saveCreds as unknown as (u: unknown) => Promise<void>;
     };
   }
 
-  /** Ask the phone to push a chat's recent history, then wait for it to land. */
   /**
    * Ask the phone to push a chat's recent history, then wait for it to land.
    *

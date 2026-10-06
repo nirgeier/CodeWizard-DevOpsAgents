@@ -42,10 +42,7 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     title: "",
-    items: [
-      { href: "/settings", label: "הגדרות", icon: "⚙", description: "הגדרות מערכת" },
-      { href: "/help", label: "עזרה", icon: "?", description: "מדריך השימוש" },
-    ],
+    items: [{ href: "/help", label: "עזרה", icon: "?", description: "מדריך השימוש" }],
   },
 ];
 

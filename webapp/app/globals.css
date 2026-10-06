@@ -70,15 +70,6 @@ a:hover {
   margin-bottom: 14px;
 }
 
-<<<<<<< HEAD
-.brand .logo {
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 0.2px;
-}
-.brand .logo span {
-  color: var(--blue);
-=======
 /* Brand logo. The PNG is light-on-dark (blue #20a0e0 + orange #e0a020), so it
    belongs on the navy sidebar, where it measures 4.5:1 contrast. */
 .brand-logo {
@@ -88,7 +79,6 @@ a:hover {
 }
 .brand-link:hover {
   text-decoration: none;
->>>>>>> origin/main
 }
 .brand .tagline {
   font-size: 12px;
@@ -786,8 +776,6 @@ tbody tr:hover {
   background: #eef1f5;
   color: #63708a;
 }
-<<<<<<< HEAD
-=======
 .badge-wa {
   background: #e3f9ec;
   color: #0f7a3d;
@@ -1782,4 +1770,3 @@ tbody tr {
     transform: translateX(0);
   }
 }
->>>>>>> origin/main
