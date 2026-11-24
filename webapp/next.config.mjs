@@ -7,6 +7,7 @@ const __dirname = dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  ...(process.env.CW_DEV_DIST_DIR ? { distDir: process.env.CW_DEV_DIST_DIR } : {}),
   // Next.js 16 auto-generates AGENTS.md/CLAUDE.md for AI agents; not wanted here.
   agentRules: false,
   turbopack: {

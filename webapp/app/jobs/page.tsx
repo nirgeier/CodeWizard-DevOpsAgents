@@ -11,6 +11,7 @@ import DataToolbar, { type FilterSpec } from "@/components/DataToolbar";
 import Pagination from "@/components/Pagination";
 import SortHeader from "@/components/SortHeader";
 import EmptyState from "@/components/EmptyState";
+import JobTrackerActions from "@/components/JobTrackerActions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "משרות DevOps" };
@@ -21,7 +22,7 @@ const SPEC: ListParamsSpec = {
   sortable: ["score", "title", "company", "posted_at", "seniority"],
   defaultSort: "score",
   defaultDir: "desc",
-  filters: ["source", "seniority", "minScore"],
+  filters: ["source", "seniority", "workMode", "minScore"],
 };
 
 const DEFAULTS = { defaultSort: SPEC.defaultSort, defaultDir: SPEC.defaultDir };
@@ -63,10 +64,11 @@ export default async function JobsPage({
 }) {
   const params = parseListParams(await searchParams, SPEC);
 
-  const [result, sourceFacet, seniorityFacet] = await Promise.all([
+  const [result, sourceFacet, seniorityFacet, workModeFacet] = await Promise.all([
     pageJobs(params),
     facet("devops_jobs", "source"),
     facet("devops_jobs", "seniority"),
+    facet("devops_jobs", "work_mode"),
   ]);
 
   const filters: FilterSpec[] = [
@@ -89,6 +91,16 @@ export default async function JobsPage({
         count: o.count,
       })),
     },
+    {
+      key: "workMode",
+      label: "אופן עבודה",
+      options: workModeFacet.map((option) => ({
+        value: option.value,
+        label: ({ remote: "מרחוק", hybrid: "היברידי", onsite: "באתר" } as Record<string, string>)[option.value] || option.value,
+        count: option.count,
+      })),
+      allLabel: "כל אופני העבודה",
+    },
     { key: "minScore", label: "ניקוד", options: SCORE_OPTIONS, allLabel: "כל הניקודים" },
   ];
 
@@ -106,6 +118,7 @@ export default async function JobsPage({
           כל המשרות שנסרקו ונשמרו ל-<code>devops_jobs</code>, מכל המקורות.
           לסריקת קבוצות WhatsApp עברו ל<Link href="/whatsapp">לשונית WhatsApp</Link>.
         </p>
+        <Link className="job-tracker-link" href="/applications">מעקב משרות שמורות והגשות</Link>
       </div>
 
       <div className="summary-cards">
@@ -135,6 +148,10 @@ export default async function JobsPage({
         searchPlaceholder="חיפוש כותרת, חברה, מיקום או מחלקה…"
         total={result.total}
       />
+
+      <Pagination basePath={BASE} params={params} defaults={DEFAULTS}
+        page={result.page} pageSize={result.pageSize} total={result.total}
+        totalPages={result.totalPages} unit="משרות" placement="top" />
 
       {result.total === 0 ? (
         filtered ? (
@@ -174,6 +191,7 @@ export default async function JobsPage({
                   />
                   <th>מקור</th>
                   <th>מיקום</th>
+                  <th>אופן עבודה</th>
                   <SortHeader
                     column="seniority"
                     label="רמה"
@@ -190,6 +208,7 @@ export default async function JobsPage({
                     defaults={DEFAULTS}
                   />
                   <th>מילות מפתח</th>
+                  <th>מעקב</th>
                   <SortHeader
                     column="posted_at"
                     label="פורסם"
@@ -229,15 +248,22 @@ export default async function JobsPage({
                     <td className="cell-muted">
                       {job.location || <span className="cell-muted">—</span>}
                     </td>
+                    <td className="cell-muted">{({ remote: "מרחוק", hybrid: "היברידי", onsite: "באתר" } as Record<string, string>)[job.work_mode || ""] || job.work_mode || "—"}</td>
                     <td className="cell-muted">{job.seniority || "—"}</td>
                     <td>
                       <span className="badge conf-green">
                         {Number(job.score).toFixed(2)}
                       </span>
+                      {job.fit_matches?.length ? (
+                        <span className="cell-muted" title={job.fit_matches.map(({ term, weight }) => `${term}: ${weight}`).join(", ")}>
+                          {" "}{job.fit_matches.map(({ term }) => term).join(", ")}
+                        </span>
+                      ) : null}
                     </td>
                     <td className="cell-muted">
                       {(job.keywords || []).slice(0, 4).join(", ") || "—"}
                     </td>
+                    <td><JobTrackerActions job={{ id: job.id, title: job.title, company: job.company || "", url: job.url || "" }} /></td>
                     <td className="cell-muted nowrap">{when(job.posted_at)}</td>
                   </tr>
                 ))}
@@ -254,6 +280,7 @@ export default async function JobsPage({
             total={result.total}
             totalPages={result.totalPages}
             unit="משרות"
+            placement="bottom"
           />
         </>
       )}

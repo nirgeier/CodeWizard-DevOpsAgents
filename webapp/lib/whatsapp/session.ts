@@ -55,6 +55,8 @@ export interface WaState {
   me: string | null;
   closeReason: string | null;
   lastError: string | null;
+  /** True when WhatsApp logged this companion device out (401). */
+  unlinked: boolean;
   groups: number;
   messages: number;
   newMessages: number;
@@ -112,6 +114,7 @@ class WhatsAppSession {
   me: string | null = null;
   closeReason: string | null = null;
   lastError: string | null = null;
+  unlinked = false;
   startedAt: string | null = null;
   reconnectAttempts = 0;
   private stopReconnect = false;
@@ -153,6 +156,7 @@ class WhatsAppSession {
       me: this.me,
       closeReason: this.closeReason,
       lastError: this.lastError,
+      unlinked: this.unlinked,
       groups: this.groups.size,
       messages: this.messages.size,
       newMessages: this.messages.size,
@@ -169,6 +173,7 @@ class WhatsAppSession {
    * because a freshly booted server has not loaded the socket yet.
    */
   isRegistered(): boolean {
+    if (this.unlinked) return false;
     if (this.creds?.me?.id) return true;
     try {
       const raw = require("node:fs").readFileSync(
@@ -354,6 +359,7 @@ class WhatsAppSession {
           this.lastError = null;
           this.reconnectAttempts = 0;
           this.stopReconnect = false;
+          this.unlinked = false;
           if (this.creds?.me?.id) this.me = `${this.creds.me.id} (${this.creds.me.name || ""})`.trim();
           this.emit();
           // Prime the group list once, so the tab has something to show.
@@ -363,11 +369,21 @@ class WhatsAppSession {
           this.phase = "closed";
           this.emit();
           const code = u.lastDisconnect?.error?.output?.statusCode;
-          // 401 = the session was unlinked on the phone. Retrying cannot help.
+          // 401 = the companion device was unlinked on the phone. Retrying the
+          // same credentials can never work, so park them now: the next start()
+          // must produce a fresh QR instead of replaying a dead session.
           if (code === 401) {
             this.stopReconnect = true;
-            this.lastError = "הסשן בוטל מהמכשיר (401) - צריך לחבר מחדש";
+            this.unlinked = true;
+            this.qr = null;
+            this.lastError = "הסשן בוטל מהמכשיר (401) - לחצו 'חבר מחדש' וסרקו QR";
             this.emit();
+            void this.parkCredentials()
+              .then(() => this.emit())
+              .catch((err) => {
+                this.lastError = `הסשן בוטל, אבל נכשל ניקוי האישורים: ${String(err)}`;
+                this.emit();
+              });
             return;
           }
           this.maybeReconnect();
@@ -459,6 +475,40 @@ class WhatsAppSession {
   async restart() {
     await this.stop();
     await this.start();
+  }
+
+  /**
+   * Move the current auth folder aside instead of deleting it, so an unlinked
+   * session is recoverable for inspection but can never be reused by Baileys.
+   * An empty auth dir makes useMultiFileAuthState() emit a new pairing QR.
+   */
+  private async parkCredentials(): Promise<string | null> {
+    try {
+      await fs.access(WA_AUTH_DIR);
+    } catch (err: any) {
+      if (err?.code === "ENOENT") return null;
+      throw err;
+    }
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const backup = path.join(WA_SESSION_DIR, `auth_info.unlinked-${stamp}`);
+    await fs.rename(WA_AUTH_DIR, backup);
+    await fs.mkdir(WA_AUTH_DIR, { recursive: true });
+    this.creds = null;
+    this.me = null;
+    return backup;
+  }
+
+  /** Recover from an unlinked/dead session and open a fresh pairing socket. */
+  async reconnect(): Promise<string | null> {
+    await this.stop();
+    const backup = await this.parkCredentials();
+    this.unlinked = false;
+    this.closeReason = null;
+    this.lastError = null;
+    this.phase = "idle";
+    this.emit();
+    await this.start();
+    return backup;
   }
 
   // ── groups ──────────────────────────────────────────────────────────────

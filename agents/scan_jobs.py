@@ -31,7 +31,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-from jobs_intel.engine import job_sources  # noqa: E402
+from jobs_intel.engine import board_companies, job_sources  # noqa: E402
 from jobs_intel.engine.store import make_store  # noqa: E402
 from jobs_intel.engine.util import now_iso  # noqa: E402
 
@@ -75,6 +75,31 @@ def _prepare_rows(jobs, existing):
     return rows
 
 
+def _new_companies(jobs, existing):
+    from jobs_intel.engine.util import stable_id
+
+    def normalized_name(value):
+        return " ".join(str(value or "").split()).casefold().removesuffix(" israel").removesuffix(" ישראל")
+
+    names = {normalized_name(row.get("name")) for row in existing}
+    domains = {str(row.get("domain") or "").strip().lower() for row in existing if row.get("domain")}
+    added = []
+    for job in jobs:
+        name = " ".join(str(job.get("company") or "").split())
+        domain = str(job.get("company_domain") or "").strip().lower()
+        if (job.get("country") != "IL" or not name or len(name) > 120 or
+                name.casefold() in {"unknown", "confidential", "undisclosed", "חסוי", "לא ידוע"} or
+                normalized_name(name) in names or (domain and domain in domains)):
+            continue
+        added.append({"id": stable_id("company", domain or name.casefold()),
+                      "name": name, "domain": domain or None, "country": "IL",
+                      "hq_city": job.get("city") or None})
+        names.add(normalized_name(name))
+        if domain:
+            domains.add(domain)
+    return added
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Scan public job boards for DevOps jobs in Israel.")
     ap.add_argument("--json", action="store_true", help="print a JSON summary on the last line")
@@ -84,6 +109,13 @@ def main() -> int:
                          "(or greenhouse,lever,ashby,workable,smartrecruiters; default: config)")
     ap.add_argument("--ats-company", default="",
                     help="comma list of ATS companies as slug or name:slug (overrides config)")
+    ap.add_argument("--comeet-company", default="",
+                    help="scan only the Comeet company with this UID")
+    ap.add_argument("--portal", default="", help="scan a configured public careers page by slug")
+    ap.add_argument("--board-company", default="",
+                    help="scan the job boards for one company from board-companies.json (by slug)")
+    ap.add_argument("--sync-agents", action="store_true",
+                    help="register every company in the stored jobs as an agent, then exit")
     ap.add_argument("--ats-probe", default="",
                     help="check which ATS a company uses and how many jobs are live, then exit")
     ap.add_argument("--include-non-israel", action="store_true",
@@ -108,6 +140,14 @@ def main() -> int:
         print(json.dumps(ats_sources.probe(args.ats_probe), ensure_ascii=False))
         return 0
 
+    if args.sync_agents:
+        store = make_store()
+        added = board_companies.register(store.read(TABLE, limit=10000))
+        board_companies.remove_covered()
+        print(json.dumps({"ok": True, "agents_added": len(added),
+                          "names": [a["name"] for a in added]}, ensure_ascii=False))
+        return 0
+
     overrides = {}
     if args.location:
         overrides["location"] = args.location
@@ -121,12 +161,46 @@ def main() -> int:
 
     ats_overrides = {}
     if args.ats_company:
-        ats_overrides["ats_company"] = [
-            {"name": c.split(":")[-1], "slug": (c.split(":")[0] if ":" in c else c)}
-            for c in _csv(args.ats_company)
-        ]
+        from jobs_intel.engine import ats_sources as _ats
+        configured = {str(c.get("slug")).lower(): c for c in _ats.load_ats_companies()}
+        picked = []
+        for item in _csv(args.ats_company):
+            name, _, slug = item.rpartition(":")
+            slug = slug.strip().lower()
+            picked.append(configured.get(slug) or {"name": name.strip() or slug, "slug": slug})
+        ats_overrides["ats_company"] = picked
+        cfg["sources"] = ["ats"]
+    if args.comeet_company:
+        cfg["sources"] = ["comeet"]
+    custom_sources = cfg.get("portals", []) if "custom" in cfg.get("sources", []) else None
+    if args.portal:
+        custom_sources = [portal for portal in cfg.get("portals", [])
+                          if portal.get("slug") == args.portal]
+        if not custom_sources:
+            ap.error("Portal not found")
+        cfg["sources"] = ["custom"]
+
+    ats_companies = None
+    if ats_overrides:
+        from jobs_intel.engine import ats_sources as _ats
+        ats_companies = _ats.load_ats_companies(ats_overrides)
+    comeet_companies = None
+    if args.comeet_company:
+        comeet_companies = [company for company in job_sources.load_comeet_companies()
+                            if str(company.get("uid")) == args.comeet_company]
+        if not comeet_companies:
+            ap.error("Comeet company UID not found")
 
     keywords = _csv(args.keywords)
+    board_company = None
+    if args.board_company:
+        board_company = next((c for c in board_companies.load() if c.get("slug") == args.board_company), None)
+        if not board_company:
+            ap.error("Board company not found")
+        board_company.setdefault("key", board_companies.name_key(board_company["name"]))
+        cfg["sources"] = ["linkedin", "drushim"]
+        keywords = [board_company["name"]]
+        custom_sources = None
     started = time.time()
     jobs = job_sources.scan(
         sources=cfg.get("sources"),
@@ -139,23 +213,12 @@ def main() -> int:
         limit=args.limit,
         linkedin_keywords=keywords or cfg.get("linkedin_keywords"),
         drushim_keywords=keywords or cfg.get("drushim_keywords"),
+        ats_companies=ats_companies,
+        comeet_companies=comeet_companies,
+        custom_sources=custom_sources,
     )
-
-    # ATS companies from the CLI replace the config list entirely.
-    if ats_overrides.get("ats_company"):
-        from jobs_intel.engine import ats_sources as _ats
-        wanted = {s for s in cfg.get("sources", []) if s in _ats.ATS_PROVIDERS}
-        if "ats" in cfg.get("sources", []) or not wanted:
-            wanted = list(_ats.ATS_PROVIDERS)
-        jobs += _ats.scan_ats(providers=list(wanted),
-                              companies=_ats.load_ats_companies(ats_overrides),
-                              only_israel=not args.include_non_israel)
-        by_id = {j["id"]: j for j in jobs}
-        jobs = sorted(by_id.values(),
-                      key=lambda j: (str(j.get("posted_at") or ""), float(j.get("score") or 0)),
-                      reverse=True)
-        if args.limit:
-            jobs = jobs[:args.limit]
+    if board_company:
+        jobs = [j for j in jobs if board_companies.matches(j.get("company"), board_company)]
 
     if args.list:
         print(json.dumps(jobs, ensure_ascii=False, indent=2, default=str))
@@ -170,6 +233,9 @@ def main() -> int:
             existing[row["id"]] = row
     rows = _prepare_rows(jobs, existing)
     save = store.save(TABLE, rows, merge=True) if rows else {"saved": 0, "mode": store.mode}
+    companies = _new_companies(jobs, store.read("companies", limit=10000)) if save.get("saved") else []
+    company_save = store.save("companies", companies, merge=True) if companies else {"saved": 0}
+    agents_added = board_companies.register(jobs) if jobs else []
 
     by_source = {}
     for job in jobs:
@@ -181,6 +247,9 @@ def main() -> int:
         "mode": store.mode,
         "scanned": len(jobs),
         "saved": save.get("saved", len(rows)),
+        "companies_added": company_save.get("saved", 0),
+        "agents_added": len(agents_added),
+        "agents_added_names": [a["name"] for a in agents_added][:50],
         "by_source": by_source,
         "location": cfg.get("location"),
         "keywords": keywords or cfg.get("linkedin_keywords"),

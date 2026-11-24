@@ -10,7 +10,12 @@ logger = structlog.get_logger()
 async def run_daily_scan(mode: str="daily", filters=None, query=None) -> dict:
     run_id = str(uuid.uuid4())
     state: AgentState = {"run_id": run_id,"mode": mode,"filters": filters or {},"query": query,"started_at": datetime.utcnow(),"errors": []}
-    sb = get_sb()
+    try:
+        sb = get_sb()
+    except Exception as e:
+        # Without Supabase the graph still runs; table calls below fail and are swallowed.
+        logger.warning("scan.no_supabase", err=str(e))
+        sb = None
     try:
         sb.table("scans").insert({"id": run_id,"mode": mode,"status": "running","started_at": datetime.utcnow().isoformat()+"Z"}).execute()
     except Exception:

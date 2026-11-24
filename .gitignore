@@ -23,6 +23,7 @@ __pycache__/
 
 # ── Build outputs ──────────────────────────────────────────────
 .next/
+.next-preview/
 out/
 dist/
 build/
@@ -34,6 +35,7 @@ data/
 agent/data/
 **/data/*.json
 *.ndjson
+agents/config/.discovery-state.json
 
 # ── Python tooling caches ──────────────────────────────────────
 .pytest_cache/
@@ -52,7 +54,14 @@ logs/
 
 # ── Agent & editor local state ─────────────────────────────────
 .opencode-memory/
-.opencode/
+
+# `.opencode/` is mostly machine-local state, but skills/ is source and must be
+# reviewed like any other code. A bare `.opencode/` rule cannot be re-included
+# from below: git never descends into an excluded directory, so the negation
+# would never match anything. Ignore the entries instead of the directory, which
+# keeps git walking into it and lets skills/ back in.
+.opencode/*
+!.opencode/skills/
 .claude/
 .cursor/
 .idea/
@@ -66,3 +75,7 @@ Thumbs.db
 *.bak
 *.orig
 *.rej
+
+# Playwright MCP writes page snapshots/screenshots/traces here on every tool
+# call. Generated output, never source.
+.playwright-mcp/

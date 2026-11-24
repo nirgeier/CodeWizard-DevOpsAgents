@@ -1,0 +1,1245 @@
+{
+  "_comment": "Companies found on job boards (LinkedIn, Drushim, ...) that are scanned as their own agent. Maintained automatically by scan_jobs.py.",
+  "companies": [
+    {
+      "name": "4M Analytics",
+      "slug": "4m-analytics",
+      "key": "4manalytics",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "abra",
+      "slug": "abra",
+      "key": "abra",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Aidoc",
+      "slug": "aidoc",
+      "key": "aidoc",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "AITAN",
+      "slug": "aitan",
+      "key": "aitan",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:58.127663Z"
+    },
+    {
+      "name": "Aiven",
+      "slug": "aiven",
+      "key": "aiven",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:59.783349Z"
+    },
+    {
+      "name": "Akamai Technologies",
+      "slug": "akamai-technologies",
+      "key": "akamai",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:03.801354Z"
+    },
+    {
+      "name": "Akeyless Security",
+      "slug": "akeyless-security",
+      "key": "akeylesssecurity",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:03.801354Z"
+    },
+    {
+      "name": "AllCloud",
+      "slug": "allcloud",
+      "key": "allcloud",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:01.460408Z"
+    },
+    {
+      "name": "AppCard, Inc.",
+      "slug": "appcard-inc",
+      "key": "appcard",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Apple",
+      "slug": "apple",
+      "key": "apple",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "ARAN Software",
+      "slug": "aran-software",
+      "key": "aransoftware",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Ashley Digital",
+      "slug": "ashley-digital",
+      "key": "ashleydigital",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Avon AI",
+      "slug": "avon-ai",
+      "key": "avonai",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Bank Hapoalim בנק הפועלים",
+      "slug": "bank-hapoalim",
+      "key": "bankhapoalimבנקהפועלים",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Base44",
+      "slug": "base44",
+      "key": "base44",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:04.963639Z"
+    },
+    {
+      "name": "Bitsight",
+      "slug": "bitsight",
+      "key": "bitsight",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 8,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Blink",
+      "slug": "blink",
+      "key": "blink",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Bridgewise",
+      "slug": "bridgewise",
+      "key": "bridgewise",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Bridgify",
+      "slug": "bridgify",
+      "key": "bridgify",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Buildots",
+      "slug": "buildots",
+      "key": "buildots",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Calanit by one",
+      "slug": "calanit-by-one",
+      "key": "calanitbyone",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:08.920966Z"
+    },
+    {
+      "name": "Canonical",
+      "slug": "canonical",
+      "key": "canonical",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Check Point Software",
+      "slug": "check-point-software",
+      "key": "checkpointsoftware",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Cisco",
+      "slug": "cisco",
+      "key": "cisco",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "CodeValue",
+      "slug": "codevalue",
+      "key": "codevalue",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "comblack",
+      "slug": "comblack",
+      "key": "comblack",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Comm-IT",
+      "slug": "comm-it",
+      "key": "commit",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 9,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:14.090473Z"
+    },
+    {
+      "name": "CommBox",
+      "slug": "commbox",
+      "key": "commbox",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:12.083925Z"
+    },
+    {
+      "name": "Confidental",
+      "slug": "confidental",
+      "key": "confidental",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-11-22T18:54:38.972481Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Credo",
+      "slug": "credo",
+      "key": "credo",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Crusoe",
+      "slug": "crusoe",
+      "key": "crusoe",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Cust2Mate - A2Z (NASDAQ: AZ)",
+      "slug": "cust2mate-a2z-nasdaq-az",
+      "key": "cust2matea2znasdaqaz",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:13.857724Z"
+    },
+    {
+      "name": "Deloitte",
+      "slug": "deloitte",
+      "key": "deloitte",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Dream",
+      "slug": "dream",
+      "key": "dream",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "DriveNets",
+      "slug": "drivenets",
+      "key": "drivenets",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 10,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "DRW",
+      "slug": "drw",
+      "key": "drw",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "DT",
+      "slug": "dt",
+      "key": "dt",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Echo",
+      "slug": "echo",
+      "key": "echo",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Eitan Medical",
+      "slug": "eitan-medical",
+      "key": "eitanmedical",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Elad Software",
+      "slug": "elad-software",
+      "key": "eladsoftware",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Elbit Systems Israel",
+      "slug": "elbit-systems-israel",
+      "key": "elbitsystems",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 15,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "EPAM Systems",
+      "slug": "epam-systems",
+      "key": "epamsystems",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "evoke",
+      "slug": "evoke",
+      "key": "evoke",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:22.837303Z"
+    },
+    {
+      "name": "Experis Israel",
+      "slug": "experis-israel",
+      "key": "experis",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Extreme",
+      "slug": "extreme",
+      "key": "extreme",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:27.500184Z"
+    },
+    {
+      "name": "Fetcherr",
+      "slug": "fetcherr",
+      "key": "fetcherr",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 10,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Final",
+      "slug": "final",
+      "key": "final",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Fullpath",
+      "slug": "fullpath",
+      "key": "fullpath",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:28.243542Z"
+    },
+    {
+      "name": "Gav systems",
+      "slug": "gav-systems",
+      "key": "gavsystems",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:30.572524Z"
+    },
+    {
+      "name": "Google",
+      "slug": "google",
+      "key": "google",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Gotfriends",
+      "slug": "gotfriends",
+      "key": "gotfriends",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Grubhub",
+      "slug": "grubhub",
+      "key": "grubhub",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Harmonic",
+      "slug": "harmonic",
+      "key": "harmonic",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Infinidat",
+      "slug": "infinidat",
+      "key": "infinidat",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "INGIMA",
+      "slug": "ingima",
+      "key": "ingima",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:34.259590Z"
+    },
+    {
+      "name": "Integress, Inc.",
+      "slug": "integress-inc",
+      "key": "integress",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Jeen.ai",
+      "slug": "jeen-ai",
+      "key": "jeenai",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 12,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "JOB SPACE",
+      "slug": "job-space",
+      "key": "jobspace",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:12.892455Z"
+    },
+    {
+      "name": "Job-time",
+      "slug": "job-time",
+      "key": "jobtime",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:38.841493Z"
+    },
+    {
+      "name": "Kaltura",
+      "slug": "kaltura",
+      "key": "kaltura",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:03.801354Z"
+    },
+    {
+      "name": "Logica-IT",
+      "slug": "logica-it",
+      "key": "logicait",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:40.548926Z"
+    },
+    {
+      "name": "Malam מערכות",
+      "slug": "malam",
+      "key": "malamמערכות",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:41.760653Z"
+    },
+    {
+      "name": "Mentee Robotics",
+      "slug": "mentee-robotics",
+      "key": "menteerobotics",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Mertens – Malam Team",
+      "slug": "mertens-malam-team",
+      "key": "mertensmalamteam",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Miggo Security",
+      "slug": "miggo-security",
+      "key": "miggosecurity",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Millennium",
+      "slug": "millennium",
+      "key": "millennium",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "MIND",
+      "slug": "mind",
+      "key": "mind",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:45.760714Z"
+    },
+    {
+      "name": "monday.com",
+      "slug": "monday-com",
+      "key": "mondaycom",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Moveo Source",
+      "slug": "moveo-source",
+      "key": "moveosource",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:47.192933Z"
+    },
+    {
+      "name": "Navan",
+      "slug": "navan",
+      "key": "navan",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Ness Technologies | נס טכנולוגיות",
+      "slug": "ness-technologies",
+      "key": "nessנסטכנולוגיות",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "NextSilicon",
+      "slug": "nextsilicon",
+      "key": "nextsilicon",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Nimble",
+      "slug": "nimble",
+      "key": "nimble",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:48.713690Z"
+    },
+    {
+      "name": "Novocure",
+      "slug": "novocure",
+      "key": "novocure",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:49.875147Z"
+    },
+    {
+      "name": "NVIDIA",
+      "slug": "nvidia",
+      "key": "nvidia",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 20,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Nym",
+      "slug": "nym",
+      "key": "nym",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:50.850460Z"
+    },
+    {
+      "name": "Oracle",
+      "slug": "oracle",
+      "key": "oracle",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Oriient",
+      "slug": "oriient",
+      "key": "oriient",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:52.798563Z"
+    },
+    {
+      "name": "Palo Alto Networks",
+      "slug": "palo-alto-networks",
+      "key": "paloaltonetworks",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 20,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Pango",
+      "slug": "pango",
+      "key": "pango",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Paragon",
+      "slug": "paragon",
+      "key": "paragon",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "PayPal",
+      "slug": "paypal",
+      "key": "paypal",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:56:56.009427Z"
+    },
+    {
+      "name": "Penlink",
+      "slug": "penlink",
+      "key": "penlink",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "phoenix brokers",
+      "slug": "phoenix-brokers",
+      "key": "phoenixbrokers",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:12.892455Z"
+    },
+    {
+      "name": "Port.io",
+      "slug": "port-io",
+      "key": "portio",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Priority Software",
+      "slug": "priority-software",
+      "key": "prioritysoftware",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Proceed",
+      "slug": "proceed",
+      "key": "proceed",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Prologic משרדי ממשלה",
+      "slug": "prologic",
+      "key": "prologicמשרדיממשלה",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:01.316941Z"
+    },
+    {
+      "name": "QPOINT Technologies",
+      "slug": "qpoint-technologies",
+      "key": "qpoint",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:02.604551Z"
+    },
+    {
+      "name": "QualityAI",
+      "slug": "qualityai",
+      "key": "qualityai",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 7,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Radware",
+      "slug": "radware",
+      "key": "radware",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Rapyd",
+      "slug": "rapyd",
+      "key": "rapyd",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:04.081510Z"
+    },
+    {
+      "name": "Sandisk",
+      "slug": "sandisk",
+      "key": "sandisk",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "SciPlay",
+      "slug": "sciplay",
+      "key": "sciplay",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "SeeTrue AI",
+      "slug": "seetrue-ai",
+      "key": "seetrueai",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:07.072354Z"
+    },
+    {
+      "name": "Skapion",
+      "slug": "skapion",
+      "key": "skapion",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-11-22T11:42:40.796157Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Speedata.io",
+      "slug": "speedata-io",
+      "key": "speedataio",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Spinomenal",
+      "slug": "spinomenal",
+      "key": "spinomenal",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Stealth AI Startup",
+      "slug": "stealth-ai-startup",
+      "key": "stealthaistartup",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Talent Integration",
+      "slug": "talent-integration",
+      "key": "talentintegration",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:03.801354Z"
+    },
+    {
+      "name": "TeraSky",
+      "slug": "terasky",
+      "key": "terasky",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Tikal",
+      "slug": "tikal",
+      "key": "tikal",
+      "domain": "tikalk.com",
+      "found_on": "comeet",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:17.939451Z"
+    },
+    {
+      "name": "Tomorrow.io",
+      "slug": "tomorrow-io",
+      "key": "tomorrowio",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Ucl Group",
+      "slug": "ucl-group",
+      "key": "uclgroup",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:14.652169Z"
+    },
+    {
+      "name": "UNIQAI Systems",
+      "slug": "uniqai-systems",
+      "key": "uniqaisystems",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:14.208629Z"
+    },
+    {
+      "name": "Upstream Security",
+      "slug": "upstream-security",
+      "key": "upstreamsecurity",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:55:03.801354Z"
+    },
+    {
+      "name": "Viz.ai",
+      "slug": "viz-ai",
+      "key": "vizai",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "Webiks",
+      "slug": "webiks",
+      "key": "webiks",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:16.680713Z"
+    },
+    {
+      "name": "Wix",
+      "slug": "wix",
+      "key": "wix",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 7,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Wiz",
+      "slug": "wiz",
+      "key": "wiz",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 4,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "Workiz",
+      "slug": "workiz",
+      "key": "workiz",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:17.443877Z"
+    },
+    {
+      "name": "Yahoo",
+      "slug": "yahoo",
+      "key": "yahoo",
+      "domain": null,
+      "found_on": "linkedin",
+      "jobs_seen": 5,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-11-22T18:54:38.972481Z"
+    },
+    {
+      "name": "youcc טכנולוגיות",
+      "slug": "youcc",
+      "key": "youccטכנולוגיות",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "אביבית דבוש השמה",
+      "slug": "c-75c70ffb0b",
+      "key": "אביביתדבושהשמה",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:23.140834Z"
+    },
+    {
+      "name": "אזטק",
+      "slug": "c-691b8acd6f",
+      "key": "אזטק",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "בזק",
+      "slug": "c-4626711569",
+      "key": "בזק",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "דב הלפרין יועצים - hms",
+      "slug": "hms",
+      "key": "דבהלפריןיועציםhms",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 2,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "יונילינק",
+      "slug": "c-3830cf52c6",
+      "key": "יונילינק",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 3,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:26.026576Z"
+    },
+    {
+      "name": "מטח המרכז לטכנולוגיה חינוכית",
+      "slug": "c-f7fba7bcd8",
+      "key": "מטחהמרכזלטכנולוגיהחינוכית",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "נוגמי טק בע\"מ",
+      "slug": "c-c004a5b7c3",
+      "key": "נוגמיטק",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "עוז תוכנה בע\"מ",
+      "slug": "c-c5adadafe9",
+      "key": "עוזתוכנה",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 8,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:30.325736Z"
+    },
+    {
+      "name": "עידור מערכות",
+      "slug": "c-f02516e863",
+      "key": "עידורמערכות",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 1,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:37:10.384033Z"
+    },
+    {
+      "name": "קבוצת Aman",
+      "slug": "aman",
+      "key": "קבוצתaman",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 10,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:32.095780Z"
+    },
+    {
+      "name": "רזאל מערכות",
+      "slug": "c-b2b72dd1b7",
+      "key": "רזאלמערכות",
+      "domain": null,
+      "found_on": "drushim",
+      "jobs_seen": 6,
+      "first_seen_at": "2026-10-31T23:37:10.384033Z",
+      "last_seen_at": "2026-10-31T23:57:33.405363Z"
+    }
+  ]
+}

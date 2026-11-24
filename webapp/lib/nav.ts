@@ -36,6 +36,8 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/agents", label: "סוכנים", icon: "⚙", description: "הרצת סוכני סריקה" },
       { href: "/jobs", label: "משרות", icon: "☰", description: "משרות שנסרקו, מכל המקורות" },
+      { href: "/applications", label: "מעקב הגשות", icon: "▤", description: "משרות שמורות ומעקב אחר הגשות" },
+      { href: "/jobs/alerts", label: "התראות", icon: "◉", description: "משרות חדשות לפי ההתאמה האישית" },
       { href: "/whatsapp", label: "WhatsApp", icon: "✆", description: "סריקת קבוצות" },
       { href: "/scans", label: "סריקות", icon: "↻", description: "היסטוריית ריצות" },
     ],

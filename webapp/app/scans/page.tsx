@@ -85,6 +85,10 @@ export default async function ScansPage({
         total={result.total}
       />
 
+      <Pagination basePath={BASE} params={params} defaults={DEFAULTS}
+        page={result.page} pageSize={result.pageSize} total={result.total}
+        totalPages={result.totalPages} unit="סריקות" placement="top" />
+
       {result.total === 0 ? (
         filtered ? (
           <EmptyState
@@ -182,6 +186,7 @@ export default async function ScansPage({
             total={result.total}
             totalPages={result.totalPages}
             unit="סריקות"
+            placement="bottom"
           />
         </>
       )}

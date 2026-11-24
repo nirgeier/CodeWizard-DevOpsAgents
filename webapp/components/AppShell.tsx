@@ -14,7 +14,22 @@ import Topbar from "./Topbar";
  */
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const [navOpen, setNavOpen] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const pathname = usePathname();
+
+  useEffect(() => {
+    const saved = localStorage.getItem("codewizard-theme");
+    setTheme(saved === "dark" || saved === "light" ? saved : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
+  const changeTheme = (nextTheme: "light" | "dark") => {
+    setTheme(nextTheme);
+    localStorage.setItem("codewizard-theme", nextTheme);
+  };
 
   // Navigating is the signal that the drawer has done its job. Without this a
   // tap on a link leaves the overlay covering the page you just asked for.
@@ -29,6 +44,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [navOpen]);
 
+  if (pathname === "/login") {
+    return <main className="login-shell" id="content">{children}</main>;
+  }
+
   return (
     <div className={`layout${navOpen ? " nav-open" : ""}`}>
       <Sidebar />
@@ -41,7 +60,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         />
       ) : null}
       <div className="main">
-        <Topbar onToggleNav={() => setNavOpen((open) => !open)} navOpen={navOpen} />
+        <Topbar onToggleNav={() => setNavOpen((open) => !open)} navOpen={navOpen} theme={theme} onThemeChange={changeTheme} />
         <main className="content" id="content">
           {children}
         </main>

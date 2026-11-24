@@ -7,9 +7,10 @@ export const dynamic = "force-dynamic";
 /**
  * Control the WhatsApp socket.
  *
- *   { action: "start" }    open the socket (pairing if needed, connect if not)
- *   { action: "stop" }     close it
- *   { action: "restart" }  close and reopen - the fix for a wedged socket
+ *   { action: "start" }      open the socket (pairing if needed, connect if not)
+ *   { action: "stop" }       close it
+ *   { action: "restart" }    close and reopen - the fix for a wedged socket
+ *   { action: "reconnect" }  discard an unlinked (401) session and start pairing
  *
  * `start` returns as soon as the socket is created; the QR (or the connect)
  * arrives afterwards through /api/whatsapp/events.
@@ -30,6 +31,8 @@ export async function POST(request: Request) {
       await session.stop();
     } else if (action === "restart") {
       await session.restart();
+    } else if (action === "reconnect" || action === "reset") {
+      await session.reconnect();
     } else if (action === "start") {
       await session.start();
     } else {

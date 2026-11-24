@@ -7,7 +7,7 @@ import Link from "next/link";
 interface Source {
   id: string;
   name: string;
-  type: "board" | "comeet" | "ats";
+  type: "board" | "comeet" | "ats" | "portal" | "company";
   domain?: string;
   uid?: string;
   slug?: string;
@@ -61,7 +61,7 @@ interface JobsResponse {
 
 export default function AgentDetailPage() {
   const params = useParams();
-  const sourceId = params.id as string;
+  const sourceId = decodeURIComponent(params.id as string);
 
   const [source, setSource] = useState<Source | null>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -70,6 +70,12 @@ export default function AgentDetailPage() {
   const [scanStatus, setScanStatus] = useState<ScanStatus>({ status: "idle" });
   const [scanning, setScanning] = useState(false);
 
+  useEffect(() => {
+    fetchSource();
+    fetchSource();
+    fetchStatus();
+  }, [sourceId]);
+
   const fetchSource = async () => {
     try {
       const res = await fetch("/api/agents/sources");
@@ -77,6 +83,7 @@ export default function AgentDetailPage() {
         const data = await res.json();
         const found = data.sources.find((s: Source) => s.id === sourceId);
         setSource(found || null);
+        fetchJobs(found || null);
       }
     } catch (err) {
       console.error("Failed to fetch source:", err);
@@ -85,9 +92,18 @@ export default function AgentDetailPage() {
     }
   };
 
-  const fetchJobs = async () => {
+  const fetchJobs = async (src: Source | null) => {
+    // Board agents map to the jobs' `source` column; company agents are matched by company name.
+    const boardSource: Record<string, string> = { linkedin: "linkedin", drushim: "drushim", "comeet-global": "comeet" };
+    const query = boardSource[sourceId]
+      ? `source=${encodeURIComponent(boardSource[sourceId])}`
+      : src ? `company=${encodeURIComponent(src.name)}` : null;
+    if (!query) {
+      setJobsLoading(false);
+      return;
+    }
     try {
-      const res = await fetch(`/api/agents/jobs?source=${encodeURIComponent(sourceId)}&limit=200`);
+      const res = await fetch(`/api/agents/jobs?${query}&limit=200`);
       if (res.ok) {
         const data = await res.json();
         setJobs(data.jobs || []);
@@ -130,7 +146,7 @@ export default function AgentDetailPage() {
   };
 
   const pollStatus = async () => {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 900; i++) {
       await new Promise((r) => setTimeout(r, 2000));
       try {
         const res = await fetch(`/api/agents/scan?sourceId=${encodeURIComponent(sourceId)}`);
@@ -138,8 +154,7 @@ export default function AgentDetailPage() {
           const status = await res.json();
           setScanStatus(status);
           if (status.status === "completed" || status.status === "failed") {
-            fetchJobs();
-            fetchSource(); // Refresh to update lastScannedAt
+            fetchSource(); // Refreshes lastScannedAt and the job list
             break;
           }
         }
@@ -172,6 +187,10 @@ export default function AgentDetailPage() {
         return "Comeet";
       case "ats":
         return "ATS";
+      case "portal":
+        return "דף משרות";
+      case "company":
+        return "חברה מלוח משרות";
       default:
         return type;
     }
@@ -264,11 +283,17 @@ export default function AgentDetailPage() {
           {scanStatus.error && (
             <div className="status-error">{scanStatus.error}</div>
           )}
+          {scanStatus.result && (
+            <details className="scan-summary">
+              <summary>פרטי הסריקה האחרונה</summary>
+              <pre dir="ltr">{JSON.stringify(scanStatus.result, null, 2)}</pre>
+            </details>
+          )}
         </div>
 
         <div className="source-actions">
           <button
-            className={`btn btn-primary ${isScanning ? "loading" : ""}`}
+            className="btn btn-primary source-scan-button"
             onClick={handleRescan}
             disabled={isScanning}
           >

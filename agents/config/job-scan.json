@@ -6,7 +6,14 @@
   "max_age_days": 30,
   "pages": 2,
   "min_score": 0.35,
-  "sources": ["linkedin", "drushim", "comeet"],
+  "sources": ["linkedin", "drushim", "comeet", "ats", "custom"],
   "linkedin_keywords": ["DevOps", "Platform Engineer", "SRE", "Cloud Engineer", "Kubernetes", "Infrastructure Engineer"],
-  "drushim_keywords": ["devops", "cloud engineer", "sre", "kubernetes", "platform engineer"]
+  "drushim_keywords": ["devops", "cloud engineer", "sre", "kubernetes", "platform engineer"],
+  "portals": [
+    {"name": "Matrix", "slug": "matrix", "url": "https://www.matrix.co.il/jobs/משרות/devops"},
+    {"name": "Nisha", "slug": "nisha", "url": "https://www.nisha.co.il/positions/devops"},
+    {"name": "Dialog", "slug": "dialog", "url": "https://www.dialog.co.il/high-tech/jobs/system/devops"},
+    {"name": "Aman", "slug": "aman", "url": "https://www.aman.co.il/careers/תשתיות-משרות-סיסטם-devops"},
+    {"name": "GotFriends", "slug": "gotfriends", "url": "https://www.gotfriends.co.il/jobslobby/system/devops-positions"}
+  ]
 }

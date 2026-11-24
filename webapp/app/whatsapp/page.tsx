@@ -22,6 +22,7 @@ interface WaStatus {
   me: string | null;
   closeReason: string | null;
   lastError: string | null;
+  unlinked: boolean;
   groups: number;
   messages: number;
   startedAt: string | null;
@@ -165,7 +166,7 @@ export default function WhatsAppPage() {
   }, [phase, activeJid, loadGroups, loadMessages]);
 
   // ── actions ──────────────────────────────────────────────────────────────
-  const sessionAction = async (action: "start" | "stop" | "restart") => {
+  const sessionAction = async (action: "start" | "stop" | "restart" | "reconnect") => {
     setBusy(action);
     try {
       const res = await fetch("/api/whatsapp/session", {
@@ -176,6 +177,7 @@ export default function WhatsAppPage() {
       const data = await res.json();
       if (!res.ok) say("err", data.error || "הפעולה נכשלה");
       else if (action === "start") say("ok", "מתחבר ל-WhatsApp...");
+      else if (action === "reconnect") say("ok", "נוצר סשן חדש - סרקו QR ב-WhatsApp");
       else if (action === "stop") {
         setQr(null);
         say("ok", "החיבור נסגר");
@@ -303,7 +305,7 @@ export default function WhatsAppPage() {
 
   // ── derived ──────────────────────────────────────────────────────────────
   const monitored = useMemo(() => groups.filter((g) => g.monitored), [groups]);
-  const filtered = useMemo(() => groups.filter((g) => g.subject.includes(filter.trim())), [groups, filter]);
+  const filtered = useMemo(() => groups.filter((g) => g.subject.toLocaleLowerCase().includes(filter.trim().toLocaleLowerCase())), [groups, filter]);
   const isOpen = status?.phase === "open";
 
   const visibleMessages = useMemo(() => {
@@ -344,10 +346,19 @@ export default function WhatsAppPage() {
             </div>
           </div>
           <div className="wa-toolbar">
+            {(status?.unlinked || status?.lastError?.includes("401")) && (
+              <button
+                className="btn btn-primary"
+                onClick={() => sessionAction("reconnect")}
+                disabled={!!busy}
+              >
+                {busy === "reconnect" ? <><span className="spinner" />מחבר...</> : "חבר מחדש"}
+              </button>
+            )}
             <button
               className="btn btn-primary"
               onClick={() => sessionAction("start")}
-              disabled={!!busy || status?.phase === "open"}
+              disabled={!!busy || status?.phase === "open" || !!status?.unlinked}
             >
               {busy === "start" ? <><span className="spinner" />מתחבר...</> : "התחל חיבור"}
             </button>
@@ -369,6 +380,12 @@ export default function WhatsAppPage() {
         </div>
 
         {status?.lastError && <div className="status-error">{status.lastError}</div>}
+        {status?.unlinked && !qr && (
+          <div className="wa-notice">
+            החיבור בוטל מהמכשיר. לחצו <strong>חבר מחדש</strong> וסרקו את ה-QR החדש ב-WhatsApp:
+            {" "}הגדרות ← מכשירים מקושרים ← קשר מכשיר.
+          </div>
+        )}
         {status?.closeReason && !status?.lastError && (
           <div className="wa-notice">החיבור נסגר: {status.closeReason}</div>
         )}
@@ -384,9 +401,11 @@ export default function WhatsAppPage() {
           </div>
         )}
 
-        {!status?.registered && !qr && (
+        {!status?.registered && !qr && (status?.phase === "idle" || status?.phase === "closed") && (
           <div className="wa-notice">
-            אין סשן שמור ב-<code>.wa-session</code>. לחצו "התחל חיבור" וסרקו את ה-QR.
+            {status?.unlinked
+              ? "הסשן הקודם בוטל. לחצו \"חבר מחדש\" וסרקו QR ב-WhatsApp."
+              : <>אין סשן שמור ב-<code>.wa-session</code>. לחצו "התחל חיבור" וסרקו את ה-QR.</>}
           </div>
         )}
       </div>

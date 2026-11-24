@@ -3,10 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { isActive, NAV_GROUPS } from "@/lib/nav";
+import { currentNavItem, NAV_GROUPS } from "@/lib/nav";
+import SocialLinks from "./SocialLinks";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const activeHref = currentNavItem(pathname)?.href;
 
   return (
     <aside className="sidebar" id="app-nav">
@@ -15,8 +17,8 @@ export default function Sidebar() {
           <Image
             src="/codewizard-logo.png"
             alt="CodeWizard"
-            width={117}
-            height={32}
+            width={196}
+            height={54}
             className="brand-logo"
             priority
           />
@@ -31,7 +33,7 @@ export default function Sidebar() {
               <div className="nav-group-title">{group.title}</div>
             ) : null}
             {group.items.map((item) => {
-              const active = isActive(item.href, pathname);
+              const active = item.href === activeHref;
               return (
                 <Link
                   key={item.href}
@@ -50,6 +52,8 @@ export default function Sidebar() {
           </div>
         ))}
       </nav>
+
+      <SocialLinks />
 
       <div className="sidebar-footer">
         <div className="sidebar-hint">

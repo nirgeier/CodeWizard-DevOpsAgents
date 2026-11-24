@@ -28,6 +28,7 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import urllib.robotparser
 from typing import Any, Dict, List, Optional, Tuple
 
 from .settings import settings
@@ -49,7 +50,7 @@ DEFAULT_SCAN_CONFIG: Dict[str, Any] = {
     "max_age_days": 30,
     "pages": 2,
     "min_score": 0.35,
-    "sources": ["linkedin", "drushim", "comeet"],
+    "sources": ["linkedin", "drushim", "comeet", "ats", "custom"],
     "linkedin_keywords": ["DevOps", "Platform Engineer", "SRE", "Cloud Engineer", "Kubernetes", "Infrastructure Engineer"],
     "drushim_keywords": ["devops", "cloud engineer", "sre", "kubernetes", "platform engineer"],
 }
@@ -178,10 +179,11 @@ def _iso(value: Any) -> Optional[str]:
 
 
 # --- HTTP helpers ---------------------------------------------------------- #
-def http_get(url: str, timeout: int = 25, retries: int = 2) -> Optional[str]:
+def http_get(url: str, timeout: int = 25, retries: int = 2,
+             user_agent: str = DEFAULT_UA) -> Optional[str]:
     """GET a public page as text. Retries transient errors; never raises."""
     headers = {
-        "User-Agent": DEFAULT_UA,
+        "User-Agent": user_agent,
         "Accept": "text/html,application/json;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9,he;q=0.8",
     }
@@ -641,8 +643,25 @@ def scan_job_source(src: Dict[str, Any]) -> List[Dict[str, Any]]:
     url = str(src.get("url") or "").strip()
     if not url:
         return []
+    # urllib cannot fetch non-ASCII (e.g. Hebrew) paths unless they are percent-encoded.
+    url = urllib.parse.quote(url, safe=":/?=&%#+,;@~")
+    agent = "CodeWizard-JobsIntel/1.0"
+    parsed = urllib.parse.urlparse(url)
+    robots_url = urllib.parse.urljoin(f"{parsed.scheme}://{parsed.netloc}", "/robots.txt")
+    try:
+        request = urllib.request.Request(robots_url, headers={"User-Agent": agent})
+        with urllib.request.urlopen(request, timeout=10) as response:
+            rules = urllib.robotparser.RobotFileParser()
+            rules.parse(response.read(262144).decode("utf-8", "replace").splitlines())
+            if not rules.can_fetch(agent, url):
+                raise PermissionError(f"robots.txt disallows scanning {url}")
+    except urllib.error.HTTPError as error:
+        if error.code != 404:
+            raise PermissionError(f"Cannot scan {url}: robots.txt returned {error.code}") from error
+    except urllib.error.URLError as error:
+        raise ConnectionError(f"Cannot check robots.txt for {url}") from error
     keywords = src.get("keywords") or DEFAULT_SCAN_CONFIG.get("linkedin_keywords", [])
-    html = http_get(url, timeout=30, retries=1)
+    html = http_get(url, timeout=30, retries=1, user_agent=agent)
     if not html:
         return []
 
@@ -658,7 +677,7 @@ def scan_job_source(src: Dict[str, Any]) -> List[Dict[str, Any]]:
         host = urllib.parse.urlparse(href).netloc.lower()
         if base.netloc and host != base.netloc:
             continue
-        if href in seen:
+        if href in seen or href.rstrip("/") == url.rstrip("/"):
             continue
         low = (href + " " + _ws(inner)).lower()
         if not ("job" in low or "career" in low or "position" in low or "משרה" in low):
@@ -675,7 +694,7 @@ def scan_job_source(src: Dict[str, Any]) -> List[Dict[str, Any]]:
             source="custom",
             external_id=stable_id("custom", href),
             title=title[:200],
-            company="",
+            company=str(src.get("name") or ""),
             location="Israel",
             country="IL",
             url=href,
@@ -699,6 +718,8 @@ def scan(
     drushim_keywords: Optional[List[str]] = None,
     custom_sources: Optional[List[Dict[str, Any]]] = None,
     keywords: Optional[List[str]] = None,
+    ats_companies: Optional[List[Dict[str, Any]]] = None,
+    comeet_companies: Optional[List[Dict[str, Any]]] = None,
 ) -> List[Dict[str, Any]]:
     """Run the requested sources, normalize, dedupe and filter the results.
 
@@ -706,7 +727,7 @@ def scan(
     ("ats" = every provider, or a specific one), and "custom" for the
     generic-URL scanner. `keywords` overrides both keyword lists at once.
     """
-    sources = sources or ["linkedin", "drushim", "comeet"]
+    sources = sources or DEFAULT_SCAN_CONFIG["sources"]
     lk = keywords or linkedin_keywords
     dk = keywords or drushim_keywords
     jobs: List[Dict[str, Any]] = []
@@ -717,7 +738,7 @@ def scan(
     if "drushim" in sources:
         jobs += scan_drushim(dk or DEFAULT_SCAN_CONFIG["drushim_keywords"], pages=pages)
     if "comeet" in sources:
-        jobs += scan_comeet(only_israel=only_israel)
+        jobs += scan_comeet(companies=comeet_companies, only_israel=only_israel)
 
     # --- ATS (employer's own boards) --------------------------------------
     try:
@@ -733,7 +754,7 @@ def scan(
                 ats_wanted.append(s)
         if ats_wanted:
             jobs += ats_sources.scan_ats(
-                providers=list(dict.fromkeys(ats_wanted)), only_israel=only_israel)
+                providers=list(dict.fromkeys(ats_wanted)), companies=ats_companies, only_israel=only_israel)
 
     if custom_sources or "custom" in sources:
         for cs in (custom_sources or []):

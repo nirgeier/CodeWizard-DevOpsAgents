@@ -87,6 +87,10 @@ export default async function SignalsPage({
         />
       </DataToolbar>
 
+      <Pagination basePath={BASE} params={params} defaults={DEFAULTS}
+        page={result.page} pageSize={result.pageSize} total={result.total}
+        totalPages={result.totalPages} unit="איתותים" placement="top" />
+
       {result.total === 0 ? (
         filtered ? (
           <EmptyState
@@ -152,6 +156,7 @@ export default async function SignalsPage({
             total={result.total}
             totalPages={result.totalPages}
             unit="איתותים"
+            placement="bottom"
           />
         </>
       )}

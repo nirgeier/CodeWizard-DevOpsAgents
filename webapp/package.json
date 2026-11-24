@@ -9,21 +9,25 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@codewizard/devopsagents-db": "file:../db/ts",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.2",
     "@whiskeysockets/baileys": "6.17.16",
     "next": "16.3.5",
+    "pdfjs-dist": "6.4.299",
+    "pg": "^8.13.1",
     "qrcode": "^1.5.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "@codewizard/devopsagents-db": "file:../db/ts",
-    "pg": "^8.13.1"
+    "react-icons": "^5.7.0"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "patch-package": "^8.0.1",
-    "typescript": "^5",
-    "@types/pg": "^8.11.10"
+    "typescript": "^5"
   }
 }

@@ -1,7 +1,7 @@
 {
   "_comment": "Israeli companies whose careers run on Comeet. The public positions API (https://www.comeet.co/careers-api/2.0/company/{uid}/positions) needs a uid + a public token; both are embedded in each company's own public careers page, so they are not secrets. Add a company with: python3 Jobs/agents/scan_jobs.py --comeet-discover <hosted-job-url>",
   "_generated_by": "agents/scripts/discover_comeet_companies.py",
-  "_verified_at": "2026-10-04",
+  "_verified_at": "2026-11-01",
   "companies": [
     {
       "name": "Airobotics",
@@ -489,6 +489,16 @@
       "discover_from": "https://www.comeet.com/jobs/onyxsecurity/BA.005/senior-devops-engineer/97.76E"
     },
     {
+      "name": "Orbit Communication Systems",
+      "uid": "2B.008",
+      "token": "B284E184E184E1837C82178B2837C821782178",
+      "domain": "orbit-cs.com",
+      "discover_from": "https://www.comeet.com/jobs/orbit_communication_systems/2B.008",
+      "positions": 13,
+      "israel_positions": 13,
+      "devops_israel_positions": 0
+    },
+    {
       "name": "Orca AI",
       "uid": "86.003",
       "token": "68327126833A9B13891389138934182D95683",
@@ -556,6 +566,16 @@
       "discover_from": "https://qedma.com/careers",
       "positions": 5,
       "israel_positions": 3,
+      "devops_israel_positions": 0
+    },
+    {
+      "name": "Quantum Machines",
+      "uid": "D6.000",
+      "token": "6D028E0DA022106D01470221036803D502210",
+      "domain": "quantum-machines.co",
+      "discover_from": "https://www.comeet.com/jobs/quantummachines/D6.000",
+      "positions": 68,
+      "israel_positions": 22,
       "devops_israel_positions": 0
     },
     {

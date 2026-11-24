@@ -13,6 +13,18 @@
   --shadow: 0 1px 3px rgba(16, 54, 110, 0.08), 0 6px 20px rgba(16, 54, 110, 0.06);
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --navy: #c6e5f7;
+  --blue: #48b9ec;
+  --bg: #131d25;
+  --card: #21303b;
+  --text: #e7eef2;
+  --muted: #a9bbc7;
+  --line: #3c5361;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -44,21 +56,35 @@ a:hover {
 
 /* Layout ------------------------------------------------------------------ */
 
+.layout,
+.login-shell {
+  width: 100%;
+  max-width: 1900px;
+  margin-inline: auto;
+}
+
 .layout {
   display: flex;
   min-height: 100vh;
+  max-width: none;
 }
 
+/* The sidebar is a flex column, not one long scroll: the brand, the social icon
+   row and the footer are pinned and only .nav scrolls. Scrolling the whole column
+   (the old `overflow-y: auto`) pushed the footer below the fold on any viewport
+   under ~930px tall, hiding the icon row the user had just asked for. */
 .sidebar {
   width: 248px;
   flex: 0 0 248px;
   background: linear-gradient(180deg, #10366e 0%, #0b2a56 100%);
   color: #fff;
-  padding: 22px 16px;
+  padding: 18px 16px;
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .brand {
@@ -68,14 +94,17 @@ a:hover {
   padding: 0 8px 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   margin-bottom: 14px;
+  /* Pinned: the logo must never be the thing that gets squeezed. */
+  flex: 0 0 auto;
 }
 
 /* Brand logo. The PNG is light-on-dark (blue #20a0e0 + orange #e0a020), so it
    belongs on the navy sidebar, where it measures 4.5:1 contrast. */
 .brand-logo {
   display: block;
-  height: 32px;
-  width: auto;
+  height: 54px;
+  width: 196px;
+  margin: 0 auto;
 }
 .brand-link:hover {
   text-decoration: none;
@@ -85,15 +114,42 @@ a:hover {
   color: rgba(255, 255, 255, 0.65);
 }
 
+/* The only part of the sidebar allowed to scroll. `min-height: 0` is what makes
+   that work: a flex item defaults to min-height:auto, so without it this box
+   refuses to shrink below its content and the overflow escapes to the page. */
 .nav {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 2px of end padding, and it is load-bearing. The rows add up to 484.3px but
+     scrollHeight truncates to the integer 484, so on a short viewport the last
+     row ("עזרה") ends up clipped by ~0.3px at full scroll and can never be
+     scrolled fully into view. The padding gives the rounded scrollHeight
+     something to give back. */
+  padding-bottom: 2px;
+  /* Keep the scrollbar from repainting the pinned row underneath it as the
+     list scrolls. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+.nav::-webkit-scrollbar {
+  width: 6px;
+}
+.nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+}
+.nav::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .nav a {
   color: rgba(255, 255, 255, 0.82);
-  padding: 10px 12px;
+  padding: 6px 12px;
   border-radius: 10px;
   font-size: 14.5px;
   transition: background 0.15s ease, color 0.15s ease;
@@ -109,12 +165,157 @@ a:hover {
   font-weight: 600;
 }
 
+/* External link icons (GitHub / LinkedIn / Discord) - a single row of buttons
+   under the nav. `nowrap` is explicit: the three must never wrap onto two
+   lines. Icons use currentColor so they read as white on the navy sidebar and
+   switch to a brand tint on hover. Glyphs are 20px inside 36px tiles: the brand
+   marks carry a lot of built-in padding, so at 20px they still read clearly,
+   while the 36px tile stays a comfortable click target. */
+.sidebar-links {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  /* Centre the icons on the same line the centred text uses. Without this an
+     RTL flex row starts at the right edge and the row looks ragged. */
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  /* Pinned above the footer: these are the whole point of the row, so they must
+     stay on screen even when the nav list is taller than the viewport. */
+  flex: 0 0 auto;
+}
+
+.sidebar-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  /* Brand values are inherited from the per-brand rules below, so the metal
+     treatment is defined once. --metal is the dark base the highlight sweeps
+     across; --tint is the glyph colour on hover. */
+  --metal: #3a4351;
+  --tint: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  overflow: hidden;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+/* The sweeping specular band. Parked off-tile and transparent at rest, so it
+   costs nothing until hover. 260% wide and angled 105deg so it reads as a
+   highlight travelling across a curved surface rather than a flat wipe. */
+.sidebar-link::before {
+  content: "";
+  position: absolute;
+  inset: -20% -40%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 28%,
+    rgba(255, 255, 255, 0.22) 42%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.22) 58%,
+    rgba(255, 255, 255, 0.05) 72%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+/* Top-lit bevel: bright at the top edge, shaded at the bottom. This is what
+   sells "polished metal" more than the sweep alone. */
+.sidebar-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.04) 45%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.sidebar-link svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+.sidebar-link:hover,
+.sidebar-link:focus-visible {
+  background: var(--metal);
+  color: var(--tint);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.28), 0 3px 10px rgba(0, 0, 0, 0.32);
+}
+.sidebar-link:hover::before,
+.sidebar-link:focus-visible::before {
+  opacity: 1;
+  animation: sidebar-metal-sweep 1.4s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+.sidebar-link:hover::after,
+.sidebar-link:focus-visible::after {
+  opacity: 1;
+}
+.sidebar-link:focus-visible {
+  outline: 2px solid #7cc7ff;
+  outline-offset: 2px;
+}
+/* Per-brand metal base and glyph tint. The bases are deliberately dark: the
+   sweep is a highlight travelling over dark metal, so a light base would wash
+   out the glyph at the moment the band passes behind it. LinkedIn #0a66c2 and
+   Discord #5865f2 also fail contrast on the navy sidebar as-is. */
+.sidebar-link-github {
+  --metal: #3a4351;
+  --tint: #fff;
+}
+.sidebar-link-linkedin {
+  --metal: #14477c;
+  --tint: #a9ccff;
+}
+.sidebar-link-discord {
+  --metal: #333a9e;
+  --tint: #c3c9ff;
+}
+@keyframes sidebar-metal-sweep {
+  from {
+    transform: translateX(-115%);
+  }
+  to {
+    transform: translateX(115%);
+  }
+}
+/* No idle animation runs, so honour a reduced-motion preference by dropping the
+   sweep entirely and leaving the static lit metal in place. */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-link:hover::before,
+  .sidebar-link:focus-visible::before {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 .sidebar-footer {
-  margin-top: 22px;
-  padding: 12px;
+  margin-top: 14px;
+  padding: 10px 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   font-size: 12.5px;
   color: rgba(255, 255, 255, 0.7);
+  /* Pinned last, so the version line is always the bottom of the sidebar. */
+  flex: 0 0 auto;
 }
 
 .main {
@@ -146,6 +347,253 @@ a:hover {
 .content {
   padding: 26px 28px 60px;
   width: 100%;
+}
+
+.login-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: linear-gradient(160deg, #e8f3fb 0%, #f5f8fd 45%, #f1f5fa 100%);
+}
+
+.login-panel {
+  width: min(100%, 460px);
+  padding: 38px 38px 36px;
+  border: 1px solid #dce5ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 16px 42px rgba(25, 55, 94, 0.07);
+  text-align: center;
+}
+
+.login-logo {
+  display: block;
+  width: min(228px, 100%);
+  height: auto;
+  margin: 0 auto 12px;
+}
+
+.login-subtitle {
+  margin: 0 0 28px;
+  color: #606b78;
+  font-size: 16px;
+}
+
+.login-modes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 22px;
+  padding: 4px;
+  border-radius: 6px;
+  background: #eef3f9;
+}
+
+.login-modes a {
+  padding: 9px 8px;
+  border-radius: 4px;
+  color: #5c6d81;
+  font-weight: 700;
+  text-align: center;
+}
+
+.login-modes a:hover {
+  text-decoration: none;
+  color: #163a70;
+}
+
+.login-modes a[aria-current="page"] {
+  background: #fff;
+  color: #163a70;
+  box-shadow: 0 1px 4px rgba(25, 55, 94, 0.12);
+}
+
+.login-modes a:focus-visible {
+  outline: 2px solid #229ed5;
+  outline-offset: 2px;
+}
+
+.login-notice {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 5px;
+  background: #e8f4ed;
+  color: #245c3f;
+  text-align: right;
+}
+
+.login-error {
+  background: #fcebea;
+  color: #9d3030;
+}
+
+.login-form {
+  display: grid;
+  gap: 8px;
+  min-height: 19.5rem;
+  align-content: start;
+  text-align: right;
+}
+
+.login-form label {
+  font-weight: 600;
+  color: #28425f;
+}
+
+.login-form input:not([type="hidden"]) {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #ccd7e4;
+  border-radius: 5px;
+  background: #fff;
+  color: #16233a;
+  font: inherit;
+}
+
+.login-form input::placeholder {
+  color: #8994a4;
+  text-align: left;
+}
+
+.login-form button,
+.login-provider {
+  width: 100%;
+  min-height: 46px;
+  border-radius: 5px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-primary {
+  margin-top: 12px;
+  min-height: 52px;
+  border: 1px solid #163a70;
+  background: #163a70;
+  color: #fff;
+}
+
+.login-primary:hover {
+  background: #0e2d59;
+}
+
+.login-provider {
+  min-height: 52px;
+  border: 1px solid #d9e0e9;
+  border-radius: 6px;
+  background: #fff;
+  color: #3f4855;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(25, 55, 94, 0.08);
+}
+
+.login-provider svg {
+  width: 23px;
+  height: 23px;
+  flex: none;
+}
+
+.login-provider-github {
+  border-color: #171717;
+  background: #171717;
+  color: #fff;
+}
+
+.login-provider-linkedin_oidc {
+  border-color: #0a66c2;
+  background: #0a66c2;
+  color: #fff;
+}
+
+.login-provider-google:hover {
+  background: #f4f7fb;
+}
+
+.login-provider-github:hover {
+  background: #303030;
+}
+
+.login-provider-linkedin_oidc:hover {
+  background: #00549e;
+}
+
+.login-panel button:focus-visible,
+.login-panel input:focus-visible {
+  outline: 2px solid #229ed5;
+  outline-offset: 2px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 14px;
+  color: #6b7a90;
+  font-size: 13px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e9f2;
+}
+
+.login-providers {
+  display: grid;
+  gap: 10px;
+}
+
+.login-preview {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #e2e9f2;
+  text-align: right;
+}
+
+.login-preview label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #28425f;
+  cursor: pointer;
+}
+
+.login-preview input {
+  width: 16px;
+  height: 16px;
+  accent-color: #163a70;
+}
+
+.login-preview button {
+  min-height: 42px;
+  border: 1px solid #cbd8e8;
+  border-radius: 5px;
+  background: #fff;
+  color: #163a70;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-preview button:hover {
+  background: #eef5fb;
+}
+
+@media (max-width: 480px) {
+  .login-panel {
+    padding: 28px 20px;
+  }
 }
 
 /* Cards & grid ------------------------------------------------------------ */
@@ -220,6 +668,355 @@ a:hover {
   color: var(--muted);
   font-size: 14px;
   margin: 0 0 18px;
+}
+
+.settings-page {
+  max-width: 920px;
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+
+.settings-tabs button {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.settings-tabs button[aria-selected="true"] {
+  border-bottom-color: var(--navy);
+  color: var(--navy);
+}
+
+.settings-tabs button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+
+.settings-panel {
+  padding: 26px 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+.settings-panel h2 {
+  margin: 0 0 18px;
+  color: var(--navy);
+  font-size: 18px;
+}
+
+.settings-notice {
+  padding: 12px 16px;
+  border: 1px solid #b7dfc8;
+  border-radius: 6px;
+  background: #e7f5ec;
+  color: #245e3d;
+}
+
+.settings-notice.is-error {
+  border-color: #f1c9c9;
+  background: #fcebea;
+  color: #9d3030;
+}
+
+.settings-page > .settings-save-status {
+  position: sticky;
+  top: 12px;
+  z-index: 5;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.settings-options {
+  max-width: 760px;
+  border-top: 1px solid var(--line);
+}
+
+.settings-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 12px;
+  border-inline-start: 3px solid transparent;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.settings-option:hover {
+  background: #f8fbfe;
+}
+
+.settings-option.is-selected {
+  border-inline-start-color: var(--navy);
+  background: #eef5fb;
+}
+
+.settings-option input {
+  flex: none;
+  margin-top: 3px;
+}
+
+.settings-option strong,
+.settings-option small {
+  display: block;
+}
+
+.settings-option strong {
+  color: var(--navy);
+}
+
+.settings-option small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.settings-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+  max-width: 760px;
+}
+
+.settings-editor {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.settings-save-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.settings-save-status.is-saved {
+  padding: 10px 14px;
+  border: 1px solid #bfe8cf;
+  border-inline-start: 4px solid #0f7a3d;
+  border-radius: 6px;
+  background: #e9f7ef;
+  color: #245e3d;
+}
+
+.settings-save-status.is-error {
+  color: var(--red);
+}
+
+.settings-field {
+  display: grid;
+  gap: 6px;
+  color: #28425f;
+  font-weight: 600;
+}
+
+.settings-field input,
+.settings-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid #ccd7e4;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+.settings-field input[type="url"] {
+  direction: ltr;
+  text-align: left;
+}
+
+.settings-cv-input {
+  max-width: 760px;
+  margin-top: 14px;
+}
+
+.settings-cv-input textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #ccd7e4;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-weight: 400;
+  resize: vertical;
+}
+
+.settings-block {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.settings-block h3 {
+  margin: 0 0 16px;
+  color: var(--navy);
+  font-size: 16px;
+}
+
+.settings-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.settings-keyword {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #cadbeb;
+  border-radius: 999px;
+  background: #eef5fb;
+  color: var(--navy);
+}
+
+.settings-keyword input {
+  width: 122px;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+}
+
+.settings-keyword input.settings-keyword-weight {
+  width: 58px;
+  padding-inline-start: 6px;
+  border-inline-start: 1px solid #cadbeb;
+  font-size: 13px;
+  text-align: center;
+}
+
+.settings-keyword button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.settings-keyword button:hover {
+  background: #dbe9f5;
+}
+
+.settings-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.settings-check input,
+.settings-option input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--navy);
+}
+
+.settings-range {
+  display: grid;
+  gap: 8px;
+  max-width: 420px;
+  margin-top: 16px;
+}
+
+.settings-range span {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-range input {
+  width: 100%;
+  accent-color: var(--navy);
+}
+
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.settings-actions .btn,
+.settings-add,
+.settings-signout .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 6px;
+}
+
+.settings-actions .btn-primary {
+  background: var(--navy);
+}
+
+.settings-signout {
+  margin-top: 12px;
+}
+
+.settings-panel :is(input, button, textarea):focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .settings-panel {
+    padding: 20px 16px;
+  }
+
+  .settings-tabs {
+    flex-wrap: wrap;
+  }
+
+  .settings-tabs button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .settings-fields {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Badges ------------------------------------------------------------------ */
@@ -344,6 +1141,26 @@ a:hover {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+.companies-compact table {
+  font-size: 12.5px;
+}
+.companies-compact thead th,
+.companies-compact tbody td {
+  padding: 6px 9px;
+  vertical-align: middle;
+}
+.companies-compact .company-detail {
+  display: block;
+  font-size: 11px;
+  line-height: 1.25;
+}
+.companies-compact .chip {
+  padding: 1px 5px;
+}
+.companies-compact .btn {
+  padding: 4px 8px;
+  font-size: 12px;
 }
 table {
   width: 100%;
@@ -564,6 +1381,210 @@ tbody tr:hover {
   margin-bottom: 24px;
 }
 
+.source-add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.run-all-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.run-all-bar .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.run-all-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.run-all-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-basis: 100%;
+  font-size: 0.9rem;
+}
+
+.run-all-progress progress {
+  width: min(320px, 100%);
+}
+
+.source-dialog {
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.source-dialog::backdrop {
+  background: rgba(19, 36, 58, 0.58);
+}
+
+.source-dialog-form {
+  display: grid;
+  gap: 16px;
+}
+
+.source-dialog-heading,
+.source-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.source-dialog-heading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.source-dialog-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.source-dialog-field {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.source-dialog-field :is(input, select) {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+.applications-dialog .source-dialog-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+
+.applications-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.applications-summary,
+.applications-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-bottom: 20px;
+}
+
+.applications-summary {
+  padding: 14px 0;
+  border-block: 1px solid var(--line);
+}
+
+.applications-summary strong {
+  color: var(--navy);
+  font-size: 20px;
+}
+
+.applications-filters label {
+  display: grid;
+  gap: 6px;
+  min-width: min(100%, 200px);
+  font-weight: 600;
+}
+
+.applications-filters :is(input, select) {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+.applications-table th,
+.applications-table td {
+  white-space: nowrap;
+}
+
+.applications-actions,
+.job-tracker-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.applications-actions .btn,
+.job-tracker-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+.applications-due,
+.applications-error,
+.job-tracker-error {
+  color: var(--red);
+}
+
+.job-tracker-link {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.source-dialog-field small {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.source-dialog-error {
+  margin: 0;
+  color: var(--red);
+}
+
+.source-dialog-actions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -616,6 +1637,15 @@ tbody tr:hover {
 .source-card:hover {
   box-shadow: 0 4px 16px rgba(16, 54, 110, 0.12);
   border-color: #d0e0f0;
+}
+
+.source-card.is-scanning {
+  background: #eef7fc;
+  border-color: #89c8e6;
+}
+
+.source-card.is-scanning:hover {
+  border-color: #89c8e6;
 }
 
 .source-header {
@@ -712,10 +1742,38 @@ tbody tr:hover {
   border: 1px solid #f5c6c6;
 }
 
+.scan-summary {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.scan-summary summary {
+  cursor: pointer;
+  color: var(--blue);
+}
+
+.scan-summary pre {
+  max-height: 320px;
+  overflow: auto;
+  padding: 10px;
+  background: #f0f4fa;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .source-actions {
   display: flex;
   gap: 10px;
   margin-top: 4px;
+}
+
+.source-scan-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 138px;
+  min-height: 44px;
+  white-space: nowrap;
 }
 
 .spinner {
@@ -1300,7 +2358,7 @@ kbd {
 /* Sidebar groups ---------------------------------------------------------- */
 
 .nav-group + .nav-group {
-  margin-top: 14px;
+  margin-top: 10px;
 }
 .nav-group-title {
   font-size: 11px;
@@ -1308,7 +2366,7 @@ kbd {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
-  padding: 0 12px 6px;
+  padding: 0 12px 4px;
 }
 .nav a {
   display: flex;
@@ -1316,10 +2374,12 @@ kbd {
   gap: 10px;
 }
 .nav-icon {
-  width: 18px;
+  width: 26px;
+  flex: 0 0 26px;
   text-align: center;
   opacity: 0.85;
-  font-size: 13px;
+  font-size: 20px;
+  line-height: 1;
 }
 .sidebar-hint {
   display: flex;
@@ -1351,6 +2411,168 @@ kbd {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.theme-switch {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.theme-switch button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.theme-switch button[aria-pressed="true"] {
+  background: var(--card);
+  color: var(--navy);
+  box-shadow: var(--shadow);
+}
+
+.theme-switch button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+:root[data-theme="dark"] :is(
+  .btn-ghost, .btn-secondary, .field input, .field select, .input, .toolbar-field select,
+  .pagination-size select, .page-link, .nav-toggle, .settings-field input,
+  .settings-cv-input textarea, .source-dialog, .source-dialog-field input,
+  .source-dialog-field select, .applications-dialog textarea,
+  .applications-filters input, .applications-filters select
+) {
+  background: var(--card);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] :is(.settings-field, .settings-block h3, .settings-panel h2) {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] :is(thead th, .empty-state, .empty, .detail-section .body) {
+  background: #293a46;
+  color: var(--text);
+}
+
+:root[data-theme="dark"] tbody td {
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] tbody tr:hover {
+  background: #2b3d49;
+}
+
+:root[data-theme="dark"] :is(.th-sort a:hover, .page-link:hover, .settings-option:hover) {
+  background: #344959;
+}
+
+:root[data-theme="dark"] :is(.filter-chip, .settings-option.is-selected, .settings-keyword, .chip, .mode-badge) {
+  background: #2a4350;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] .badge.type {
+  background: #2a4350;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] .table-wrap .row-link {
+  color: #f5f9fc;
+  font-weight: 700;
+}
+
+:root[data-theme="dark"] :is(.settings-save-status.is-saved, .settings-notice) {
+  background: #1e463a;
+  color: #c5efd3;
+  border-color: #376a50;
+}
+
+:root[data-theme="dark"] :is(.settings-notice.is-error, .settings-save-status.is-error) {
+  background: #4a292e;
+  color: #ffd1d1;
+  border-color: #78434b;
+}
+
+:root[data-theme="dark"] .settings-actions .btn-primary {
+  background: #287daf;
+  color: #fff;
+}
+
+:root[data-theme="dark"] .source-card:hover {
+  border-color: #648699;
+}
+
+:root[data-theme="dark"] .source-card.is-scanning {
+  background: #223d4c;
+  border-color: #48b9ec;
+}
+
+:root[data-theme="dark"] :is(.source-domain, .source-uid, .source-slug, .scan-summary pre) {
+  background: #304451;
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .source-status {
+  background: #1a2933;
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] .source-actions .btn-secondary {
+  background: #304451;
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .source-actions .btn-secondary:hover {
+  background: #3a5362;
+}
+
+:root[data-theme="dark"] .status-error {
+  background: #4a292e;
+  color: #ffd1d1;
+  border-color: #78434b;
+}
+
+:root[data-theme="dark"] :is(.wa-qr, .wa-msg, .wa-notice) {
+  background: #1a2933;
+  border-color: var(--line);
+  color: var(--text);
+}
+
+:root[data-theme="dark"] :is(.wa-groups, .wa-group) {
+  border-color: var(--line);
+}
+
+:root[data-theme="dark"] .wa-group.on {
+  background: #214036;
+}
+
+:root[data-theme="dark"] .wa-msg.job {
+  background: #214036;
+  border-color: #376a50;
+}
+
+.header-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-logout svg {
+  width: 17px;
+  height: 17px;
 }
 
 /* Hidden until the sidebar collapses into a drawer. */
@@ -1725,6 +2947,11 @@ tbody tr {
     transition: transform 0.2s ease, visibility 0.2s;
     /* Keeps the closed drawer out of the tab order and off the a11y tree. */
     visibility: hidden;
+  }
+  .layout:not(.nav-open) .sidebar {
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(100%);
   }
   .layout.nav-open .sidebar {
     transform: translateX(0);

@@ -93,6 +93,10 @@ export default async function PeoplePage({
         total={result.total}
       />
 
+      <Pagination basePath={BASE} params={params} defaults={DEFAULTS}
+        page={result.page} pageSize={result.pageSize} total={result.total}
+        totalPages={result.totalPages} unit="אנשי קשר" placement="top" />
+
       {result.total === 0 ? (
         filtered ? (
           <EmptyState
@@ -195,6 +199,7 @@ export default async function PeoplePage({
             total={result.total}
             totalPages={result.totalPages}
             unit="אנשי קשר"
+            placement="bottom"
           />
         </>
       )}

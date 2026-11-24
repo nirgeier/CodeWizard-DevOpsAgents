@@ -13,6 +13,7 @@ import DataToolbar, { type FilterSpec } from "@/components/DataToolbar";
 import Pagination from "@/components/Pagination";
 import SortHeader from "@/components/SortHeader";
 import EmptyState from "@/components/EmptyState";
+import AddCompany from "@/components/AddCompany";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "חברות" };
@@ -282,6 +283,7 @@ export default async function CompaniesPage({
         <p className="page-sub">
           פרופילי חברות ממסד הנתונים ומקורות חיצוניים (Comeet). לחץ "סרוק" לעדכון משרות.
         </p>
+        <AddCompany />
       </div>
 
       <DataToolbar
@@ -292,6 +294,10 @@ export default async function CompaniesPage({
         searchPlaceholder="חיפוש חברה, תחום או מדינה…"
         total={result.total}
       />
+
+      <Pagination basePath={BASE} params={params} defaults={DEFAULTS}
+        page={result.page} pageSize={result.pageSize} total={result.total}
+        totalPages={result.totalPages} unit="חברות" placement="top" />
 
       {result.total === 0 ? (
         filtered ? (
@@ -307,7 +313,7 @@ export default async function CompaniesPage({
           />
         )
       ) : (
-        <div className="table-wrap">
+        <div className="table-wrap companies-compact">
           <table>
             <thead>
               <tr>
@@ -336,28 +342,12 @@ export default async function CompaniesPage({
                   firstClick="asc"
                 />
                 <SortHeader
-                  column="score"
-                  label="Score"
-                  basePath={BASE}
-                  params={params}
-                  defaults={DEFAULTS}
-                />
-                <SortHeader
                   column="hiring"
-                  label="DevOps"
+                  label="משרות / DevOps"
                   basePath={BASE}
                   params={params}
                   defaults={DEFAULTS}
                 />
-                <SortHeader
-                  column="open_roles_israel"
-                  label="משרות פתוחות"
-                  basePath={BASE}
-                  params={params}
-                  defaults={DEFAULTS}
-                  align="end"
-                />
-                <th>ATS</th>
                 <th>Tech Stack</th>
                 <SortHeader
                   column="last_seen_at"
@@ -375,20 +365,18 @@ export default async function CompaniesPage({
                   <td>
                     <strong>{c.name || "-"}</strong>
                     {c.domain ? (
-                      <div className="cell-muted">{c.domain}</div>
+                      <small className="cell-muted company-detail">{c.domain}</small>
                     ) : null}
                     {c.comeet_uid && (
-                      <div className="cell-muted" style={{ fontSize: "11px", fontFamily: "monospace" }}>
+                      <small className="cell-muted company-detail">
                         Comeet UID: {c.comeet_uid}
-                      </div>
+                      </small>
                     )}
                   </td>
                   <td className="cell-muted">
                     {c.industry || "-"}
                     {c.country ? (
-                      <div className="cell-muted" style={{ fontSize: "11px" }}>
-                        {c.country}
-                      </div>
+                      <small className="company-detail">{[c.hq_city, c.country].filter(Boolean).join(", ")}</small>
                     ) : null}
                   </td>
                   <td>
@@ -398,26 +386,14 @@ export default async function CompaniesPage({
                     {c.hasComeet && c.source === "database" && (
                       <span className="badge conf-purple" style={{ marginRight: 6 }}>Comeet</span>
                     )}
-                  </td>
-                  <td>
-                    <span className="badge conf-blue">{c.score ?? 0}</span>
+                    {c.ats_providers.length > 0 && <small className="company-detail">ATS: {c.ats_providers.join(", ")}</small>}
+                    {c.score > 0 && <small className="company-detail">Score: {c.score}</small>}
                   </td>
                   <td className="cell-muted">
-                    {c.devops_hiring_count ?? 0}
-                    {c.devops_hiring ? " · מגייסת" : ""}
-                  </td>
-                  <td className="cell-muted" style={{ textAlign: "end" }}>
-                    {c.open_roles_israel > 0 ? c.open_roles_israel : "-"}
+                    {c.open_roles_israel || "-"}{c.devops_hiring_count ? ` · ${c.devops_hiring_count} DevOps` : ""}
                   </td>
                   <td>
-                    {c.ats_providers.length > 0 ? (
-                      <Chips items={c.ats_providers} />
-                    ) : (
-                      <span className="cell-muted">-</span>
-                    )}
-                  </td>
-                  <td>
-                    <Chips items={c.tech_stack} />
+                    <span title={c.tech_stack.join(", ")}>{c.tech_stack.slice(0, 3).join(", ") || "-"}</span>
                   </td>
                   <td className="cell-muted nowrap">
                     {formatDate(c.last_seen_at)}
@@ -454,6 +430,7 @@ export default async function CompaniesPage({
         total={result.total}
         totalPages={result.totalPages}
         unit="חברות"
+        placement="bottom"
       />
     </div>
   );

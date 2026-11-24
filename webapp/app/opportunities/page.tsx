@@ -108,6 +108,10 @@ export default async function OpportunitiesPage({
         total={result.total}
       />
 
+      <Pagination basePath={BASE} params={params} defaults={DEFAULTS}
+        page={result.page} pageSize={result.pageSize} total={result.total}
+        totalPages={result.totalPages} unit="הזדמנויות" placement="top" />
+
       {result.total === 0 ? (
         filtered ? (
           <EmptyState
@@ -211,6 +215,7 @@ export default async function OpportunitiesPage({
             total={result.total}
             totalPages={result.totalPages}
             unit="הזדמנויות"
+            placement="bottom"
           />
         </>
       )}

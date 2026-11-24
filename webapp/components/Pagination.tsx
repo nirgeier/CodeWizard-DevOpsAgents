@@ -20,6 +20,7 @@ interface Props {
   totalPages: number;
   /** Plural noun for the range readout, e.g. "הזדמנויות". */
   unit?: string;
+  placement?: "top" | "bottom";
 }
 
 /**
@@ -39,6 +40,7 @@ export default function Pagination({
   total,
   totalPages,
   unit = "רשומות",
+  placement = "bottom",
 }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -52,7 +54,7 @@ export default function Pagination({
   return (
     <nav
       className={`pagination${isPending ? " is-pending" : ""}`}
-      aria-label="ניווט בין עמודים"
+      aria-label={placement === "top" ? "ניווט בין עמודים מעל הרשימה" : "ניווט בין עמודים מתחת לרשימה"}
     >
       <div className="pagination-info">
         מציג <strong>{from.toLocaleString("he-IL")}</strong>–
@@ -61,9 +63,9 @@ export default function Pagination({
       </div>
 
       <div className="pagination-size">
-        <label htmlFor="pageSize">שורות בעמוד</label>
+        <label htmlFor={`pageSize-${placement}`}>שורות בעמוד</label>
         <select
-          id="pageSize"
+          id={`pageSize-${placement}`}
           value={pageSize}
           onChange={(e) => {
             const next = Number(e.target.value);

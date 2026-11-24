@@ -174,6 +174,7 @@ export type OpportunityPatch = Partial<
 // DevOps Job (from devops_jobs table - scanned job postings)
 export interface DevOpsJob {
   id: string;
+  fit_matches?: { term: string; weight: number }[];
   external_id: string | null;
   source: string;
   title: string;

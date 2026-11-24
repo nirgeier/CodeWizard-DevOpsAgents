@@ -1,7 +1,7 @@
 {
   "_comment": "Israeli employers whose jobs are readable from a public, unauthenticated ATS JSON API - the employer's own postings, with full descriptions, so the classifier sees the real stack. Every row here was confirmed live on the date below: the board answered and returned at least one posting, and `israel_jobs` counts how many of those are in Israel. Regenerate with `python3 agents/scripts/discover_ats_companies.py`, which re-probes the roster in agents/scripts/candidates_israel.txt. The wider list of Israeli DevOps employers - including the ones with no public ATS, such as Elbit, Rafael and the banks - lives in agents/config/israel-companies.json.",
   "_generated_by": "agents/scripts/discover_ats_companies.py",
-  "_verified_at": "2026-10-04",
+  "_verified_at": "2026-11-01",
   "companies": [
     {
       "name": "accessiBe",
@@ -862,6 +862,19 @@
       "israel_verified": false
     },
     {
+      "name": "Parallel Wireless",
+      "slug": "parallelwireless",
+      "domain": "parallelwireless.com",
+      "providers": [
+        "lever"
+      ],
+      "jobs": 48,
+      "israel_jobs": 14,
+      "devops_jobs": 3,
+      "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
       "name": "Payoneer",
       "slug": "payoneer",
       "domain": "payoneer.com",
@@ -989,6 +1002,20 @@
       "israel_jobs": 6,
       "devops_jobs": 1,
       "devops_israel_jobs": 1,
+      "israel_verified": true
+    },
+    {
+      "name": "ScaleOps",
+      "slug": "scaleops",
+      "domain": "scaleops.com",
+      "providers": [
+        "greenhouse",
+        "smartrecruiters"
+      ],
+      "jobs": 60,
+      "israel_jobs": 36,
+      "devops_jobs": 2,
+      "devops_israel_jobs": 2,
       "israel_verified": true
     },
     {
