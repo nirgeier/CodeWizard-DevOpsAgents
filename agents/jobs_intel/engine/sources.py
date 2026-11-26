@@ -26,6 +26,35 @@ def _read_json(path: Path, default: Any) -> Any:
         return default
 
 
+def _map_devops_job(job: Dict[str, Any]) -> Dict[str, Any]:
+    """Map a row from data/devops_jobs.json into the WhatsApp-style job shape
+    the signals/companies/people stages expect."""
+    company = job.get("company")
+    title = job.get("title")
+    posted = job.get("posted_at") or job.get("first_seen_at") or job.get("ingested_at") or job.get("last_seen_at")
+    stack = [str(s).lower() for s in (job.get("keywords") or job.get("tags") or []) if s]
+    city = job.get("city")
+    cities = [city] if city else []
+    if not cities and job.get("location") and str(job.get("location")).lower() not in ("israel", "remote"):
+        cities = [str(job.get("location"))]
+    seniority = job.get("seniority")
+    url = job.get("url")
+    return {
+        "company": company,
+        "title": title,
+        "stack": stack,
+        "postedAt": posted,
+        "source": {"name": job.get("source") or "devops-jobs", "groupKind": "job-board"},
+        "cities": cities,
+        "seniority": seniority,
+        "jobBoard": url,
+        "contact": None,
+        "raw": job.get("description") or title,
+        "domain": job.get("company_domain"),
+        "score": job.get("score"),
+    }
+
+
 def load_jobs(sources_list: List[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
     jobs = []
     # Load from file (WhatsApp parsed jobs)
@@ -37,6 +66,28 @@ def load_jobs(sources_list: List[Dict[str, Any]] = None) -> List[Dict[str, Any]]
             jobs.extend(list(data or []))
     except Exception:
         pass
+
+    # Fall back to / augment with the real job data shipped in the repo
+    # (data/devops_jobs.json), which is what the webapp's job scanner produces.
+    # Mapped into the WhatsApp-style shape so the rest of the pipeline is
+    # unchanged. De-duplicated by URL/title so a row present in both sources
+    # is not counted twice.
+    try:
+        devops_path = settings.data_dir / "devops_jobs.json"
+        if devops_path.is_file():
+            raw = _read_json(devops_path, [])
+            rows = raw if isinstance(raw, list) else (raw.get("jobs") if isinstance(raw, dict) else [])
+            seen = {(j.get("url") or f"{j.get('company','')}|{j.get('title','')}").lower() for j in jobs}
+            for r in (rows or []):
+                mapped = _map_devops_job(r)
+                key = (mapped.get("jobBoard") or f"{mapped.get('company','')}|{mapped.get('title','')}").lower()
+                if key in seen:
+                    continue
+                seen.add(key)
+                jobs.append(mapped)
+    except Exception:
+        pass
+
     # Load from custom job sources if provided
     if sources_list:
         for src in sources_list:
